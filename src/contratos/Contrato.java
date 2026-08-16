@@ -100,6 +100,35 @@ public class Contrato {
   public void eliminarServicio(Servicio servicio) {
     servicios.remove(servicio);
  }
+  
+  public int calcularPeriodos(int dias) {
+
+   int periodos = dias / 30;
+
+    if (dias % 30 != 0) {
+        periodos++;
+    }
+
+    return periodos;
+}
+  
+  public void calcularCosto() {
+    int cantidadDias;
+    int periodos = calcularPeriodos(cantidadDias);
+
+    double costoEspacio = espacio.getPrecioMensual() * periodos;
+    double costoServicios = 0;
+
+    for (Servicio servicio : servicios) {
+        costoServicios = costoServicios + servicio.getPrecio();
+    }
+
+    total = costoEspacio + costoServicios;
+
+    subtotal = total / 1.13;
+
+    impuestos = total - subtotal;
+}
 
     
     
