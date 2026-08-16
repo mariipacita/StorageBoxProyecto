@@ -4,10 +4,103 @@
  */
 package contratos;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+
 /**
  *
  * @author marii
  */
 public class Contrato {
+    private static int contadorContratos = 1;
+    private int numeroContrato;
+    private Cliente cliente;
+    private Espacio espacio;
+    private LocalDate fechaInicio;
+    private LocalDate fechaFinal;
+    private EstadoContrato estado;
+    private ArrayList<Servicio> servicios;
+    private double subtotal;
+    private double impuestos;
+    private double total;
+    
+    public Contrato(Cliente cliente, Espacio espacio, LocalDate fechaInicio,LocalDate fechaFinal) {
+    this.numeroContrato = contadorContratos++;
+    this.cliente = cliente;
+    this.espacio = espacio;
+    this.fechaInicio = fechaInicio;
+    this.fechaFinal = fechaFinal;
+    this.estado = EstadoContrato.PENDIENTE;
+    this.servicios = new ArrayList<>();
+    this.subtotal = 0;
+    this.impuestos = 0;
+    this.total = 0;
+    }
+    
+    public int getNumeroContrato() {
+    return numeroContrato;
+   }
+
+    public Cliente getCliente() {
+    return cliente;
+   }
+
+    public void setCliente(Cliente cliente) {
+    this.cliente = cliente;
+   }
+
+    public Espacio getEspacio() {
+    return espacio;
+    }
+
+    public void setEspacio(Espacio espacio) {
+    this.espacio = espacio;
+   }
+
+    public LocalDate getFechaInicio() {
+    return fechaInicio;
+   }
+
+   public void setFechaInicio(LocalDate fechaInicio) {
+    this.fechaInicio = fechaInicio;
+   }
+
+   public LocalDate getFechaFinal() {
+    return fechaFinal;
+   }
+
+   public void setFechaFinal(LocalDate fechaFinal) {
+    this.fechaFinal = fechaFinal;
+   }
+
+   public EstadoContrato getEstado() {
+    return estado;
+  }
+
+   public ArrayList<Servicio> getServicios() {
+    return servicios;
+  }
+
+   public double getSubtotal() {
+    return subtotal;
+  }
+
+   public double getImpuestos() {
+    return impuestos;
+  }
+
+   public double getTotal() {
+    return total;
+  }
+   
+  public void agregarServicio(Servicio servicio) {
+    servicios.add(servicio);
+ } 
+  
+  public void eliminarServicio(Servicio servicio) {
+    servicios.remove(servicio);
+ }
+
+    
     
 }
