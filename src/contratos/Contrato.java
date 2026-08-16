@@ -129,6 +129,30 @@ public class Contrato {
 
     impuestos = total - subtotal;
 }
+  public void activarContrato() {
+
+    if (estado == EstadoContrato.PENDIENTE) {
+        estado = EstadoContrato.ACTIVO;
+    } else {
+        throw new IllegalStateException("El contrato no se puede activar");
+    }
+}
+  public void finalizarContrato() {
+
+    if (estado == EstadoContrato.ACTIVO) {
+        estado = EstadoContrato.FINALIZADO;
+    } else {
+        throw new IllegalStateException("El contrato no se puede finalizar");
+    }
+}
+  public void cancelarContrato() {
+
+    if (estado == EstadoContrato.PENDIENTE) {
+        estado = EstadoContrato.CANCELADO;
+    } else {
+        throw new IllegalStateException("El contrato no se puede cancelar");
+    }
+}
 
     
     
