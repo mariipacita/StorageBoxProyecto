@@ -125,8 +125,8 @@ public class Contrato {
     return periodos;
 }
   
-  public void calcularCosto() {
-    int cantidadDias;
+  public void calcularCosto(int cantidadDias) {
+
     int periodos = calcularPeriodos(cantidadDias);
 
     double costoEspacio = espacio.getPrecioMensual() * periodos;
@@ -165,9 +165,5 @@ public class Contrato {
     } else {
         throw new IllegalStateException("El contrato no se puede cancelar");
     }
-}
-  
-
-    
-    
+}      
 }
