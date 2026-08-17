@@ -101,6 +101,19 @@ public class Contrato {
     servicios.remove(servicio);
  }
   
+  public boolean validarFechas() {
+
+    if (fechaInicio == null || fechaFinal == null) {
+        return false;
+    }
+
+    if (fechaFinal.isBefore(fechaInicio) || fechaFinal.isEqual(fechaInicio)) {
+        return false;
+    }
+
+    return true;
+}
+  
   public int calcularPeriodos(int dias) {
 
    int periodos = dias / 30;
@@ -153,6 +166,7 @@ public class Contrato {
         throw new IllegalStateException("El contrato no se puede cancelar");
     }
 }
+  
 
     
     
