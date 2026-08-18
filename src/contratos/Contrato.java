@@ -4,6 +4,7 @@
  */
 package contratos;
 
+import Clientes.cliente;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -14,7 +15,7 @@ import java.util.ArrayList;
 public class Contrato {
     private static int contadorContratos = 1;
     private int numeroContrato;
-    private Cliente cliente;
+    private cliente cliente;
     private Espacio espacio;
     private LocalDate fechaInicio;
     private LocalDate fechaFinal;
@@ -24,7 +25,7 @@ public class Contrato {
     private double impuestos;
     private double total;
     
-    public Contrato(Cliente cliente, Espacio espacio, LocalDate fechaInicio,LocalDate fechaFinal) {
+    public Contrato(cliente cliente, Espacio espacio, LocalDate fechaInicio,LocalDate fechaFinal) {
     this.numeroContrato = contadorContratos++;
     this.cliente = cliente;
     this.espacio = espacio;
@@ -41,11 +42,11 @@ public class Contrato {
     return numeroContrato;
    }
 
-    public Cliente getCliente() {
+    public cliente getCliente() {
     return cliente;
    }
 
-    public void setCliente(Cliente cliente) {
+    public void setCliente(cliente cliente) {
     this.cliente = cliente;
    }
 
