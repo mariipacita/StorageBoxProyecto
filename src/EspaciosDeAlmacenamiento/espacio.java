@@ -4,8 +4,8 @@
  */
 package EspaciosDeAlmacenamiento;
 
-import java.util.HashMap;
-import java.util.HashSet;
+
+
 
 /**
  *
@@ -13,30 +13,24 @@ import java.util.HashSet;
  */
 public class espacio {
     
-    private HashMap<Integer,String>numEspacios;
+    
    
     private double tamaño;
      TipoEspacioEnum Tipoespacio;
      private int PrecioMensual;
      private String id_Espacio;
 
-    public espacio(HashMap<Integer,String> numEspacios, double tamaño, TipoEspacioEnum Tipoespacio, int PrecioMensual) {
-        this.numEspacios = new HashMap<>();
+    public espacio( double tamaño, TipoEspacioEnum Tipoespacio, int PrecioMensual, String id_Espacio) {
+        
         this.tamaño = tamaño;
         this.Tipoespacio = Tipoespacio;
+        this.id_Espacio = id_Espacio;
         this.PrecioMensual = PrecioMensual;
+        
     }
 
-    
-     
-     
-     
-     
+
   
-
-    public HashMap<Integer, String> getNumEspacios() {
-        return numEspacios;
-    }
 
     public double getTamaño() {
         
@@ -50,10 +44,6 @@ public class espacio {
 
     public int getPrecioMensual() {
         return PrecioMensual;
-    }
-
-    public void setNumEspacios(HashMap<Integer,String> numEspacios) {
-        this.numEspacios = numEspacios;
     }
 
     
@@ -102,31 +92,15 @@ public class espacio {
         
     }
     
-    public boolean AgregarEspacio(Integer num, String nom){
-        
-         if (numEspacios.containsKey(num))  return false;
-         else numEspacios.put(num, nom); return true;
-         
-      
-        
-    }
+     
+    public void ActualizarEspacio(TipoEspacioEnum newTipoEspacio,int newPrecio, String newId ){
     
-    
-    public void ActualizarEspacio(){
-    
-    
+     
     }
     
     
     
-    public boolean EliminarEspacio(Integer num){
-        if (numEspacios.containsKey(num)){
-           numEspacios.remove(num);
-           return true; 
-        }
-        return false;
-    }
-    
+  
     
     
     
