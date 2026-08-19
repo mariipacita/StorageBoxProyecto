@@ -3,6 +3,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package contratos;
+import Clientes.cliente;
+import Clientes.clientesList;
 import contratos.Contrato;
 /**
  *
@@ -10,9 +12,11 @@ import contratos.Contrato;
  */
 public class ControladorContrato {
    private Contrato contrato;
+   private clientesList listaClientes;
    
    public ControladorContrato(Contrato contrato) {
         this.contrato = contrato;
+        this.listaClientes= listaClientes;
     }
    
    public void activarContrato() {
@@ -28,6 +32,9 @@ public class ControladorContrato {
 }
    public void calcularCosto(int cantidadDias) {
     contrato.calcularCosto(cantidadDias);
+}
+   public cliente buscarCliente(String cedula) {
+    return listaClientes.ObtenrKey(cedula);
 }
    
 }
