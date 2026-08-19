@@ -59,14 +59,16 @@ public class cliente {
     
     
     
-   public void ActualizarCliente(String newTelefono,String newCorreo, String newNombre, String newCedula){
+   public void ActualizarCliente(String newTelefono,String newCorreo, String newNombre){
+       this.numTelefonico = newTelefono;
+       this.correo = newCorreo;
+       this.nombre = newNombre;
        
-       
-       //va aqui o en la lista 
+      
        
    } 
     
-    public void mostrarCliente(){
+    public void buscarCliente(){
         
     }
     

@@ -12,13 +12,11 @@ import java.util.HashMap;
  * @author PC
  */
 public class espacioList {
-    private HashMap<Integer,espacio>espacios;
+    protected HashMap<Integer,espacio>espacios;
 
-        public espacioList(HashMap<Integer, espacio> espacios) {
-            this.espacios = espacios;
-        }
-
-   
+    public espacioList() {
+        this.espacios = new HashMap<>();
+    }
     
     
     
@@ -28,7 +26,7 @@ public class espacioList {
     
      public boolean addEspacio(espacio newEspacio, String id_espacio){
        
-if (espacios.containsKey(newEspacio.g)) return false;
+        if (espacios.containsKey(newEspacio.getId_Espacio())) return false;
    return espacios.put(newEspacio.getId_Espacio(), newEspacio)==null;
         
 
@@ -36,10 +34,8 @@ if (espacios.containsKey(newEspacio.g)) return false;
     }
      
      
-     public void ObtenrKey(String Id_Espacio){
-      
-        
-    }
+     public espacio ObtenrKey(int Id_Espacio){
+        return this.espacios.get(Id_Espacio);
     }
     
    
