@@ -6,7 +6,7 @@ package Clientes;
 
 import java.time.LocalDate;
 import java.time.Period;
-import java.util.HashMap;
+
 
 /**
  *
@@ -59,7 +59,9 @@ public class cliente {
     
     
     
-   public void ActualizarCliente(){
+   public void ActualizarCliente(String newTelefono,String newCorreo, String newNombre, String newCedula){
+       
+       
        //va aqui o en la lista 
        
    } 

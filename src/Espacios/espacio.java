@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package EspaciosDeAlmacenamiento;
+package Espacios;
 
 
 
@@ -18,9 +18,9 @@ public class espacio {
     private double tamaño;
      TipoEspacioEnum Tipoespacio;
      private int PrecioMensual;
-     private String id_Espacio;
+     private int id_Espacio;
 
-    public espacio( double tamaño, TipoEspacioEnum Tipoespacio, int PrecioMensual, String id_Espacio) {
+    public espacio( double tamaño, TipoEspacioEnum Tipoespacio, int PrecioMensual, int id_Espacio) {
         
         this.tamaño = tamaño;
         this.Tipoespacio = Tipoespacio;
@@ -29,6 +29,16 @@ public class espacio {
         
     }
 
+    public int getId_Espacio() {
+        return id_Espacio;
+    }
+
+        public void setId_Espacio(int id_Espacio) {
+            this.id_Espacio = id_Espacio;
+        }
+
+    
+    
 
   
 
@@ -82,8 +92,7 @@ public class espacio {
         if(PrecioMensual==30) return 25000;
         if(PrecioMensual==60) return 45000;
         if(PrecioMensual==90) return 70000;
-        else {
-            throw new IllegalArgumentException(" fecha");
+       
         } 
         //preguntae sobre esto
         
@@ -93,7 +102,9 @@ public class espacio {
     }
     
      
-    public void ActualizarEspacio(TipoEspacioEnum newTipoEspacio,int newPrecio, String newId ){
+    public void ActualizarEspacio(TipoEspacioEnum newTipoEspacio,int newPrecio, double newTamaño ){
+        
+        
     
      
     }
