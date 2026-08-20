@@ -6,7 +6,7 @@ package Clientes;
 
 import java.time.LocalDate;
 import java.time.Period;
-import java.util.HashMap;
+
 
 /**
  *
@@ -20,6 +20,17 @@ public class cliente {
     protected String numTelefonico;
     protected int edad;
 
+    public cliente(String cedula, String nombre, LocalDate fechaNacimient, String correo, String numTelefonico, int edad) {
+        this.cedula = cedula;
+        this.nombre = nombre;
+        this.fechaNacimient = fechaNacimient;
+        this.correo = correo;
+        this.numTelefonico = numTelefonico;
+        this.edad = edad;
+    }
+
+    
+    
     public int getEdad() {
         return calcularEdad();
    
@@ -53,24 +64,17 @@ public class cliente {
     public void setNumTelefonico(String numTelefonico) {
         this.numTelefonico = numTelefonico;
     }
-    
-    
-    
-    
-    
-    
-   public void ActualizarCliente(){
-       //va aqui o en la lista 
-       
+  
+   public void ActualizarCliente(String newTelefono,String newCorreo, String newNombre){
+       this.numTelefonico = newTelefono;
+       this.correo = newCorreo;
+       this.nombre = newNombre;   
    } 
-    
-    public void mostrarCliente(){
-        
-    }
+   
     
    public int calcularEdad(){
        return  Period.between(fechaNacimient, LocalDate.now()).getYears();
-    
+
    } 
     
     

@@ -2,10 +2,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package EspaciosDeAlmacenamiento;
+package Espacios;
 
-import java.util.HashMap;
-import java.util.HashSet;
+    
+
+
+
 
 /**
  *
@@ -13,30 +15,25 @@ import java.util.HashSet;
  */
 public class espacio {
     
-    private HashMap<Integer,String>numEspacios;
+    
    
     private double tamaño;
      TipoEspacioEnum Tipoespacio;
      private int PrecioMensual;
-     private String id_Espacio;
+     private int id_Espacio;
+     private boolean disponibilidad;
 
-    public espacio(HashMap<Integer,String> numEspacios, double tamaño, TipoEspacioEnum Tipoespacio, int PrecioMensual) {
-        this.numEspacios = new HashMap<>();
+    public espacio( double tamaño, TipoEspacioEnum Tipoespacio, int PrecioMensual, int id_Espacio) {
+        
         this.tamaño = tamaño;
         this.Tipoespacio = Tipoespacio;
+        this.id_Espacio = id_Espacio;
         this.PrecioMensual = PrecioMensual;
+        
     }
 
     
-     
-     
-     
-     
   
-
-    public HashMap<Integer, String> getNumEspacios() {
-        return numEspacios;
-    }
 
     public double getTamaño() {
         
@@ -52,10 +49,6 @@ public class espacio {
         return PrecioMensual;
     }
 
-    public void setNumEspacios(HashMap<Integer,String> numEspacios) {
-        this.numEspacios = numEspacios;
-    }
-
     
 
     public void setTamaño(double tamaño) {
@@ -65,12 +58,20 @@ public class espacio {
     public void setPrecioMensual(int PrecioMensual) {
         this.PrecioMensual = PrecioMensual;
     }
+
+        public int getId_Espacio() {
+            return id_Espacio;
+        }
+    
+    
      
      
     
     public boolean tamañoAprox(){
           if (tamaño<=20 && tamaño >=5) return true;
-        else return false;
+        else{
+            throw new IllegalArgumentException("Tamaño de mueble no admitido");
+        }  
           
           
        
@@ -82,51 +83,40 @@ public class espacio {
         if (tamaño >= 5 && tamaño <=10) {return Tipoespacio.MEDIANO;}
         if (tamaño >= 10 && tamaño <=20) {return Tipoespacio.GRANDE;}
         else{
-            throw new IllegalArgumentException("Tamaño de mueble no admitido");
+            throw new IllegalArgumentException("Espacio no apto ");
         } 
         
     }
     
     
-    public int precioMensual(){
-        if(PrecioMensual==30) return 25000;
-        if(PrecioMensual==60) return 45000;
-        if(PrecioMensual==90) return 70000;
-        else {
-            throw new IllegalArgumentException(" fecha");
-        } 
-        //preguntae sobre esto
-        
-        
-        
-        
-    }
-    
-    public boolean AgregarEspacio(Integer num, String nom){
-        
-         if (numEspacios.containsKey(num))  return false;
-         else numEspacios.put(num, nom); return true;
-         
-      
-        
-    }
-    
-    
-    public void ActualizarEspacio(){
-    
-    
-    }
-    
-    
-    
-    public boolean EliminarEspacio(Integer num){
-        if (numEspacios.containsKey(num)){
-           numEspacios.remove(num);
-           return true; 
+    public int cobroMensual(int days, int extraDays){
+        if(days <=30)PrecioMensual = 2500; 
+        if(days<=60) PrecioMensual= 45000;
+        if(days<=90)PrecioMensual= 70000;
+        else{
+            extraDays= days - 90;
+            PrecioMensual=70000* 1500;
         }
-        return false;
+        
+        return PrecioMensual;
+        
+        
+        
     }
     
+     
+    public void ActualizarEspacio(TipoEspacioEnum newTipoEspacio,int newPrecio, double newTamaño ){
+        this.Tipoespacio = newTipoEspacio;
+        this.PrecioMensual = newPrecio;
+        this.tamaño= newTamaño;
+        
+    
+     
+    }
+    
+    
+    
+  
     
     
     
