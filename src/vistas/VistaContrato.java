@@ -66,12 +66,29 @@ public class VistaContrato extends javax.swing.JFrame {
         btnEliminarServicio = new javax.swing.JButton();
         pnlCostos = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
-        jPanel1 = new javax.swing.JPanel();
+        lblSubTotal = new javax.swing.JLabel();
+        txtSubtotal = new javax.swing.JTextField();
+        lblImpuestos = new javax.swing.JLabel();
+        txtImpuestos = new javax.swing.JTextField();
+        lblTotal = new javax.swing.JLabel();
+        txtTotal = new javax.swing.JTextField();
+        jSeparator1 = new javax.swing.JSeparator();
+        pnlAcciones = new javax.swing.JPanel();
+        jLabel8 = new javax.swing.JLabel();
+        btnCrearContrato = new javax.swing.JButton();
+        btnActivarContrato = new javax.swing.JButton();
+        btnFinalizarContrato = new javax.swing.JButton();
+        btnCancelarContrato = new javax.swing.JButton();
+        btnBuscarContrato = new javax.swing.JButton();
+        btnLimpiar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(1100, 700));
+        setTitle("StorageBox- Contrato");
+
+        pnlContrato.setBackground(new java.awt.Color(255, 255, 255));
 
         lblTitulo.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
+        lblTitulo.setForeground(new java.awt.Color(42, 99, 153));
         lblTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblTitulo.setText("CONTRATO DE ALQUILER");
 
@@ -80,17 +97,22 @@ public class VistaContrato extends javax.swing.JFrame {
         txtNumeroContrato.setEditable(false);
         txtNumeroContrato.setText("jTextField1");
 
+        pnlCliente.setBackground(new java.awt.Color(255, 255, 255));
         pnlCliente.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
 
         jLabel1.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(0, 102, 204));
+        jLabel1.setForeground(new java.awt.Color(42, 99, 153));
         jLabel1.setText("1. CLIENTE");
 
         lblCedula.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
         lblCedula.setText("Cédula: ");
 
+        txtCedula.setEditable(false);
         txtCedula.setText("jTextField1");
 
+        btnBuscarCliente.setBackground(new java.awt.Color(42, 99, 153));
+        btnBuscarCliente.setForeground(new java.awt.Color(255, 255, 255));
+        btnBuscarCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Search.png"))); // NOI18N
         btnBuscarCliente.setText("Buscar");
 
         lblNombreCliente.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
@@ -117,9 +139,9 @@ public class VistaContrato extends javax.swing.JFrame {
                                 .addComponent(lblCedula)
                                 .addGap(18, 18, 18)
                                 .addComponent(txtCedula, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(36, 36, 36)
-                                .addComponent(btnBuscarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                                .addGap(18, 18, 18)
+                                .addComponent(btnBuscarCliente)))
+                        .addGap(0, 10, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         pnlClienteLayout.setVerticalGroup(
@@ -139,10 +161,11 @@ public class VistaContrato extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        pnlEspacio.setBackground(new java.awt.Color(255, 255, 255));
         pnlEspacio.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
 
         jLabel2.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(0, 102, 204));
+        jLabel2.setForeground(new java.awt.Color(42, 99, 153));
         jLabel2.setText("2. ESPACIO");
 
         lblTipodeEspacio.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
@@ -150,6 +173,9 @@ public class VistaContrato extends javax.swing.JFrame {
 
         cmbTipoEspacio.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
+        btnVerEspacios.setBackground(new java.awt.Color(42, 99, 153));
+        btnVerEspacios.setForeground(new java.awt.Color(255, 255, 255));
+        btnVerEspacios.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Search.png"))); // NOI18N
         btnVerEspacios.setText("Ver espacios disponibles");
 
         lblEspaciosDisponibles.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
@@ -177,23 +203,19 @@ public class VistaContrato extends javax.swing.JFrame {
                             .addComponent(lblTipodeEspacio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGroup(pnlEspacioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(pnlEspacioLayout.createSequentialGroup()
+                                .addGap(47, 47, 47)
+                                .addComponent(lblEspaciosDisponibles1, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(pnlEspacioLayout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(cmbTipoEspacio, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btnVerEspacios, javax.swing.GroupLayout.DEFAULT_SIZE, 173, Short.MAX_VALUE))
-                            .addGroup(pnlEspacioLayout.createSequentialGroup()
-                                .addGap(47, 47, 47)
-                                .addComponent(lblEspaciosDisponibles1, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnVerEspacios, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addComponent(jLabel2)
                     .addGroup(pnlEspacioLayout.createSequentialGroup()
-                        .addGroup(pnlEspacioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addGroup(pnlEspacioLayout.createSequentialGroup()
-                                .addComponent(txtEspaciosDisponibles, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txtEspacioAsignado, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addComponent(txtEspaciosDisponibles, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtEspacioAsignado, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(19, 19, 19))
         );
         pnlEspacioLayout.setVerticalGroup(
             pnlEspacioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -209,28 +231,31 @@ public class VistaContrato extends javax.swing.JFrame {
                 .addGroup(pnlEspacioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblEspaciosDisponibles)
                     .addComponent(lblEspaciosDisponibles1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(pnlEspacioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtEspaciosDisponibles, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtEspacioAsignado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
+        pnlFechas.setBackground(new java.awt.Color(255, 255, 255));
         pnlFechas.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
 
         jLabel3.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(0, 102, 204));
+        jLabel3.setForeground(new java.awt.Color(42, 99, 153));
         jLabel3.setText("3. FECHAS");
 
         jLabel4.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
         jLabel4.setText("Fecha de inicio:");
 
+        jTextField1.setEditable(false);
         jTextField1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jTextField1.setText("dd/mm/aaaa");
 
         jLabel5.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
         jLabel5.setText("Fecha de finalización :");
 
+        jTextField2.setEditable(false);
         jTextField2.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jTextField2.setText("dd/mm/aaaa");
 
@@ -268,15 +293,17 @@ public class VistaContrato extends javax.swing.JFrame {
                 .addContainerGap(22, Short.MAX_VALUE))
         );
 
+        pnlEstado.setBackground(new java.awt.Color(255, 255, 255));
         pnlEstado.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
 
         jLabel6.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(0, 102, 204));
+        jLabel6.setForeground(new java.awt.Color(42, 99, 153));
         jLabel6.setText("4. ESTADO");
 
         lblEstadoActual.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
         lblEstadoActual.setText("Estado actual:");
 
+        txtEstado.setEditable(false);
         txtEstado.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtEstado.setText("PENDIENTE");
 
@@ -307,27 +334,34 @@ public class VistaContrato extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        pnlServicios.setBackground(new java.awt.Color(255, 255, 255));
         pnlServicios.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
 
         lblServiciosAdicionales.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
-        lblServiciosAdicionales.setForeground(new java.awt.Color(0, 102, 204));
+        lblServiciosAdicionales.setForeground(new java.awt.Color(42, 99, 153));
         lblServiciosAdicionales.setText("5. SERVICIOS ADICIONALES");
 
         tblServicios.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Servicio", "Descripción", "Precio unitario"
             }
         ));
         jScrollPane1.setViewportView(tblServicios);
 
+        btnAgregarServicio.setBackground(new java.awt.Color(42, 99, 153));
+        btnAgregarServicio.setForeground(new java.awt.Color(255, 255, 255));
+        btnAgregarServicio.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Save.png"))); // NOI18N
         btnAgregarServicio.setText("Agregar servicio");
 
+        btnEliminarServicio.setBackground(new java.awt.Color(42, 99, 153));
+        btnEliminarServicio.setForeground(new java.awt.Color(255, 255, 255));
+        btnEliminarServicio.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Delete.png"))); // NOI18N
         btnEliminarServicio.setText("Eliminar servicio");
 
         javax.swing.GroupLayout pnlServiciosLayout = new javax.swing.GroupLayout(pnlServicios);
@@ -361,14 +395,33 @@ public class VistaContrato extends javax.swing.JFrame {
                         .addComponent(btnAgregarServicio)
                         .addGap(30, 30, 30)
                         .addComponent(btnEliminarServicio)
-                        .addContainerGap(31, Short.MAX_VALUE))))
+                        .addContainerGap(21, Short.MAX_VALUE))))
         );
 
+        pnlCostos.setBackground(new java.awt.Color(255, 255, 255));
         pnlCostos.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
 
         jLabel7.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(0, 102, 204));
+        jLabel7.setForeground(new java.awt.Color(42, 99, 153));
         jLabel7.setText("6. COSTOS");
+
+        lblSubTotal.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
+        lblSubTotal.setText("Subtotal:");
+
+        txtSubtotal.setEditable(false);
+        txtSubtotal.setText("jTextField3");
+
+        lblImpuestos.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
+        lblImpuestos.setText("Impuestos (13%):");
+
+        txtImpuestos.setEditable(false);
+        txtImpuestos.setText("jTextField3");
+
+        lblTotal.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
+        lblTotal.setText("Total: ");
+
+        txtTotal.setEditable(false);
+        txtTotal.setText("jTextField3");
 
         javax.swing.GroupLayout pnlCostosLayout = new javax.swing.GroupLayout(pnlCostos);
         pnlCostos.setLayout(pnlCostosLayout);
@@ -376,43 +429,136 @@ public class VistaContrato extends javax.swing.JFrame {
             pnlCostosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlCostosLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(pnlCostosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlCostosLayout.createSequentialGroup()
+                        .addComponent(lblImpuestos)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtImpuestos))
+                    .addGroup(pnlCostosLayout.createSequentialGroup()
+                        .addComponent(lblTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(47, 47, 47)
+                        .addComponent(txtTotal))
+                    .addComponent(jSeparator1)
+                    .addGroup(pnlCostosLayout.createSequentialGroup()
+                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(pnlCostosLayout.createSequentialGroup()
+                        .addComponent(lblSubTotal)
+                        .addGap(54, 54, 54)
+                        .addComponent(txtSubtotal)))
+                .addContainerGap())
         );
         pnlCostosLayout.setVerticalGroup(
             pnlCostosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlCostosLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel7)
-                .addContainerGap(119, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(pnlCostosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblSubTotal)
+                    .addComponent(txtSubtotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(pnlCostosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblImpuestos)
+                    .addComponent(txtImpuestos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(5, 5, 5)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(3, 3, 3)
+                .addGroup(pnlCostosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblTotal)
+                    .addComponent(txtTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
+        pnlAcciones.setBackground(new java.awt.Color(255, 255, 255));
+        pnlAcciones.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+        jLabel8.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(42, 99, 153));
+        jLabel8.setText("7. ACCIONES");
+
+        btnCrearContrato.setBackground(new java.awt.Color(42, 99, 153));
+        btnCrearContrato.setForeground(new java.awt.Color(255, 255, 255));
+        btnCrearContrato.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/New.png"))); // NOI18N
+        btnCrearContrato.setText("Crear contrato");
+        btnCrearContrato.addActionListener(this::btnCrearContratoActionPerformed);
+
+        btnActivarContrato.setBackground(new java.awt.Color(42, 99, 153));
+        btnActivarContrato.setForeground(new java.awt.Color(255, 255, 255));
+        btnActivarContrato.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Edit.png"))); // NOI18N
+        btnActivarContrato.setText("Activar contrato");
+        btnActivarContrato.addActionListener(this::btnActivarContratoActionPerformed);
+
+        btnFinalizarContrato.setBackground(new java.awt.Color(42, 99, 153));
+        btnFinalizarContrato.setForeground(new java.awt.Color(255, 255, 255));
+        btnFinalizarContrato.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Save.png"))); // NOI18N
+        btnFinalizarContrato.setText("Finalizar contrato");
+        btnFinalizarContrato.addActionListener(this::btnFinalizarContratoActionPerformed);
+
+        btnCancelarContrato.setBackground(new java.awt.Color(42, 99, 153));
+        btnCancelarContrato.setForeground(new java.awt.Color(255, 255, 255));
+        btnCancelarContrato.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Cancel.png"))); // NOI18N
+        btnCancelarContrato.setText("Cancelar contrato");
+        btnCancelarContrato.addActionListener(this::btnCancelarContratoActionPerformed);
+
+        btnBuscarContrato.setBackground(new java.awt.Color(42, 99, 153));
+        btnBuscarContrato.setForeground(new java.awt.Color(255, 255, 255));
+        btnBuscarContrato.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Search.png"))); // NOI18N
+        btnBuscarContrato.setText("Buscar contrato");
+        btnBuscarContrato.addActionListener(this::btnBuscarContratoActionPerformed);
+
+        btnLimpiar.setBackground(new java.awt.Color(42, 99, 153));
+        btnLimpiar.setForeground(new java.awt.Color(255, 255, 255));
+        btnLimpiar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/New.png"))); // NOI18N
+        btnLimpiar.setText("Limpiar");
+        btnLimpiar.addActionListener(this::btnLimpiarActionPerformed);
+
+        javax.swing.GroupLayout pnlAccionesLayout = new javax.swing.GroupLayout(pnlAcciones);
+        pnlAcciones.setLayout(pnlAccionesLayout);
+        pnlAccionesLayout.setHorizontalGroup(
+            pnlAccionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlAccionesLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(pnlAccionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnCrearContrato, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnActivarContrato, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(btnFinalizarContrato, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnCancelarContrato, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(btnBuscarContrato, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(26, 26, 26)
+                .addComponent(btnLimpiar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(24, 24, 24))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
+        pnlAccionesLayout.setVerticalGroup(
+            pnlAccionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlAccionesLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel8)
+                .addGap(26, 26, 26)
+                .addGroup(pnlAccionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnCrearContrato)
+                    .addComponent(btnActivarContrato)
+                    .addComponent(btnFinalizarContrato)
+                    .addComponent(btnCancelarContrato)
+                    .addComponent(btnBuscarContrato)
+                    .addComponent(btnLimpiar))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout pnlContratoLayout = new javax.swing.GroupLayout(pnlContrato);
         pnlContrato.setLayout(pnlContratoLayout);
         pnlContratoLayout.setHorizontalGroup(
             pnlContratoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlContratoLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(lblTitulo)
-                .addGap(299, 299, 299))
             .addGroup(pnlContratoLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(pnlContratoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlContratoLayout.createSequentialGroup()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(pnlAcciones, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addContainerGap())
                     .addGroup(pnlContratoLayout.createSequentialGroup()
                         .addGroup(pnlContratoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
@@ -429,6 +575,8 @@ public class VistaContrato extends javax.swing.JFrame {
                                 .addComponent(lblNumeroContrato)
                                 .addGap(18, 18, 18)
                                 .addComponent(txtNumeroContrato, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(197, 197, 197)
+                                .addComponent(lblTitulo)
                                 .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(pnlContratoLayout.createSequentialGroup()
                                 .addComponent(pnlServicios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -439,13 +587,17 @@ public class VistaContrato extends javax.swing.JFrame {
         pnlContratoLayout.setVerticalGroup(
             pnlContratoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlContratoLayout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addComponent(lblTitulo)
-                .addGap(18, 18, 18)
-                .addGroup(pnlContratoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblNumeroContrato)
-                    .addComponent(txtNumeroContrato, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(pnlContratoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlContratoLayout.createSequentialGroup()
+                        .addGap(59, 59, 59)
+                        .addGroup(pnlContratoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblNumeroContrato)
+                            .addComponent(txtNumeroContrato, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlContratoLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(lblTitulo)
+                        .addGap(28, 28, 28)))
                 .addGroup(pnlContratoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(pnlEspacio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(pnlCliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -454,12 +606,12 @@ public class VistaContrato extends javax.swing.JFrame {
                     .addComponent(pnlEstado, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(pnlFechas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(pnlContratoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(pnlServicios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(pnlCostos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(pnlContratoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(pnlCostos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(pnlServicios, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(pnlAcciones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(17, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -472,11 +624,35 @@ public class VistaContrato extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(pnlContrato, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(pnlContrato, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnCrearContratoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearContratoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnCrearContratoActionPerformed
+
+    private void btnActivarContratoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActivarContratoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnActivarContratoActionPerformed
+
+    private void btnFinalizarContratoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFinalizarContratoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnFinalizarContratoActionPerformed
+
+    private void btnCancelarContratoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarContratoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnCancelarContratoActionPerformed
+
+    private void btnBuscarContratoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarContratoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnBuscarContratoActionPerformed
+
+    private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnLimpiarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -504,9 +680,15 @@ public class VistaContrato extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnActivarContrato;
     private javax.swing.JButton btnAgregarServicio;
     private javax.swing.JButton btnBuscarCliente;
+    private javax.swing.JButton btnBuscarContrato;
+    private javax.swing.JButton btnCancelarContrato;
+    private javax.swing.JButton btnCrearContrato;
     private javax.swing.JButton btnEliminarServicio;
+    private javax.swing.JButton btnFinalizarContrato;
+    private javax.swing.JButton btnLimpiar;
     private javax.swing.JButton btnVerEspacios;
     private javax.swing.JComboBox<String> cmbTipoEspacio;
     private javax.swing.JLabel jLabel1;
@@ -516,19 +698,24 @@ public class VistaContrato extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JLabel lblCedula;
     private javax.swing.JLabel lblEspaciosDisponibles;
     private javax.swing.JLabel lblEspaciosDisponibles1;
     private javax.swing.JLabel lblEstadoActual;
+    private javax.swing.JLabel lblImpuestos;
     private javax.swing.JLabel lblNombreCliente;
     private javax.swing.JLabel lblNumeroContrato;
     private javax.swing.JLabel lblServiciosAdicionales;
+    private javax.swing.JLabel lblSubTotal;
     private javax.swing.JLabel lblTipodeEspacio;
     private javax.swing.JLabel lblTitulo;
+    private javax.swing.JLabel lblTotal;
+    private javax.swing.JPanel pnlAcciones;
     private javax.swing.JPanel pnlCliente;
     private javax.swing.JPanel pnlContrato;
     private javax.swing.JPanel pnlCostos;
@@ -541,7 +728,10 @@ public class VistaContrato extends javax.swing.JFrame {
     private javax.swing.JTextField txtEspacioAsignado;
     private javax.swing.JTextField txtEspaciosDisponibles;
     private javax.swing.JTextField txtEstado;
+    private javax.swing.JTextField txtImpuestos;
     private javax.swing.JTextField txtNombreCliente;
     private javax.swing.JTextField txtNumeroContrato;
+    private javax.swing.JTextField txtSubtotal;
+    private javax.swing.JTextField txtTotal;
     // End of variables declaration//GEN-END:variables
 }
