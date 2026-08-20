@@ -4,7 +4,7 @@
  */
 package Controlador;
 
-
+import Espacios.espacio;
 
 /**
  *
