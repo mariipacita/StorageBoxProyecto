@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package contratos;
+package Controlador;
 import Clientes.cliente;
 import Clientes.clientesList;
 import contratos.Contrato;
@@ -11,7 +11,7 @@ import contratos.Contrato;
  * @author marii
  */
 public class ControladorContrato {
-   private Contrato contrato;
+    private Contrato contrato;
    private clientesList listaClientes;
    
    public ControladorContrato(Contrato contrato) {
@@ -38,3 +38,4 @@ public class ControladorContrato {
 }
    
 }
+
