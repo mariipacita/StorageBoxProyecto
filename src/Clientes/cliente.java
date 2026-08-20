@@ -53,28 +53,17 @@ public class cliente {
     public void setNumTelefonico(String numTelefonico) {
         this.numTelefonico = numTelefonico;
     }
-    
-    
-    
-    
-    
-    
+  
    public void ActualizarCliente(String newTelefono,String newCorreo, String newNombre){
        this.numTelefonico = newTelefono;
        this.correo = newCorreo;
-       this.nombre = newNombre;
-       
-      
-       
+       this.nombre = newNombre;   
    } 
-    
-    public void buscarCliente(){
-        
-    }
+   
     
    public int calcularEdad(){
        return  Period.between(fechaNacimient, LocalDate.now()).getYears();
-    
+
    } 
     
     

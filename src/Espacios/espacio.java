@@ -21,6 +21,7 @@ public class espacio {
      TipoEspacioEnum Tipoespacio;
      private int PrecioMensual;
      private int id_Espacio;
+     private boolean disponibilidad;
 
     public espacio( double tamaño, TipoEspacioEnum Tipoespacio, int PrecioMensual, int id_Espacio) {
         
@@ -68,7 +69,9 @@ public class espacio {
     
     public boolean tamañoAprox(){
           if (tamaño<=20 && tamaño >=5) return true;
-        else return false;
+        else{
+            throw new IllegalArgumentException("Tamaño de mueble no admitido");
+        }  
           
           
        
@@ -80,16 +83,22 @@ public class espacio {
         if (tamaño >= 5 && tamaño <=10) {return Tipoespacio.MEDIANO;}
         if (tamaño >= 10 && tamaño <=20) {return Tipoespacio.GRANDE;}
         else{
-            throw new IllegalArgumentException("Tamaño de mueble no admitido");
+            throw new IllegalArgumentException("Espacio no apto ");
         } 
         
     }
     
     
-    public void precioMensual(){
+    public int cobroMensual(int days, int extraDays){
+        if(days <=30)PrecioMensual = 2500; 
+        if(days<=60) PrecioMensual= 45000;
+        if(days<=90)PrecioMensual= 70000;
+        else{
+            extraDays= days - 90;
+            PrecioMensual=70000* 1500;
+        }
         
-        //preguntae sobre esto
-        
+        return PrecioMensual;
         
         
         

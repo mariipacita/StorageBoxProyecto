@@ -4,14 +4,12 @@
  */
 package Controlador;
 
-
-
 /**
  *
  * @author PC
  */
-public class controladorEspacio {
+public class controladorCliente {
     
-      
+    
     
 }
