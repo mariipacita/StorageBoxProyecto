@@ -5,6 +5,7 @@
 package empleados;
 
 import java.util.ArrayList;
+import nulls.Puesto;
 
 /**
  *
@@ -17,8 +18,8 @@ public class ControlEmpleado {
         listaEmpleados = new ArrayList<>();
     }
     
-    public boolean agregarEmpleado(String identificacion, String nombre, String telefono, String puesto){
-        if(identificacion.isEmpty() || nombre.isEmpty() || telefono.isEmpty() || puesto.isBlank()){
+    public boolean agregarEmpleado(String identificacion, String nombre, String telefono, Puesto puesto){
+        if(identificacion.isEmpty() || nombre.isEmpty() || telefono.isEmpty() || puesto== null){
             return false;
         }
         if (buscarEmpleado(identificacion) !=null){
@@ -38,10 +39,10 @@ public class ControlEmpleado {
         return null;
     }
     
-    public boolean actualizarEmpleado(String identificacion, String nombre, String telefono, String puesto){
+    public boolean actualizarEmpleado(String identificacion, String nombre, String telefono, Puesto puesto){
         Empleado empleado = buscarEmpleado(identificacion);
         if(empleado !=null){
-            if(nombre.isEmpty() || telefono.isEmpty() || puesto.isEmpty()) {
+            if(nombre.isEmpty() || telefono.isEmpty() || puesto==null) {
                 return false;
             }
             empleado.setNombre(nombre);

@@ -4,6 +4,8 @@
  */
 package empleados;
 
+import nulls.Puesto;
+
 /**
  *
  * @author sharys
@@ -12,57 +14,27 @@ public class Empleado {
     private String identificacion;
     private String nombre;
     private String telefono;
-    private String puesto;
+    private Puesto puesto;
     private double salario;
     
     public Empleado(){
         
     }
     
-    public Empleado(String identificacion, String nombre, String telefono, String puesto){
+    public Empleado(String identificacion, String nombre, String telefono, Puesto puesto){
         this.identificacion = identificacion;
         this.nombre = nombre;
         this.telefono = telefono;
         this.puesto = puesto;
-        
-        calcularSalario();
+        this.salario = puesto.getSalario();
+            
     }
     
-    public void calcularSalario(){
-        switch(puesto){
-            case "Administrador":
-            salario = 950000;
-            break;
-            
-            case "Recepcionista":
-            salario = 700000;
-            break;
-            
-            case "Encargado de bodega":
-            salario = 650000;
-            break;
-            
-            case "Mantenimiento":
-            salario = 600000;
-            break;
-            
-            case "Operario de carga":
-            salario = 575000;
-            break;
-            
-            default: 
-                salario = 0;
-                break;
-        }
-    }
-
     public String getIdentificacion() {
         return identificacion;
     }
 
-    public void setIdentificacion(String identificacion) {
-        this.identificacion = identificacion;
-    }
+    
 
     public String getNombre() {
         return nombre;
@@ -80,13 +52,13 @@ public class Empleado {
         this.telefono = telefono;
     }
 
-    public String getPuesto() {
+    public Puesto getPuesto() {
         return puesto;
     }
 
-    public void setPuesto(String puesto) {
+    public void setPuesto(Puesto puesto) {
         this.puesto = puesto;
-        calcularSalario();
+    
     }
 
     public double getSalario() {
