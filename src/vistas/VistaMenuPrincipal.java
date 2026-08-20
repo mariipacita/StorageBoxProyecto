@@ -76,6 +76,7 @@ public class VistaMenuPrincipal extends javax.swing.JFrame {
         lblSubtitulo.setForeground(new java.awt.Color(255, 255, 255));
         lblSubtitulo.setText("Sistema de Alquiler de Espacios");
 
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/archive-48.png"))); // NOI18N
         jLabel1.setText("jLabel1");
 
         jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
@@ -93,9 +94,9 @@ public class VistaMenuPrincipal extends javax.swing.JFrame {
         pnlEncabezadoLayout.setHorizontalGroup(
             pnlEncabezadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlEncabezadoLayout.createSequentialGroup()
-                .addGap(15, 15, 15)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(12, 12, 12)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnlEncabezadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblStorageBox)
                     .addComponent(lblSubtitulo))
@@ -105,31 +106,32 @@ public class VistaMenuPrincipal extends javax.swing.JFrame {
                 .addGroup(pnlEncabezadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblTitulo)
                     .addComponent(lblDescripcion))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(119, Short.MAX_VALUE))
         );
         pnlEncabezadoLayout.setVerticalGroup(
             pnlEncabezadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlEncabezadoLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addGap(38, 38, 38))
-            .addGroup(pnlEncabezadoLayout.createSequentialGroup()
-                .addGap(14, 14, 14)
-                .addComponent(jSeparator1)
-                .addContainerGap())
             .addGroup(pnlEncabezadoLayout.createSequentialGroup()
                 .addGroup(pnlEncabezadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlEncabezadoLayout.createSequentialGroup()
-                        .addGap(30, 30, 30)
-                        .addComponent(lblStorageBox)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblSubtitulo))
+                        .addGap(14, 14, 14)
+                        .addComponent(jSeparator1))
                     .addGroup(pnlEncabezadoLayout.createSequentialGroup()
-                        .addGap(34, 34, 34)
-                        .addComponent(lblTitulo)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblDescripcion)))
-                .addContainerGap(19, Short.MAX_VALUE))
+                        .addGroup(pnlEncabezadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(pnlEncabezadoLayout.createSequentialGroup()
+                                .addGap(34, 34, 34)
+                                .addComponent(lblTitulo)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lblDescripcion))
+                            .addGroup(pnlEncabezadoLayout.createSequentialGroup()
+                                .addGap(26, 26, 26)
+                                .addGroup(pnlEncabezadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel1)
+                                    .addGroup(pnlEncabezadoLayout.createSequentialGroup()
+                                        .addComponent(lblStorageBox)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(lblSubtitulo)))))
+                        .addGap(0, 13, Short.MAX_VALUE)))
+                .addContainerGap())
         );
 
         jLabel2.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
@@ -383,11 +385,10 @@ public class VistaMenuPrincipal extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(pnlContratos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(pnlEmpleados, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(pnlEspacios, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(pnlClientes, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(pnlServicios, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(pnlEmpleados, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(pnlEspacios, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(pnlClientes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(pnlServicios, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(38, Short.MAX_VALUE))
         );
 
