@@ -43,6 +43,9 @@ public class cliente {
     }
 
     public void setNombre(String nombre) {
+        if (nombre==null || nombre.isBlank()){
+            throw new IllegalArgumentException("Nombre no rellenado completamente");
+        }
         this.nombre = nombre;
     }
 
@@ -50,10 +53,14 @@ public class cliente {
         return fechaNacimient;
     }
     public String getCorreo() {
+        
         return correo;
     }
 
     public void setCorreo(String correo) {
+        if (correo==null || correo.isBlank()){
+            throw new IllegalArgumentException("Correo no rellenado correctamente");
+        }
         this.correo = correo;
     }
 
@@ -62,13 +69,16 @@ public class cliente {
     }
 
     public void setNumTelefonico(String numTelefonico) {
+        if (numTelefonico==null || numTelefonico.isBlank()){
+            throw new IllegalArgumentException("Telefono no rellenado corredctamente");
+        }
         this.numTelefonico = numTelefonico;
     }
   
    public void ActualizarCliente(String newTelefono,String newCorreo, String newNombre){
-       this.numTelefonico = newTelefono;
-       this.correo = newCorreo;
-       this.nombre = newNombre;   
+       setCorreo(newCorreo);
+       setNombre(newNombre);   
+       setNumTelefonico(newTelefono);
    } 
    
     

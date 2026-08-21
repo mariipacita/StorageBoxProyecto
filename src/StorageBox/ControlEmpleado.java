@@ -37,6 +37,8 @@ public class ControlEmpleado {
                return empleado;
            }
         }
+        //se debe poder buscar un empleado por diferentes filtros, no solo por la cedula
+        //ya que se debe abrir unaventana donde esten los filtros 
         return null;
     }
     
@@ -63,7 +65,7 @@ public class ControlEmpleado {
         }
         return false;
     }
-    public ArrayList<Empleado> getListaEmpleados(){
-        return listaEmpleados;
-    }
+    //public ArrayList<Empleado> getListaEmpleados(){
+        //return listaEmpleados;
+    //}
 }
