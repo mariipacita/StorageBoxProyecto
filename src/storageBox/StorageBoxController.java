@@ -4,6 +4,8 @@
  */
 package storageBox;
 import contratos.Contrato;
+import empleados.Empleado;
+import empleados.PuestoEmpleado;
 import java.util.Iterator;
 
 /**
@@ -127,5 +129,43 @@ public class StorageBoxController {
             return false;
         }
     }
+    public boolean addEmpleado(Empleado empleado) {
+
+    boolean status = storageBox.addEmpleado(empleado);
+
+    if (status) {
+        view.showMessage("Empleado agregado correctamente");
+    } else {
+        view.showError("No se pudo agregar el empleado");
+    }
+
+    return status;
+   }
+    
+    public Empleado findEmpleado(String identificacion) {
+
+    Empleado empleado = storageBox.findEmpleado(identificacion);
+
+    if (empleado == null) {
+        view.showError("Empleado no encontrado");
+    } else {
+        view.showData(empleado);
+    }
+
+    return empleado;
+   }
+    
+    public boolean actualizarEmpleado(String identificacion, String nombre, String telefono, PuestoEmpleado puesto) {
+
+    boolean status = storageBox.actualizarEmpleado(identificacion, nombre, telefono, puesto);
+
+    if (status) {
+        view.showMessage("Empleado actualizado correctamente");
+    } else {
+        view.showError("No se pudo actualizar el empleado");
+    }
+
+    return status;
+   }
 }
 
