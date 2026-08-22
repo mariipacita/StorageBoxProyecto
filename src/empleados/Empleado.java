@@ -4,7 +4,6 @@
  */
 package empleados;
 
-import nulls.Puesto;
 
 /**
  *
@@ -14,14 +13,11 @@ public class Empleado {
     private String identificacion;
     private String nombre;
     private String telefono;
-    private Puesto puesto;
+    private PuestoEmpleado puesto;
     private double salario;
     
-    public Empleado(){
-        
-    }
     
-    public Empleado(String identificacion, String nombre, String telefono, Puesto puesto){
+    public Empleado(String identificacion, String nombre, String telefono, PuestoEmpleado puesto){
         this.identificacion = identificacion;
         this.nombre = nombre;
         this.telefono = telefono;
@@ -34,14 +30,8 @@ public class Empleado {
         return identificacion;
     }
 
-    
-
     public String getNombre() {
         return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
     }
 
     public String getTelefono() {
@@ -52,11 +42,11 @@ public class Empleado {
         this.telefono = telefono;
     }
 
-    public Puesto getPuesto() {
+    public PuestoEmpleado getPuesto() {
         return puesto;
     }
 
-    public void setPuesto(Puesto puesto) {
+    public void setPuesto(PuestoEmpleado puesto) {
         this.puesto = puesto;
     
     }
@@ -65,10 +55,10 @@ public class Empleado {
         return salario;
     }
 
-    @Override
-    public String toString(){
-    return identificacion + "-" + nombre + "-" + puesto;
-        
+    public void actualizarEmpleado(String nombre, String telefono, PuestoEmpleado puesto) {
+        this.nombre = nombre;
+        this.telefono = telefono;
+        this.puesto = puesto;
+        this.salario = puesto.getSalario();
     }
-
 }
