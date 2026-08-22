@@ -17,6 +17,10 @@ public class clientesList {
         this.clientes = clientes;
         
     }
+
+    public HashMap<String, cliente> getClientes() {
+        return clientes;
+    }
     
     
     public boolean addCliente(cliente newCliente){
