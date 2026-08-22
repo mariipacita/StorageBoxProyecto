@@ -5,6 +5,8 @@
 package contratos;
 import Espacios.espacio;
 import Clientes.cliente;
+import excepciones.EstadoContratoException;
+import excepciones.FechaContratoException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import servicios.Servicio;
@@ -103,17 +105,25 @@ public class Contrato {
     servicios.remove(servicio);
  }
   
-  public boolean validarFechas() {
+  public void validarFechas() throws FechaContratoException {
 
     if (fechaInicio == null || fechaFinal == null) {
-        return false;
+        throw new FechaContratoException(
+                "Las fechas del contrato son obligatorias"
+        );
     }
 
-    if (fechaFinal.isBefore(fechaInicio) || fechaFinal.isEqual(fechaInicio)) {
-        return false;
+    if (fechaFinal.isBefore(fechaInicio)) {
+        throw new FechaContratoException(
+                "La fecha final no puede ser anterior a la fecha de inicio"
+        );
     }
 
-    return true;
+    if (fechaFinal.isEqual(fechaInicio)) {
+        throw new FechaContratoException(
+                "La fecha final no puede ser igual a la fecha de inicio"
+        );
+    }
 }
   
   public int calcularPeriodos(int dias) {
@@ -144,14 +154,17 @@ public class Contrato {
 
     impuestos = total - subtotal;
 }
-  public void activarContrato() {
+  public void activarContrato() throws EstadoContratoException {
 
     if (estado == EstadoContrato.PENDIENTE) {
         estado = EstadoContrato.ACTIVO;
     } else {
-        throw new IllegalStateException("El contrato no se puede activar");
+        throw new EstadoContratoException(
+                "El contrato no se puede activar"
+        );
     }
 }
+
   public void finalizarContrato() {
 
     if (estado == EstadoContrato.ACTIVO) {
