@@ -3,12 +3,20 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package vistas;
+import empleados.Empleado;
+import empleados.PuestoEmpleado;
+import java.util.Iterator;
+import javax.swing.table.DefaultTableModel;
+import storageBox.StorageBoxController;
+import storageBox.Views;
 
 /**
  *
  * @author marii
  */
-public class VistaBuscarEmpleado extends javax.swing.JFrame {
+public class VistaBuscarEmpleado extends javax.swing.JFrame implements Views<Empleado> {
+    private StorageBoxController controlador;
+    private VistaEmpleado vistaEmpleado;
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(VistaBuscarEmpleado.class.getName());
 
@@ -17,7 +25,72 @@ public class VistaBuscarEmpleado extends javax.swing.JFrame {
      */
     public VistaBuscarEmpleado() {
         initComponents();
+        this.controlador = StorageBoxController.getInstance(this);
+        cargarTabla();
     }
+    
+    public VistaBuscarEmpleado(VistaEmpleado vistaEmpleado) {
+    initComponents();
+    this.vistaEmpleado = vistaEmpleado;
+    this.controlador = StorageBoxController.getInstance(this);
+    cargarPuestos();
+    cargarTabla();
+    }
+    
+    private void cargarPuestos() {
+
+    cmbPuesto.removeAllItems();
+
+    cmbPuesto.addItem("Todos");
+
+    for (PuestoEmpleado puesto : PuestoEmpleado.values()) {
+        cmbPuesto.addItem(puesto.name());
+    }
+}
+    @Override
+    public void showData(Empleado empleado) {
+    }
+
+    @Override
+    public void showError(String message) {
+    javax.swing.JOptionPane.showMessageDialog(
+            this,
+            message,
+            "Error",
+            javax.swing.JOptionPane.ERROR_MESSAGE
+    );
+}
+    @Override
+    public void showMessage(String message) {
+    javax.swing.JOptionPane.showMessageDialog(this, message);
+}
+    @Override
+    public void clear() {
+}
+    private void cargarTabla() {
+    DefaultTableModel modelo =
+            (DefaultTableModel) tblEmpleados.getModel();
+
+    modelo.setRowCount(0);
+    Iterator<Empleado> iterator = controlador.getEmpleados();
+
+    if (iterator == null) {
+        return;
+    }
+
+    while (iterator.hasNext()) {
+
+        Empleado empleado = iterator.next();
+
+        modelo.addRow(new Object[]{
+            empleado.getIdentificacion(),
+            empleado.getNombre(),
+            empleado.getTelefono(),
+            empleado.getPuesto(),
+            empleado.getSalario()
+        });
+    }
+}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -49,7 +122,7 @@ public class VistaBuscarEmpleado extends javax.swing.JFrame {
         pnlResultados = new javax.swing.JPanel();
         lblResultados = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblEmpleados = new javax.swing.JTable();
         pnlBotones = new javax.swing.JPanel();
         btnAceptar1 = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
@@ -138,7 +211,6 @@ public class VistaBuscarEmpleado extends javax.swing.JFrame {
         lblNombre.setForeground(new java.awt.Color(42, 99, 153));
         lblNombre.setText("Nombre:");
 
-        txtNombre.setEditable(false);
         txtNombre.setBackground(new java.awt.Color(255, 255, 255));
         txtNombre.setText("jTextField1");
 
@@ -158,6 +230,7 @@ public class VistaBuscarEmpleado extends javax.swing.JFrame {
         btnLimpiar.setForeground(new java.awt.Color(255, 255, 255));
         btnLimpiar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/New.png"))); // NOI18N
         btnLimpiar.setText("Limpiar");
+        btnLimpiar.addActionListener(this::btnLimpiarActionPerformed);
 
         javax.swing.GroupLayout pnlFiltrosLayout = new javax.swing.GroupLayout(pnlFiltros);
         pnlFiltros.setLayout(pnlFiltrosLayout);
@@ -215,7 +288,7 @@ public class VistaBuscarEmpleado extends javax.swing.JFrame {
         lblResultados.setForeground(new java.awt.Color(42, 99, 153));
         lblResultados.setText("Resultados:");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblEmpleados.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
                 {null, null, null, null, null},
@@ -226,7 +299,7 @@ public class VistaBuscarEmpleado extends javax.swing.JFrame {
                 "Identificación", "Nombre", "Telefono", "Puesto", "Salario"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tblEmpleados);
 
         javax.swing.GroupLayout pnlResultadosLayout = new javax.swing.GroupLayout(pnlResultados);
         pnlResultados.setLayout(pnlResultadosLayout);
@@ -260,6 +333,7 @@ public class VistaBuscarEmpleado extends javax.swing.JFrame {
         btnCancelar.setForeground(new java.awt.Color(255, 255, 255));
         btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Cancel.png"))); // NOI18N
         btnCancelar.setText("Cancelar");
+        btnCancelar.addActionListener(this::btnCancelarActionPerformed);
 
         javax.swing.GroupLayout pnlBotonesLayout = new javax.swing.GroupLayout(pnlBotones);
         pnlBotones.setLayout(pnlBotonesLayout);
@@ -319,12 +393,90 @@ public class VistaBuscarEmpleado extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        // TODO add your handling code here:
+        String identificacion = txtIdentificacion.getText().trim();
+        String nombre = txtNombre.getText().trim();
+        String puestoSeleccionado = cmbPuesto.getSelectedItem().toString();
+
+    DefaultTableModel modelo =
+            (DefaultTableModel) tblEmpleados.getModel();
+
+    modelo.setRowCount(0);
+    Iterator<Empleado> iterator = controlador.getEmpleados();
+
+    if (iterator == null) {
+    showError("Empleado no encontrado");
+    return;
+    }
+
+    while (iterator.hasNext()) {
+        Empleado empleado = iterator.next();
+
+        boolean coincideIdentificacion =
+                identificacion.isEmpty()
+                || empleado.getIdentificacion().contains(identificacion);
+
+        boolean coincideNombre =
+                nombre.isEmpty()
+                || empleado.getNombre().toLowerCase()
+                        .contains(nombre.toLowerCase());
+
+        boolean coincidePuesto =
+                puestoSeleccionado.equals("Todos")
+                || empleado.getPuesto().name()
+                        .equals(puestoSeleccionado);
+
+        if (coincideIdentificacion
+                && coincideNombre
+                && coincidePuesto) {
+
+            modelo.addRow(new Object[]{
+                empleado.getIdentificacion(),
+                empleado.getNombre(),
+                empleado.getTelefono(),
+                empleado.getPuesto(),
+                empleado.getSalario()
+            });
+        }
+    }
+    if (modelo.getRowCount() == 0) {
+    showError("Empleado no encontrado"); 
+    }
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnAceptar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptar1ActionPerformed
-        // TODO add your handling code here:
+        int fila = tblEmpleados.getSelectedRow();
+
+    if (fila == -1) {
+        showError("Debe seleccionar un empleado");
+        return;
+    }
+
+    String identificacion =
+    tblEmpleados.getValueAt(fila, 0).toString();
+
+    Empleado empleado =
+        controlador.findEmpleado(identificacion);
+
+    if (empleado != null) {
+        vistaEmpleado.showData(empleado);
+        controlador.setView(vistaEmpleado);
+
+        dispose();
+    }
     }//GEN-LAST:event_btnAceptar1ActionPerformed
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+    controlador.setView(vistaEmpleado);
+    dispose();
+    }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
+    txtIdentificacion.setText("");
+    txtNombre.setText("");
+    cmbPuesto.setSelectedIndex(0);
+
+    cargarTabla();
+    }//GEN-LAST:event_btnLimpiarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -360,7 +512,6 @@ public class VistaBuscarEmpleado extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JLabel lblBuscar;
     private javax.swing.JLabel lblFiltros;
     private javax.swing.JLabel lblIdentificacion;
@@ -374,6 +525,7 @@ public class VistaBuscarEmpleado extends javax.swing.JFrame {
     private javax.swing.JPanel pnlFiltros;
     private javax.swing.JPanel pnlResultados;
     private javax.swing.JPanel pnlTitulos;
+    private javax.swing.JTable tblEmpleados;
     private javax.swing.JTextField txtIdentificacion;
     private javax.swing.JTextField txtNombre;
     // End of variables declaration//GEN-END:variables

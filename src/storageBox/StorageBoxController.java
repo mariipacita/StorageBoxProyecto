@@ -6,6 +6,7 @@ package storageBox;
 import contratos.Contrato;
 import empleados.Empleado;
 import empleados.PuestoEmpleado;
+import excepciones.EstadoContratoException;
 import java.util.Iterator;
 
 /**
@@ -74,7 +75,7 @@ public class StorageBoxController {
         return contrato;
     }
 
-    public boolean activarContrato(int numeroContrato) {
+    public boolean activarContrato(int numeroContrato) throws EstadoContratoException {
 
         Contrato contrato = storageBox.findContrato(numeroContrato);
 
@@ -167,5 +168,8 @@ public class StorageBoxController {
 
     return status;
    }
+    public Iterator<Empleado> getEmpleados() {
+    return storageBox.getEmpleados();
+  }  
 }
 

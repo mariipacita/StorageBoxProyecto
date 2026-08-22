@@ -4,11 +4,21 @@
  */
 package vistas;
 
+import empleados.Empleado;
+import empleados.PuestoEmpleado;
+import java.util.Iterator;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import storageBox.StorageBoxController;
+import storageBox.Views;
+
 /**
  *
  * @author marii
  */
-public class VistaEmpleado extends javax.swing.JFrame {
+public class VistaEmpleado extends javax.swing.JFrame implements Views<Empleado> {
+    private StorageBoxController controlador;
+    private VistaEmpleado vistaEmpleado;
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(VistaEmpleado.class.getName());
 
@@ -17,7 +27,82 @@ public class VistaEmpleado extends javax.swing.JFrame {
      */
     public VistaEmpleado() {
         initComponents();
+        this.vistaEmpleado = vistaEmpleado;
+        controlador = StorageBoxController.getInstance(this);
+
+       cargarPuestos();
+       cargarTabla();
     }
+    private void cargarPuestos() {
+
+    cmbPuesto.removeAllItems();
+
+    for (PuestoEmpleado puesto : PuestoEmpleado.values()) {
+        cmbPuesto.addItem(puesto.name());
+    }
+}
+    public void showData(Empleado empleado) {
+
+    txtIdentificacion.setText(empleado.getIdentificacion());
+    txtNombre.setText(empleado.getNombre());
+    txtTelefono.setText(empleado.getTelefono());
+
+    cmbPuesto.setSelectedItem(
+            empleado.getPuesto().name()
+    );
+    txtSalario.setText(
+            String.valueOf(empleado.getSalario())
+    );
+}
+    public void clear() {
+
+    txtIdentificacion.setText("");
+    txtNombre.setText("");
+    txtTelefono.setText("");
+    txtSalario.setText("");
+
+    if (cmbPuesto.getItemCount() > 0) {
+        cmbPuesto.setSelectedIndex(0);
+    }
+    }
+    @Override
+    public void showMessage(String message) {
+    JOptionPane.showMessageDialog(this, message);
+}
+
+    @Override
+    public void showError(String message) {
+    JOptionPane.showMessageDialog(
+            this,
+            message,
+            "Error",
+            JOptionPane.ERROR_MESSAGE
+    );
+}
+    private void cargarTabla() {
+
+    DefaultTableModel modelo =
+            (DefaultTableModel) tblEmpleados.getModel();
+
+    modelo.setRowCount(0);
+    Iterator<Empleado> iterator = controlador.getEmpleados();
+
+    if (iterator == null) {
+        return;
+    }
+
+    while (iterator.hasNext()) {
+        Empleado empleado = iterator.next();
+
+        modelo.addRow(new Object[]{
+            empleado.getIdentificacion(),
+            empleado.getNombre(),
+            empleado.getTelefono(),
+            empleado.getPuesto(),
+            empleado.getSalario()
+        });
+    }
+}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -53,8 +138,8 @@ public class VistaEmpleado extends javax.swing.JFrame {
         lblAcciones = new javax.swing.JLabel();
         btnAgregar = new javax.swing.JButton();
         btnActualizar = new javax.swing.JButton();
-        btnEliminar = new javax.swing.JButton();
         btnLimpiar = new javax.swing.JButton();
+        btnBuscar1 = new javax.swing.JButton();
         pnlListaEmpleados = new javax.swing.JPanel();
         lblLista = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -167,6 +252,7 @@ public class VistaEmpleado extends javax.swing.JFrame {
         lblPuesto.setText("Puesto:");
 
         cmbPuesto.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmbPuesto.addActionListener(this::cmbPuestoActionPerformed);
 
         lblPuesto1.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
         lblPuesto1.setForeground(new java.awt.Color(42, 99, 153));
@@ -201,7 +287,7 @@ public class VistaEmpleado extends javax.swing.JFrame {
                             .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(cmbPuesto, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(455, Short.MAX_VALUE))
         );
         pnlDatosLayout.setVerticalGroup(
             pnlDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -251,17 +337,17 @@ public class VistaEmpleado extends javax.swing.JFrame {
         btnActualizar.setText("Actualizar");
         btnActualizar.addActionListener(this::btnActualizarActionPerformed);
 
-        btnEliminar.setBackground(new java.awt.Color(42, 99, 153));
-        btnEliminar.setForeground(new java.awt.Color(255, 255, 255));
-        btnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Delete.png"))); // NOI18N
-        btnEliminar.setText("Eliminar");
-        btnEliminar.addActionListener(this::btnEliminarActionPerformed);
-
         btnLimpiar.setBackground(new java.awt.Color(42, 99, 153));
         btnLimpiar.setForeground(new java.awt.Color(255, 255, 255));
         btnLimpiar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/New.png"))); // NOI18N
         btnLimpiar.setText("Limpiar");
         btnLimpiar.addActionListener(this::btnLimpiarActionPerformed);
+
+        btnBuscar1.setBackground(new java.awt.Color(42, 99, 153));
+        btnBuscar1.setForeground(new java.awt.Color(255, 255, 255));
+        btnBuscar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Search.png"))); // NOI18N
+        btnBuscar1.setText("Buscar");
+        btnBuscar1.addActionListener(this::btnBuscar1ActionPerformed);
 
         javax.swing.GroupLayout pnlAccionesLayout = new javax.swing.GroupLayout(pnlAcciones);
         pnlAcciones.setLayout(pnlAccionesLayout);
@@ -274,10 +360,10 @@ public class VistaEmpleado extends javax.swing.JFrame {
                     .addComponent(lblAcciones, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(55, 55, 55)
                 .addComponent(btnActualizar)
-                .addGap(49, 49, 49)
-                .addComponent(btnEliminar)
-                .addGap(53, 53, 53)
+                .addGap(56, 56, 56)
                 .addComponent(btnLimpiar)
+                .addGap(54, 54, 54)
+                .addComponent(btnBuscar1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         pnlAccionesLayout.setVerticalGroup(
@@ -289,8 +375,8 @@ public class VistaEmpleado extends javax.swing.JFrame {
                 .addGroup(pnlAccionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAgregar)
                     .addComponent(btnActualizar)
-                    .addComponent(btnEliminar)
-                    .addComponent(btnLimpiar))
+                    .addComponent(btnLimpiar)
+                    .addComponent(btnBuscar1))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -372,24 +458,65 @@ public class VistaEmpleado extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        // TODO add your handling code here:
+
+    VistaBuscarEmpleado vistaBuscar = new VistaBuscarEmpleado(this);
+    vistaBuscar.setLocationRelativeTo(this);
+    vistaBuscar.setVisible(true);
+
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
-        // TODO add your handling code here:
+    String identificacion = txtIdentificacion.getText();
+    String nombre = txtNombre.getText();
+    String telefono = txtTelefono.getText();
+
+    PuestoEmpleado puesto = PuestoEmpleado.valueOf(
+            cmbPuesto.getSelectedItem().toString()
+    );
+
+    Empleado empleado = new Empleado( identificacion, nombre, telefono, puesto
+    );
+
+    controlador.addEmpleado(empleado);
+
+    cargarTabla();
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
-        // TODO add your handling code here:
+    String identificacion = txtIdentificacion.getText();
+    String nombre = txtNombre.getText();
+    String telefono = txtTelefono.getText();
+
+    PuestoEmpleado puesto = PuestoEmpleado.valueOf(
+            cmbPuesto.getSelectedItem().toString()
+    );
+
+    controlador.actualizarEmpleado(
+            identificacion,
+            nombre,
+            telefono,
+            puesto
+    );
+    cargarTabla();
     }//GEN-LAST:event_btnActualizarActionPerformed
 
-    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnEliminarActionPerformed
-
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
-        // TODO add your handling code here:
+       clear();
     }//GEN-LAST:event_btnLimpiarActionPerformed
+
+    private void cmbPuestoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbPuestoActionPerformed
+     String seleccionado = (String) cmbPuesto.getSelectedItem();
+
+     if (seleccionado != null) {
+
+    PuestoEmpleado puesto = PuestoEmpleado.valueOf(seleccionado);
+    txtSalario.setText(String.valueOf(puesto.getSalario()));
+}
+    }//GEN-LAST:event_cmbPuestoActionPerformed
+
+    private void btnBuscar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscar1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnBuscar1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -420,7 +547,7 @@ public class VistaEmpleado extends javax.swing.JFrame {
     private javax.swing.JButton btnActualizar;
     private javax.swing.JButton btnAgregar;
     private javax.swing.JButton btnBuscar;
-    private javax.swing.JButton btnEliminar;
+    private javax.swing.JButton btnBuscar1;
     private javax.swing.JButton btnLimpiar;
     private javax.swing.JComboBox<String> cmbPuesto;
     private javax.swing.JLabel jLabel2;

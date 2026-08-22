@@ -280,6 +280,7 @@ public class VistaMenuPrincipal extends javax.swing.JFrame {
         btnEmpleados.setBackground(new java.awt.Color(47, 102, 153));
         btnEmpleados.setForeground(new java.awt.Color(255, 255, 255));
         btnEmpleados.setText("Gestionar Empleados");
+        btnEmpleados.addActionListener(this::btnEmpleadosActionPerformed);
 
         javax.swing.GroupLayout pnlEmpleadosLayout = new javax.swing.GroupLayout(pnlEmpleados);
         pnlEmpleados.setLayout(pnlEmpleadosLayout);
@@ -405,6 +406,14 @@ public class VistaMenuPrincipal extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnEmpleadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEmpleadosActionPerformed
+    VistaEmpleado vista = new VistaEmpleado();
+    vista.setLocationRelativeTo(null);
+    vista.setVisible(true);
+
+    this.dispose();
+    }//GEN-LAST:event_btnEmpleadosActionPerformed
 
     /**
      * @param args the command line arguments
