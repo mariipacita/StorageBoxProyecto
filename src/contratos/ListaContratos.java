@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package contratos;
-import StorageBox.KeyDynamicsList;
+import storageBox.KeyDynamicsList;
 import java.util.HashMap;
 import java.util.Iterator;
 

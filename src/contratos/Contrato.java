@@ -3,10 +3,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package contratos;
-
+import Espacios.espacio;
 import Clientes.cliente;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import servicios.Servicio;
 
 /**
  *
@@ -16,7 +17,7 @@ public class Contrato {
     private static int contadorContratos = 1;
     private int numeroContrato;
     private cliente cliente;
-    private Espacio espacio;
+    private espacio espacio;
     private LocalDate fechaInicio;
     private LocalDate fechaFinal;
     private EstadoContrato estado;
@@ -25,7 +26,7 @@ public class Contrato {
     private double impuestos;
     private double total;
     
-    public Contrato(cliente cliente, Espacio espacio, LocalDate fechaInicio,LocalDate fechaFinal) {
+    public Contrato(cliente cliente, espacio espacio, LocalDate fechaInicio,LocalDate fechaFinal) {
     this.numeroContrato = contadorContratos++;
     this.cliente = cliente;
     this.espacio = espacio;
@@ -50,11 +51,11 @@ public class Contrato {
     this.cliente = cliente;
    }
 
-    public Espacio getEspacio() {
+    public espacio getEspacio() {
     return espacio;
     }
 
-    public void setEspacio(Espacio espacio) {
+    public void setEspacio(espacio espacio) {
     this.espacio = espacio;
    }
 
