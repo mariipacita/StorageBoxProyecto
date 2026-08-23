@@ -42,6 +42,10 @@ public class StorageBox {
     public Empleado findEmpleado(String identificacion) {
         return empleados.get(identificacion);
     }
+    
+    public boolean removeEmpleado(String identificacion) {
+    return empleados.remove(identificacion);
+    }
 
     public boolean actualizarEmpleado(String identificacion,
             String nombre,

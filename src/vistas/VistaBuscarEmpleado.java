@@ -25,8 +25,6 @@ public class VistaBuscarEmpleado extends javax.swing.JFrame implements Views<Emp
      */
     public VistaBuscarEmpleado() {
         initComponents();
-        this.controlador = StorageBoxController.getInstance(this);
-        cargarTabla();
     }
     
     public VistaBuscarEmpleado(VistaEmpleado vistaEmpleado) {
@@ -38,9 +36,7 @@ public class VistaBuscarEmpleado extends javax.swing.JFrame implements Views<Emp
     }
     
     private void cargarPuestos() {
-
     cmbPuesto.removeAllItems();
-
     cmbPuesto.addItem("Todos");
 
     for (PuestoEmpleado puesto : PuestoEmpleado.values()) {
@@ -70,7 +66,6 @@ public class VistaBuscarEmpleado extends javax.swing.JFrame implements Views<Emp
     private void cargarTabla() {
     DefaultTableModel modelo =
             (DefaultTableModel) tblEmpleados.getModel();
-
     modelo.setRowCount(0);
     Iterator<Empleado> iterator = controlador.getEmpleados();
 
@@ -79,7 +74,6 @@ public class VistaBuscarEmpleado extends javax.swing.JFrame implements Views<Emp
     }
 
     while (iterator.hasNext()) {
-
         Empleado empleado = iterator.next();
 
         modelo.addRow(new Object[]{
@@ -411,24 +405,13 @@ public class VistaBuscarEmpleado extends javax.swing.JFrame implements Views<Emp
     while (iterator.hasNext()) {
         Empleado empleado = iterator.next();
 
-        boolean coincideIdentificacion =
-                identificacion.isEmpty()
-                || empleado.getIdentificacion().contains(identificacion);
+        boolean coincideIdentificacion = identificacion.isEmpty() || empleado.getIdentificacion().contains(identificacion);
 
-        boolean coincideNombre =
-                nombre.isEmpty()
-                || empleado.getNombre().toLowerCase()
-                        .contains(nombre.toLowerCase());
+        boolean coincideNombre = nombre.isEmpty()|| empleado.getNombre().toLowerCase().contains(nombre.toLowerCase());
 
-        boolean coincidePuesto =
-                puestoSeleccionado.equals("Todos")
-                || empleado.getPuesto().name()
-                        .equals(puestoSeleccionado);
+        boolean coincidePuesto = puestoSeleccionado.equals("Todos")|| empleado.getPuesto().name().equals(puestoSeleccionado);
 
-        if (coincideIdentificacion
-                && coincideNombre
-                && coincidePuesto) {
-
+        if (coincideIdentificacion && coincideNombre && coincidePuesto) {
             modelo.addRow(new Object[]{
                 empleado.getIdentificacion(),
                 empleado.getNombre(),
@@ -438,6 +421,7 @@ public class VistaBuscarEmpleado extends javax.swing.JFrame implements Views<Emp
             });
         }
     }
+    
     if (modelo.getRowCount() == 0) {
     showError("Empleado no encontrado"); 
     }

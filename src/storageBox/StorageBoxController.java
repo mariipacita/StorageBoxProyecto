@@ -7,6 +7,7 @@ import contratos.Contrato;
 import empleados.Empleado;
 import empleados.PuestoEmpleado;
 import excepciones.EstadoContratoException;
+import java.time.LocalDate;
 import java.util.Iterator;
 
 /**
@@ -75,24 +76,23 @@ public class StorageBoxController {
         return contrato;
     }
 
-    public boolean activarContrato(int numeroContrato) throws EstadoContratoException {
+    public boolean activarContrato(int numeroContrato) {
+    Contrato contrato = storageBox.findContrato(numeroContrato);
 
-        Contrato contrato = storageBox.findContrato(numeroContrato);
-
-        if (contrato == null) {
-            view.showError("Contrato no encontrado");
-            return false;
-        }
-        try {
-            contrato.activarContrato();
-            view.showMessage("Contrato activado correctamente");
-            return true;
-
-        } catch (IllegalStateException e) {
-            view.showError(e.getMessage());
-            return false;
-        }
+    if (contrato == null) {
+        view.showError("Contrato no encontrado");
+        return false;
     }
+
+    try {
+        contrato.activarContrato();
+        view.showMessage("Contrato activado correctamente");
+        return true;
+    } catch (EstadoContratoException e) {
+        view.showError(e.getMessage());
+        return false;
+    }
+}
     
     public boolean finalizarContrato(int numeroContrato) {
 
@@ -130,6 +130,19 @@ public class StorageBoxController {
             return false;
         }
     }
+    
+    public LocalDate convertirFecha(String fechaTexto) {
+
+    if (fechaTexto.isEmpty()) {
+        return null;
+    }
+    try {
+        return LocalDate.parse(fechaTexto);
+    } catch (Exception e) {
+        view.showError("La fecha debe tener el formato AAAA-MM-DD");
+        return null;
+    }
+}
     public boolean addEmpleado(Empleado empleado) {
 
     boolean status = storageBox.addEmpleado(empleado);
@@ -156,8 +169,19 @@ public class StorageBoxController {
     return empleado;
    }
     
-    public boolean actualizarEmpleado(String identificacion, String nombre, String telefono, PuestoEmpleado puesto) {
+   public boolean removeEmpleado(String identificacion) {
+   boolean status = storageBox.removeEmpleado(identificacion);
 
+    if (status) {
+        view.showMessage("Empleado eliminado correctamente");
+    } else {
+        view.showError("No se pudo eliminar el empleado");
+    }
+    return status;
+} 
+    
+    public boolean actualizarEmpleado(String identificacion, String nombre, String telefono, PuestoEmpleado puesto) {
+        
     boolean status = storageBox.actualizarEmpleado(identificacion, nombre, telefono, puesto);
 
     if (status) {
@@ -170,6 +194,9 @@ public class StorageBoxController {
    }
     public Iterator<Empleado> getEmpleados() {
     return storageBox.getEmpleados();
-  }  
+  }
+    public Iterator<Contrato> getContratos() {
+    return storageBox.getContratos();
+}
 }
 
