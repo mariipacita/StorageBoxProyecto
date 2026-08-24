@@ -77,7 +77,6 @@ public class espacio {
        
     }
     
-    
     public TipoEspacioEnum espacioPorTamaño(){
         if (tamaño <= 5){ return Tipoespacio.PEQUENO;}
         if (tamaño >= 5 && tamaño <=10) {return Tipoespacio.MEDIANO;}
@@ -87,8 +86,7 @@ public class espacio {
         } 
         
     }
-    
-    
+   
     public int cobroMensual(int days, int extraDays){
         if(days <=30)PrecioMensual = 2500; 
         if(days<=60) PrecioMensual= 45000;
@@ -103,8 +101,7 @@ public class espacio {
         
         
     }
-    
-     
+   
     public void ActualizarEspacio(TipoEspacioEnum newTipoEspacio,int newPrecio, double newTamaño ){
         this.Tipoespacio = newTipoEspacio;
         this.PrecioMensual = newPrecio;

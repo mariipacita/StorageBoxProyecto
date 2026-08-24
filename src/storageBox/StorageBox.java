@@ -5,6 +5,9 @@
 package storageBox;
 
 import Clientes.cliente;
+import Clientes.clientesList;
+import Espacios.TipoEspacioEnum;
+import Espacios.espacio;
 import contratos.Contrato;
 import contratos.ListaContratos;
 import empleados.Empleado;
@@ -21,11 +24,16 @@ public class StorageBox {
     private ListaEmpleados empleados;
      private Clientes.clientesList listaCliente;
      private Clientes.cliente cliente;
-
-    public StorageBox() {
-        this.contratos = new ListaContratos();
-         this.empleados = new ListaEmpleados();
+     private Espacios.espacio espacio;
+     private Espacios.espacioList espacios;
+    public StorageBox(ListaContratos contratos, ListaEmpleados empleados, clientesList listaCliente, cliente cliente) {
+        this.contratos = contratos;
+        this.empleados = empleados;
+        this.listaCliente = listaCliente;
+        this.cliente = cliente;
     }
+
+   
 
     public boolean addContrato(Contrato contrato) {
         return contratos.add(contrato);
@@ -62,12 +70,15 @@ public class StorageBox {
         return empleados.getAll();
     }
     
+    public Iterator<cliente> getCliente(){
+        return listaCliente.getAll();
+    }
+    //cliente
     public boolean AddClienteC(cliente cliente){
        return listaCliente.addCliente(cliente);
        
     }
-    
-    
+   
     public boolean clientRemoveC(String cedula){
         return listaCliente.removeCliente(cedula);
     }
@@ -81,6 +92,23 @@ public class StorageBox {
     public String findCliente(String cedula){
         return cliente.getCedula();
     }
+    
+//espacio
+    public boolean addEspacio(espacio newEspacio, String id_espacio){
+        return espacios.addEspacio(newEspacio, id_espacio);
+    }
+    
+    public boolean removeEspacio(String id_Espacio){
+        return espacios.removeEspacio(id_Espacio);
+    }
+    
+    public void updateEspacio(TipoEspacioEnum newTipoEspacio,int newPrecio, double newTamaño){
+        espacio.ActualizarEspacio(newTipoEspacio, newPrecio, newTamaño);
+        
+    }
+    
+    
+    
     
     
     

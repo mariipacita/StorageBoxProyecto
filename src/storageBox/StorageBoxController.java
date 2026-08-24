@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package storageBox;
+import Clientes.cliente;
 import contratos.Contrato;
 import empleados.Empleado;
 import empleados.PuestoEmpleado;
@@ -198,15 +199,72 @@ public class StorageBoxController {
     public Iterator<Contrato> getContratos() {
     return storageBox.getContratos();
 }
-    
-    public boolean addCliente(){
-        boolean cliente = storageBox.AddClienteC(cliente);
+      
+    //cliente
+    public boolean addCliente(cliente client){
+        boolean cliente = storageBox.AddClienteC(client);
         if(cliente){
             view.showMessage("Cliente agregado correctamente");
         }else{
             view.showError("Cliente no fue agregado correctamente");
         }
+        return cliente;
     }
+    
+    public boolean removeCliente(String cedula){
+        boolean cliente = storageBox.removeEmpleado(cedula);
+        if (cliente) {
+        view.showMessage("Cliente eliminado correctamente");
+    } else {
+        view.showError("Cliente no fue eliminado correctamente");
+    }
+    return cliente; 
+    }
+    
+    public String findCliente(String cedula){
+        String cliente = storageBox.findCliente(cedula);
+         if (cliente == null) {
+        view.showError("Empleado no encontrado");
+    } else {
+        view.showData(cliente);
+    }
+         return cliente;
+    }
+    
+    public void actulizarCliente(String Telefono,String Correo, String Nombre){
+     
+              storageBox.UpdateClienteC(Telefono, Correo, Nombre);
+    }   
+    
+    public Iterator<cliente> getClientes(){
+        return storageBox.getCliente();
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     
     

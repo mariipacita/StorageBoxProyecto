@@ -6,6 +6,7 @@ package Espacios;
 
 
 import java.util.HashMap;
+import java.util.Iterator;
 
 /**
  *
@@ -45,4 +46,13 @@ public class espacioList {
     }    
     
     
+    public Iterator<espacio> getAll(){
+     if (espacios.isEmpty()) {
+            return null;
+        }
+
+        return espacios.values().iterator();
+    }
 }
+    
+
