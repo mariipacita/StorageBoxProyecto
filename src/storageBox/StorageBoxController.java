@@ -198,5 +198,21 @@ public class StorageBoxController {
     public Iterator<Contrato> getContratos() {
     return storageBox.getContratos();
 }
+    
+    public boolean addCliente(){
+        boolean cliente = storageBox.AddClienteC(cliente);
+        if(cliente){
+            view.showMessage("Cliente agregado correctamente");
+        }else{
+            view.showError("Cliente no fue agregado correctamente");
+        }
+    }
+    
+    
+    
+    
+    
+    
+    
 }
 

@@ -51,8 +51,5 @@ public class Servicio {
         this.precio=precio;
     }
     
-    @Override
-    public String toString(){
-        return codigo + "--" + nombre + "- ¢" + precio;
-    }
+    
 }

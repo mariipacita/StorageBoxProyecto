@@ -53,29 +53,7 @@ public class controladorCliente {
     
     }
     
-    public  boolean FindCliente(String nombre,String telefono,String correo,String filtro){
-     boolean encontrar;
-     
-     switch(filtro){
-         case "nombre" : nombre  = cliente.getNombre();
-         break;
-         
-         case "Telefono" : telefono = cliente.getNumTelefonico();
-         break;
-         
-         case "correo" : correo = cliente.getCorreo();
-         break;
-           
-         
-             
-                 
-     }
     
-     if(encontrar){
-         return 
-     }  
-     
-    }
     
     
     

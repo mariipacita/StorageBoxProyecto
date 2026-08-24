@@ -4,7 +4,9 @@
  */
 package Clientes;
 
+
 import java.util.HashMap;
+import java.util.Iterator;
 
 /**
  *
@@ -41,7 +43,14 @@ public class clientesList {
     }
     
     
-    
+    public Iterator<cliente> getAll() {
+
+        if (clientes.isEmpty()) {
+            return null;
+        }
+
+        return clientes.values().iterator();
+    }
     
     
     

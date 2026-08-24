@@ -4,6 +4,7 @@
  */
 package storageBox;
 
+import Clientes.cliente;
 import contratos.Contrato;
 import contratos.ListaContratos;
 import empleados.Empleado;
@@ -18,6 +19,8 @@ import java.util.Iterator;
 public class StorageBox {
     private ListaContratos contratos;
     private ListaEmpleados empleados;
+     private Clientes.clientesList listaCliente;
+     private Clientes.cliente cliente;
 
     public StorageBox() {
         this.contratos = new ListaContratos();
@@ -58,5 +61,31 @@ public class StorageBox {
     public Iterator<Empleado> getEmpleados() {
         return empleados.getAll();
     }
+    
+    public boolean AddClienteC(cliente cliente){
+       return listaCliente.addCliente(cliente);
+       
+    }
+    
+    
+    public boolean clientRemoveC(String cedula){
+        return listaCliente.removeCliente(cedula);
+    }
+    
+    public void UpdateClienteC(String newTelefono,String newCorreo, String newNombre){
+        cliente.ActualizarCliente(newTelefono, newCorreo, newNombre);
+    
+    }
+    
+    
+    public String findCliente(String cedula){
+        return cliente.getCedula();
+    }
+    
+    
+    
+    
+    
+    
 }
 
