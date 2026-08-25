@@ -4,11 +4,16 @@
  */
 package vistas;
 
+import contratos.Contrato;
+import storageBox.Views;
+import storageBox.StorageBoxController;
+
 /**
  *
  * @author marii
  */
-public class VistaContrato extends javax.swing.JFrame {
+public class VistaContrato extends javax.swing.JFrame implements Views<Contrato> {
+    private StorageBoxController controlador;
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(VistaContrato.class.getName());
 
@@ -17,7 +22,69 @@ public class VistaContrato extends javax.swing.JFrame {
      */
     public VistaContrato() {
         initComponents();
+        controlador = StorageBoxController.getInstance(this);
     }
+    @Override
+    public void showData(Contrato contrato) {
+    txtNumeroContrato.setText(String.valueOf(contrato.getNumeroContrato()));
+
+    txtCedula.setText(contrato.getCliente().getCedula());
+
+    txtNombreCliente.setText(contrato.getCliente().getNombre());
+
+    txtEstado.setText(contrato.getEstado().toString());
+
+    txtSubtotal.setText(String.valueOf(contrato.getSubtotal()));
+
+    txtImpuestos.setText(String.valueOf(contrato.getImpuestos()));
+
+    txtTotal.setText(String.valueOf(contrato.getTotal()));
+    
+    txtEspacioAsignado.setText(String.valueOf(contrato.getEspacio().getId_Espacio()));
+
+    txtFechaInicio.setText(contrato.getFechaInicio().toString());
+
+    txtFechaFin.setText(contrato.getFechaFinal().toString());
+     }
+
+    @Override
+    public void showError(String message) {
+    javax.swing.JOptionPane.showMessageDialog(
+            this,
+            message,
+            "Error",
+            javax.swing.JOptionPane.ERROR_MESSAGE
+    );
+}
+
+    @Override
+     public void showMessage(String message) {
+    javax.swing.JOptionPane.showMessageDialog(
+            this,
+            message
+    );
+}
+
+    @Override
+    public void clear() {
+    txtNumeroContrato.setText("");
+    txtCedula.setText("");
+    txtNombreCliente.setText("");
+
+    txtEspaciosDisponibles.setText("");
+    txtEspacioAsignado.setText("");
+
+    txtEstado.setText("PENDIENTE");
+
+    txtSubtotal.setText("");
+    txtImpuestos.setText("");
+    txtTotal.setText("");
+
+    javax.swing.table.DefaultTableModel modelo =
+            (javax.swing.table.DefaultTableModel) tblServicios.getModel();
+    modelo.setRowCount(0);   
+}
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -51,13 +118,14 @@ public class VistaContrato extends javax.swing.JFrame {
         pnlFechas = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        txtFechaInicio = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        txtFechaFin = new javax.swing.JTextField();
         pnlEstado = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         lblEstadoActual = new javax.swing.JLabel();
         txtEstado = new javax.swing.JTextField();
+        btnLimpiar1 = new javax.swing.JButton();
         pnlServicios = new javax.swing.JPanel();
         lblServiciosAdicionales = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -95,7 +163,6 @@ public class VistaContrato extends javax.swing.JFrame {
         lblNumeroContrato.setText("Número de contrato:");
 
         txtNumeroContrato.setEditable(false);
-        txtNumeroContrato.setText("jTextField1");
 
         pnlCliente.setBackground(new java.awt.Color(255, 255, 255));
         pnlCliente.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
@@ -108,7 +175,6 @@ public class VistaContrato extends javax.swing.JFrame {
         lblCedula.setText("Cédula: ");
 
         txtCedula.setEditable(false);
-        txtCedula.setText("jTextField1");
 
         btnBuscarCliente.setBackground(new java.awt.Color(42, 99, 153));
         btnBuscarCliente.setForeground(new java.awt.Color(255, 255, 255));
@@ -119,7 +185,6 @@ public class VistaContrato extends javax.swing.JFrame {
         lblNombreCliente.setText("Nombre:");
 
         txtNombreCliente.setEditable(false);
-        txtNombreCliente.setText("jTextField1");
 
         javax.swing.GroupLayout pnlClienteLayout = new javax.swing.GroupLayout(pnlCliente);
         pnlCliente.setLayout(pnlClienteLayout);
@@ -182,13 +247,11 @@ public class VistaContrato extends javax.swing.JFrame {
         lblEspaciosDisponibles.setText("Espacios disponibles:");
 
         txtEspaciosDisponibles.setEditable(false);
-        txtEspaciosDisponibles.setText("jTextField1");
 
         lblEspaciosDisponibles1.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
         lblEspaciosDisponibles1.setText("Espacio asignado:");
 
         txtEspacioAsignado.setEditable(false);
-        txtEspacioAsignado.setText("jTextField1");
 
         javax.swing.GroupLayout pnlEspacioLayout = new javax.swing.GroupLayout(pnlEspacio);
         pnlEspacio.setLayout(pnlEspacioLayout);
@@ -248,16 +311,16 @@ public class VistaContrato extends javax.swing.JFrame {
         jLabel4.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
         jLabel4.setText("Fecha de inicio:");
 
-        jTextField1.setEditable(false);
-        jTextField1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jTextField1.setText("dd/mm/aaaa");
+        txtFechaInicio.setEditable(false);
+        txtFechaInicio.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txtFechaInicio.setText("dd/mm/aaaa");
 
         jLabel5.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
         jLabel5.setText("Fecha de finalización :");
 
-        jTextField2.setEditable(false);
-        jTextField2.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jTextField2.setText("dd/mm/aaaa");
+        txtFechaFin.setEditable(false);
+        txtFechaFin.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txtFechaFin.setText("dd/mm/aaaa");
 
         javax.swing.GroupLayout pnlFechasLayout = new javax.swing.GroupLayout(pnlFechas);
         pnlFechas.setLayout(pnlFechasLayout);
@@ -270,11 +333,11 @@ public class VistaContrato extends javax.swing.JFrame {
                     .addGroup(pnlFechasLayout.createSequentialGroup()
                         .addGroup(pnlFechasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel4)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtFechaInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(39, 39, 39)
                         .addGroup(pnlFechasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel5)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(txtFechaFin, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         pnlFechasLayout.setVerticalGroup(
@@ -288,8 +351,8 @@ public class VistaContrato extends javax.swing.JFrame {
                     .addComponent(jLabel5))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(pnlFechasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtFechaInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtFechaFin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(22, Short.MAX_VALUE))
         );
 
@@ -307,6 +370,12 @@ public class VistaContrato extends javax.swing.JFrame {
         txtEstado.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtEstado.setText("PENDIENTE");
 
+        btnLimpiar1.setBackground(new java.awt.Color(42, 99, 153));
+        btnLimpiar1.setForeground(new java.awt.Color(255, 255, 255));
+        btnLimpiar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Cancel.png"))); // NOI18N
+        btnLimpiar1.setText("Regresar");
+        btnLimpiar1.addActionListener(this::btnLimpiar1ActionPerformed);
+
         javax.swing.GroupLayout pnlEstadoLayout = new javax.swing.GroupLayout(pnlEstado);
         pnlEstado.setLayout(pnlEstadoLayout);
         pnlEstadoLayout.setHorizontalGroup(
@@ -320,7 +389,11 @@ public class VistaContrato extends javax.swing.JFrame {
                         .addComponent(lblEstadoActual)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(txtEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(161, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlEstadoLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnLimpiar1)
+                .addContainerGap())
         );
         pnlEstadoLayout.setVerticalGroup(
             pnlEstadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -331,7 +404,9 @@ public class VistaContrato extends javax.swing.JFrame {
                 .addGroup(pnlEstadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblEstadoActual)
                     .addComponent(txtEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnLimpiar1)
+                .addContainerGap())
         );
 
         pnlServicios.setBackground(new java.awt.Color(255, 255, 255));
@@ -409,19 +484,16 @@ public class VistaContrato extends javax.swing.JFrame {
         lblSubTotal.setText("Subtotal:");
 
         txtSubtotal.setEditable(false);
-        txtSubtotal.setText("jTextField3");
 
         lblImpuestos.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
         lblImpuestos.setText("Impuestos (13%):");
 
         txtImpuestos.setEditable(false);
-        txtImpuestos.setText("jTextField3");
 
         lblTotal.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
         lblTotal.setText("Total: ");
 
         txtTotal.setEditable(false);
-        txtTotal.setText("jTextField3");
 
         javax.swing.GroupLayout pnlCostosLayout = new javax.swing.GroupLayout(pnlCostos);
         pnlCostos.setLayout(pnlCostosLayout);
@@ -523,15 +595,15 @@ public class VistaContrato extends javax.swing.JFrame {
                     .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnCrearContrato, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnActivarContrato, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnActivarContrato, javax.swing.GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
-                .addComponent(btnFinalizarContrato, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnFinalizarContrato, javax.swing.GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnCancelarContrato, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnCancelarContrato, javax.swing.GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
-                .addComponent(btnBuscarContrato, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnBuscarContrato, javax.swing.GroupLayout.DEFAULT_SIZE, 141, Short.MAX_VALUE)
                 .addGap(26, 26, 26)
-                .addComponent(btnLimpiar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnLimpiar, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
                 .addGap(24, 24, 24))
         );
         pnlAccionesLayout.setVerticalGroup(
@@ -547,7 +619,7 @@ public class VistaContrato extends javax.swing.JFrame {
                     .addComponent(btnCancelarContrato)
                     .addComponent(btnBuscarContrato)
                     .addComponent(btnLimpiar))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout pnlContratoLayout = new javax.swing.GroupLayout(pnlContrato);
@@ -635,24 +707,63 @@ public class VistaContrato extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCrearContratoActionPerformed
 
     private void btnActivarContratoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActivarContratoActionPerformed
-        // TODO add your handling code here:
+        if (txtNumeroContrato.getText().isEmpty()) {
+        showError("Primero debe seleccionar un contrato");
+        return;
+    }
+    int numeroContrato = Integer.parseInt(txtNumeroContrato.getText());
+
+    if (controlador.activarContrato(numeroContrato)) {
+        txtEstado.setText("ACTIVO");
+    }
     }//GEN-LAST:event_btnActivarContratoActionPerformed
 
     private void btnFinalizarContratoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFinalizarContratoActionPerformed
-        // TODO add your handling code here:
+      
+    if (txtNumeroContrato.getText().isEmpty()) {
+        showError("Primero debe seleccionar un contrato");
+        return;
+    }
+
+    int numeroContrato = Integer.parseInt(txtNumeroContrato.getText());
+
+    if (controlador.finalizarContrato(numeroContrato)) {
+        txtEstado.setText("FINALIZADO");
+    }
+
     }//GEN-LAST:event_btnFinalizarContratoActionPerformed
 
     private void btnCancelarContratoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarContratoActionPerformed
-        // TODO add your handling code here:
+         if (txtNumeroContrato.getText().isEmpty()) {
+        showError("Primero debe seleccionar un contrato");
+        return;
+    }
+
+    int numeroContrato =
+            Integer.parseInt(txtNumeroContrato.getText());
+
+    if (controlador.cancelarContrato(numeroContrato)) {
+        txtEstado.setText("CANCELADO");
+    }
     }//GEN-LAST:event_btnCancelarContratoActionPerformed
 
     private void btnBuscarContratoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarContratoActionPerformed
-        // TODO add your handling code here:
+    VistaBuscarContrato vistaBuscar = new VistaBuscarContrato(this);
+    vistaBuscar.setLocationRelativeTo(this);
+    vistaBuscar.setVisible(true);
     }//GEN-LAST:event_btnBuscarContratoActionPerformed
 
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
-        // TODO add your handling code here:
+        clear();
     }//GEN-LAST:event_btnLimpiarActionPerformed
+
+    private void btnLimpiar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiar1ActionPerformed
+    VistaMenuPrincipal menu = new VistaMenuPrincipal();
+    menu.setLocationRelativeTo(null);
+    menu.setVisible(true);
+
+    this.dispose();
+    }//GEN-LAST:event_btnLimpiar1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -689,6 +800,7 @@ public class VistaContrato extends javax.swing.JFrame {
     private javax.swing.JButton btnEliminarServicio;
     private javax.swing.JButton btnFinalizarContrato;
     private javax.swing.JButton btnLimpiar;
+    private javax.swing.JButton btnLimpiar1;
     private javax.swing.JButton btnVerEspacios;
     private javax.swing.JComboBox<String> cmbTipoEspacio;
     private javax.swing.JLabel jLabel1;
@@ -701,8 +813,6 @@ public class VistaContrato extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
     private javax.swing.JLabel lblCedula;
     private javax.swing.JLabel lblEspaciosDisponibles;
     private javax.swing.JLabel lblEspaciosDisponibles1;
@@ -728,6 +838,8 @@ public class VistaContrato extends javax.swing.JFrame {
     private javax.swing.JTextField txtEspacioAsignado;
     private javax.swing.JTextField txtEspaciosDisponibles;
     private javax.swing.JTextField txtEstado;
+    private javax.swing.JTextField txtFechaFin;
+    private javax.swing.JTextField txtFechaInicio;
     private javax.swing.JTextField txtImpuestos;
     private javax.swing.JTextField txtNombreCliente;
     private javax.swing.JTextField txtNumeroContrato;
