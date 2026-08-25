@@ -214,7 +214,7 @@ public class StorageBoxController {
     }
     
     public boolean removeCliente(String cedula){
-        boolean cliente = storageBox.removeEmpleado(cedula);
+        boolean cliente = storageBox.clientRemoveC(cedula);
         if (cliente) {
         view.showMessage("Cliente eliminado correctamente");
     } else {
@@ -226,7 +226,7 @@ public class StorageBoxController {
     public cliente findCliente(String cedula){
         cliente cliente = storageBox.findCliente(cedula);
          if (cliente == null) {
-        view.showError("Empleado no encontrado");
+        view.showError("Cliente no encontrado");
     } else {
         view.showData(cliente);
     }

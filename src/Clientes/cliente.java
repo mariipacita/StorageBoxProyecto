@@ -20,13 +20,13 @@ public class cliente {
     protected String numTelefonico;
     protected int edad;
 
-    public cliente(String cedula, String nombre, LocalDate fechaNacimient, String correo, String numTelefonico, int edad) {
+    public cliente(String cedula, String nombre, LocalDate fechaNacimient, String correo, String numTelefonico) {
         this.cedula = cedula;
         this.nombre = nombre;
         this.fechaNacimient = fechaNacimient;
         this.correo = correo;
         this.numTelefonico = numTelefonico;
-        this.edad = edad;
+        
     }
 
     

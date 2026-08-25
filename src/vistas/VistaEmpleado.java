@@ -238,6 +238,8 @@ public class VistaEmpleado extends javax.swing.JFrame implements Views<Empleado>
         lblNombre.setForeground(new java.awt.Color(42, 99, 153));
         lblNombre.setText("Nombre:");
 
+        txtNombre.addActionListener(this::txtNombreActionPerformed);
+
         lblTelefono.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
         lblTelefono.setForeground(new java.awt.Color(42, 99, 153));
         lblTelefono.setText("Teléfono:");
@@ -534,6 +536,10 @@ public class VistaEmpleado extends javax.swing.JFrame implements Views<Empleado>
         clear();
     }
     }//GEN-LAST:event_btnEliminarActionPerformed
+
+    private void txtNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNombreActionPerformed
 
     /**
      * @param args the command line arguments
