@@ -14,7 +14,10 @@ import contratos.ListaContratos;
 import empleados.Empleado;
 import empleados.ListaEmpleados;
 import empleados.PuestoEmpleado;
+import java.util.HashMap;
 import java.util.Iterator;
+import servicios.Servicio;
+import servicios.ServicioList;
 
 /**
  *
@@ -23,10 +26,19 @@ import java.util.Iterator;
 public class StorageBox {
     private ListaContratos contratos;
     private ListaEmpleados empleados;
-     private Clientes.clientesList listaCliente;
-     private Clientes.cliente cliente;
-     private Espacios.espacio espacio;
-     private Espacios.espacioList espacios;
+    private Clientes.clientesList listaCliente;
+    private Clientes.cliente cliente;
+    private Espacios.espacio espacio;
+    private Espacios.espacioList espacios;
+    private ServicioList servicios;
+     
+     public StorageBox() {
+        this.contratos = new ListaContratos();
+        this.empleados = new ListaEmpleados();
+        this.listaCliente = new clientesList(new HashMap<String, cliente>());
+        this.espacios = new espacioList();
+        this.servicios = new ServicioList();
+    }
 
     public StorageBox(ListaContratos contratos, ListaEmpleados empleados, clientesList listaCliente, cliente cliente, espacio espacio, espacioList espacios) {
         this.contratos = contratos;
@@ -36,10 +48,8 @@ public class StorageBox {
         this.espacio = espacio;
         this.espacios = espacios;
     }
-    
-
    
-
+//Contrato 
     public boolean addContrato(Contrato contrato) {
         return contratos.add(contrato);
     }
@@ -51,6 +61,8 @@ public class StorageBox {
     public Iterator<Contrato> getContratos() {
         return contratos.getAll();
     }
+    
+//Empleado 
     public boolean addEmpleado(Empleado empleado) {
         return empleados.add(empleado);
     }
@@ -60,20 +72,17 @@ public class StorageBox {
     }
     
     public boolean removeEmpleado(String identificacion) {
-    return empleados.remove(identificacion);
+        return empleados.remove(identificacion);
     }
 
-    public boolean actualizarEmpleado(String identificacion,
-            String nombre,
-            String telefono,
-            PuestoEmpleado puesto) {
-
+    public boolean actualizarEmpleado(String identificacion, String nombre, String telefono, PuestoEmpleado puesto) {
         return empleados.actualizarEmpleado (identificacion, nombre, telefono, puesto);
     }
 
     public Iterator<Empleado> getEmpleados() {
         return empleados.getAll();
     }
+    
     //cliente
     public Iterator<cliente> getCliente(){
         return listaCliente.getAll();
@@ -127,28 +136,32 @@ public class StorageBox {
     public boolean tamañoAprox(double tamaño){
         return espacio.tamañoAprox();
     }
-  public int cobroMensual(int days, int extraDays){
+    public int cobroMensual(int days, int extraDays){
       return espacio.cobroMensual(days, extraDays);
   }
+  
+//  Servicio
+    public boolean addServicio(Servicio servicio) {
+      return servicios.add(servicio);
+  }
+
+    public Servicio findServicio(int codigo) {
+      return servicios.get(codigo);
+  }
+
+   public boolean removeServicio(int codigo) {
+      return servicios.remove(codigo);
+  }
+
+    public boolean actualizarServicio(int codigo, String descripcion, double precio) {
+       return servicios.actualizarServicio(codigo, descripcion, precio);
+}
+
+    public Iterator<Servicio> getServicios() {
+      return servicios.getAll();
+}
     
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+      
 }
 

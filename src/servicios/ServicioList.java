@@ -5,60 +5,82 @@
 package servicios;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  *
  * @author PC
  */
-public class ServicioList {
-     private ArrayList<Servicio> listaServicios;
-     private int codigoServicio;
 
-    public ServicioList(ArrayList<Servicio> listaServicios, int codigoServicio) {
-        this.listaServicios = listaServicios;
-        this.codigoServicio = codigoServicio;
-        
-        
-        
+public class ServicioList {
+
+    private ArrayList<Servicio> listaServicios;
+
+    public ServicioList() {
+        this.listaServicios = new ArrayList<>();
     }
-    
-    
-    
-    
-    public boolean agregarServicios(String nombre, String descripcion, double precio){
-        if(nombre.isEmpty() || descripcion.isEmpty()){
-            return false;
-        }
-        if(precio <= 0){
-            return false;
-        }
-        Servicio servicio =  new Servicio(codigoServicio, nombre, descripcion, precio);
-        listaServicios.add(servicio);
-        codigoServicio++;
-        return true;
-    }    
-    
-    
-    public boolean eliminarServicio(int codigo){
-        Servicio servicio = buscarServicio(codigo);
-        if (servicio != null){
-            listaServicios.remove(servicio);
-            return true;
-        }
-        return false;
+
+    public boolean add(Servicio servicio) {
+        return listaServicios.add(servicio);
     }
-    
-    
-        public Servicio buscarServicio(int codigo){
-        for(Servicio servicio : listaServicios){
-            if(servicio.getCodigo()== codigo){
+
+    public Servicio get(int codigo) {
+
+        for (Servicio servicio : listaServicios) {
+
+            if (servicio.getCodigo() == codigo) {
                 return servicio;
             }
         }
+
         return null;
     }
-     
-     
-     
-    
+
+    public boolean remove(int codigo) {
+
+        Servicio servicio = get(codigo);
+
+        if (servicio == null) {
+            return false;
+        }
+
+        return listaServicios.remove(servicio);
+    }
+
+    public boolean actualizarServicio(int codigo,
+            String descripcion,
+            double precio) {
+
+        Servicio servicio = get(codigo);
+
+        if (servicio == null) {
+            return false;
+        }
+
+        if (descripcion.isEmpty() || precio <= 0) {
+            return false;
+        }
+
+        servicio.setDescripcion(descripcion);
+        servicio.setPrecio(precio);
+
+        return true;
+    }
+
+    public Iterator<Servicio> getAll() {
+
+        if (listaServicios.isEmpty()) {
+            return null;
+        }
+
+        return listaServicios.iterator();
+    }
+
+    public int size() {
+        return listaServicios.size();
+    }
+
+    public boolean isEmpty() {
+        return listaServicios.isEmpty();
+    }
 }
