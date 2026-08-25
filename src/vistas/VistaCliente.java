@@ -23,7 +23,7 @@ public class VistaCliente extends javax.swing.JFrame implements Views {
     public VistaCliente() {
         initComponents();
        this.controlador = StorageBoxController.getInstance( this);
-        this.clientview = VistaBuscarCliente();
+        this.clientview = clientview;
     }
     @Override
     public void clear() {
@@ -361,7 +361,7 @@ public class VistaCliente extends javax.swing.JFrame implements Views {
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         // TODO add your handling code here:
         
-        VistaBuscarCliente buscar = new VistaBuscarCliente( clientview);
+        VistaBuscarCliente buscar = new VistaBuscarCliente();
         buscar.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_btnBuscarActionPerformed

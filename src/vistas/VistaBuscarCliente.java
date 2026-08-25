@@ -7,6 +7,7 @@ package vistas;
 import Clientes.cliente;
 import java.util.Iterator;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import storageBox.Views;
 import storageBox.StorageBoxController;
 
@@ -20,7 +21,7 @@ public class VistaBuscarCliente extends javax.swing.JInternalFrame implements Vi
     /**
      * Creates new form VistaBuscarCliente
      */
-    public VistaBuscarCliente(VistaCliente clientview) {
+    public VistaBuscarCliente() {
         initComponents();
         this.controlador = StorageBoxController.getInstance(this);
        this.clientview = clientview;
@@ -33,7 +34,7 @@ public class VistaBuscarCliente extends javax.swing.JInternalFrame implements Vi
     txtNombre.setText("");
     txtTelefono.setText("");
     txtCorreo.setText("");
-    txtFecha.setText("");
+   
 }
     @Override
     public void showMessage(String message) {
@@ -78,12 +79,10 @@ public class VistaBuscarCliente extends javax.swing.JInternalFrame implements Vi
         txtCedula = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         txtNombre = new javax.swing.JTextField();
         txtTelefono = new javax.swing.JTextField();
         txtCorreo = new javax.swing.JTextField();
-        txtFecha = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
         btnBuscar = new javax.swing.JButton();
         pnlResultados = new javax.swing.JPanel();
@@ -148,9 +147,6 @@ public class VistaBuscarCliente extends javax.swing.JInternalFrame implements Vi
         jLabel7.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
         jLabel7.setText("Telefono: ");
 
-        jLabel8.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
-        jLabel8.setText("Fecha de nacimiento");
-
         jLabel9.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
         jLabel9.setText("Correo:");
 
@@ -159,8 +155,6 @@ public class VistaBuscarCliente extends javax.swing.JInternalFrame implements Vi
         txtTelefono.setText("jTextField3");
 
         txtCorreo.setText("jTextField4");
-
-        txtFecha.setText("jTextField5");
 
         jLabel10.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
         jLabel10.setText("Filtros de busqueda : ");
@@ -192,10 +186,6 @@ public class VistaBuscarCliente extends javax.swing.JInternalFrame implements Vi
                 .addGroup(pnlFiltrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel9)
                     .addComponent(txtCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(pnlFiltrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(pnlFiltrosLayout.createSequentialGroup()
                 .addContainerGap()
@@ -211,25 +201,18 @@ public class VistaBuscarCliente extends javax.swing.JInternalFrame implements Vi
                 .addGroup(pnlFiltrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel10)
                     .addComponent(btnBuscar))
-                .addGroup(pnlFiltrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pnlFiltrosLayout.createSequentialGroup()
-                        .addGap(11, 11, 11)
-                        .addGroup(pnlFiltrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(pnlFiltrosLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(11, 11, 11)
+                .addGroup(pnlFiltrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(pnlFiltrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pnlFiltrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(txtCedula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(txtCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(txtFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(pnlFiltrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtCedula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(18, Short.MAX_VALUE))
         );
 
@@ -429,34 +412,39 @@ public class VistaBuscarCliente extends javax.swing.JInternalFrame implements Vi
         String nombre = txtNombre.getText();
      String telefono = txtTelefono.getText();
       String correo = txtCorreo.getText();
-     String fecha = txtFecha.getText();
-     Iterator<cliente> clientes = controlador.getClientes();
+    
      
-     if (clientes == null) {
-    showError("Empleado no encontrado");
+     DefaultTableModel modelo =
+            (DefaultTableModel) tblClientes.getModel();
+
+    modelo.setRowCount(0);
+    
+     Iterator<cliente> iterator = controlador.getClientes();
+     
+     if (iterator == null) {
+    showError("Cliente no encontrado");
     
     }
-     
-     
-     
-     
-     
-     
-     
-     
-     
-     
-     
-     
-     
-     
-     
-     
-     
-     
-     
-     
-     
+        while (iterator.hasNext()) {
+        cliente cliente = iterator.next();
+        boolean agregar = true;
+        boolean coincideCedula = cedula.isBlank()|| cliente.getCedula().contains(cedula);
+        boolean coincideNombre = nombre.isBlank()|| cliente.getNombre().contains(nombre);
+        boolean coincideTelefono = telefono.isBlank()|| cliente.getNumTelefonico().contains(telefono);
+        boolean coincidecorreo= correo.isBlank()|| cliente.getCorreo().contains(correo);
+       
+        
+        if(coincideCedula && coincideNombre &&  coincideTelefono && coincidecorreo){
+            modelo.addRow(new Object[]{
+                cliente.getCedula(),
+                cliente.getCorreo(),
+                cliente.getNombre(),
+                cliente.getNumTelefonico()
+            });
+        }
+       
+            }
+        
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
@@ -481,7 +469,6 @@ public class VistaBuscarCliente extends javax.swing.JInternalFrame implements Vi
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -493,7 +480,6 @@ public class VistaBuscarCliente extends javax.swing.JInternalFrame implements Vi
     private javax.swing.JTable tblClientes;
     private javax.swing.JTextField txtCedula;
     private javax.swing.JTextField txtCorreo;
-    private javax.swing.JTextField txtFecha;
     private javax.swing.JTextField txtNombre;
     private javax.swing.JTextField txtTelefono;
     // End of variables declaration//GEN-END:variables
