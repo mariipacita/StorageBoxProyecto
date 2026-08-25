@@ -449,6 +449,7 @@ public class VistaBuscarCliente extends javax.swing.JFrame implements Views {
 
     private void btnRechazarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRechazarActionPerformed
         // TODO add your handling code here:
+
         if (clientview != null) {
         clientview.setVisible(true);
       }
@@ -457,10 +458,35 @@ public class VistaBuscarCliente extends javax.swing.JFrame implements Views {
         vistaContrato.setVisible(true);
     }
     dispose();
+
+        controlador.setView(clientview);
+        dispose();
+
     }//GEN-LAST:event_btnRechazarActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         // TODO add your handling code here:
+        
+        int fila = tblClientes.getSelectedRow();
+        
+         if (fila == -1) {
+        showError("Debe seleccionar un cliente");
+        return;
+    }
+         String cedula =
+    tblClientes.getValueAt(fila, 0).toString();
+       controlador.removeCliente(cedula);
+       
+       DefaultTableModel modelo = (DefaultTableModel) tblClientes.getModel();
+        modelo.removeRow(fila);
+        
+        
+        
+        
+        
+        
+        
+        
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
