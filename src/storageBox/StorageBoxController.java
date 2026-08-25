@@ -293,13 +293,18 @@ public class StorageBoxController {
     }
     
     public TipoEspacioEnum tipoEspacio(double tamaño){
-        
+        return storageBox.espacioPorTamaño(tamaño);
         
     }
     
+   public boolean tamañoAprox(double tamaño){
+        return storageBox.tamañoAprox(tamaño);
+    }  
     
-    
-    
+    public int cobroMensual(int days, int extraDays){
+        return storageBox.cobroMensual(days, extraDays);
+        
+    }
     
     
     

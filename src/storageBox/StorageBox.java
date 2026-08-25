@@ -127,7 +127,9 @@ public class StorageBox {
     public boolean tamañoAprox(double tamaño){
         return espacio.tamañoAprox();
     }
- 
+  public int cobroMensual(int days, int extraDays){
+      return espacio.cobroMensual(days, extraDays);
+  }
     
     
     
