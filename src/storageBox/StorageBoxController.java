@@ -12,6 +12,7 @@ import empleados.PuestoEmpleado;
 import excepciones.EstadoContratoException;
 import java.time.LocalDate;
 import java.util.Iterator;
+import servicios.Servicio;
 
 /**
  *
@@ -51,6 +52,8 @@ public class StorageBoxController {
         this.storageBox = new StorageBox();
         this.view = view;
     }
+    
+//    Contrato
      public boolean addContrato(Contrato contrato) {
 
         boolean status = storageBox.addContrato(contrato);
@@ -60,13 +63,10 @@ public class StorageBoxController {
         } else {
             view.showError("No se pudo agregar el contrato");
         }
-
         return status;
     }
-
-
+     
     public Contrato findContrato(int numeroContrato) {
-
         Contrato contrato = storageBox.findContrato(numeroContrato);
 
         if (contrato == null) {
@@ -86,7 +86,6 @@ public class StorageBoxController {
         view.showError("Contrato no encontrado");
         return false;
     }
-
     try {
         contrato.activarContrato();
         view.showMessage("Contrato activado correctamente");
@@ -96,9 +95,7 @@ public class StorageBoxController {
         return false;
     }
 }
-    
-    public boolean finalizarContrato(int numeroContrato) {
-
+    public boolean finalizarContrato(int numeroContrato) throws EstadoContratoException {
         Contrato contrato = storageBox.findContrato(numeroContrato);
 
         if (contrato == null) {
@@ -115,7 +112,7 @@ public class StorageBoxController {
             return false;
         }
     }
-    public boolean cancelarContrato(int numeroContrato) {
+    public boolean cancelarContrato(int numeroContrato) throws EstadoContratoException {
         
         Contrato contrato = storageBox.findContrato(numeroContrato);
 
@@ -146,8 +143,11 @@ public class StorageBoxController {
         return null;
     }
 }
+    public Iterator<Contrato> getContratos() {
+        return storageBox.getContratos();
+}
+//    Empleados
     public boolean addEmpleado(Empleado empleado) {
-
     boolean status = storageBox.addEmpleado(empleado);
 
     if (status) {
@@ -160,7 +160,6 @@ public class StorageBoxController {
    }
     
     public Empleado findEmpleado(String identificacion) {
-
     Empleado empleado = storageBox.findEmpleado(identificacion);
 
     if (empleado == null) {
@@ -184,7 +183,6 @@ public class StorageBoxController {
 } 
     
     public boolean actualizarEmpleado(String identificacion, String nombre, String telefono, PuestoEmpleado puesto) {
-        
     boolean status = storageBox.actualizarEmpleado(identificacion, nombre, telefono, puesto);
 
     if (status) {
@@ -198,9 +196,7 @@ public class StorageBoxController {
     public Iterator<Empleado> getEmpleados() {
     return storageBox.getEmpleados();
   }
-    public Iterator<Contrato> getContratos() {
-    return storageBox.getContratos();
-}
+    
       
     //cliente
     public boolean addCliente(cliente client){
@@ -305,23 +301,54 @@ public class StorageBoxController {
         return storageBox.cobroMensual(days, extraDays);
         
     }
+//    Servicios
+    public boolean addServicio(Servicio servicio) {
+    boolean status = storageBox.addServicio(servicio);
+
+    if (status) {
+        view.showMessage("Servicio agregado correctamente");
+    } else {
+        view.showError("No se pudo agregar el servicio");
+    }
+    return status;
+}
+    
+    public Servicio findServicio(int codigo) {
+    Servicio servicio = storageBox.findServicio(codigo);
+
+    if (servicio == null) {
+        view.showError("Servicio no encontrado");
+    } else {
+        view.showData(servicio);
+    }
+
+    return servicio;
+}
+    public boolean removeServicio(int codigo) {
+    boolean status = storageBox.removeServicio(codigo);
+
+    if (status) {
+        view.showMessage("Servicio eliminado correctamente");
+    } else {
+        view.showError("No se pudo eliminar el servicio");
+    }
+    return status;
+}
+    public boolean actualizarServicio(int codigo, String descripcion, double precio) {
+    boolean status = storageBox.actualizarServicio(codigo, descripcion, precio);
+
+    if (status) {
+        view.showMessage("Servicio actualizado correctamente");
+    } else {
+        view.showError("No se pudo actualizar el servicio");
+    }
+    return status;
+}
+    public Iterator<Servicio> getServicios() {
+      return storageBox.getServicios();
+}
     
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+      
 }
 

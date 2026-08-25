@@ -165,20 +165,24 @@ public class Contrato {
     }
 }
 
-  public void finalizarContrato() {
+  public void finalizarContrato() throws EstadoContratoException {
 
     if (estado == EstadoContrato.ACTIVO) {
         estado = EstadoContrato.FINALIZADO;
     } else {
-        throw new IllegalStateException("El contrato no se puede finalizar");
+        throw new EstadoContratoException(
+                "El contrato no se puede finalizar"
+        );
     }
 }
-  public void cancelarContrato() {
+  public void cancelarContrato() throws EstadoContratoException {
 
     if (estado == EstadoContrato.PENDIENTE) {
         estado = EstadoContrato.CANCELADO;
     } else {
-        throw new IllegalStateException("El contrato no se puede cancelar");
+        throw new EstadoContratoException(
+                "El contrato no se puede cancelar"
+        );
     }
-}      
+}   
 }

@@ -4,11 +4,21 @@
  */
 package vistas;
 
+import contratos.Contrato;
+import contratos.EstadoContrato;
+import java.time.LocalDate;
+import java.util.Iterator;
+import javax.swing.table.DefaultTableModel;
+import storageBox.StorageBoxController;
+import storageBox.Views;
+
 /**
  *
  * @author marii
  */
-public class VistaBuscarContrato extends javax.swing.JFrame {
+public class VistaBuscarContrato extends javax.swing.JFrame implements Views<Contrato> {
+    private VistaContrato vistaContrato;
+    private StorageBoxController controlador;
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(VistaBuscarContrato.class.getName());
 
@@ -17,7 +27,86 @@ public class VistaBuscarContrato extends javax.swing.JFrame {
      */
     public VistaBuscarContrato() {
         initComponents();
+        this.controlador = StorageBoxController.getInstance(this);
+        cargarEstados();
+        cargarTabla();
     }
+    
+    public VistaBuscarContrato(VistaContrato vistaContrato) {
+       initComponents();
+       this.vistaContrato = vistaContrato;
+       this.controlador = StorageBoxController.getInstance(this);
+       controlador.setView(this);
+       cargarEstados();
+       cargarTabla();
+}
+    @Override
+     public void showError(String message) {
+    javax.swing.JOptionPane.showMessageDialog(
+            this,
+            message,
+            "Error",
+            javax.swing.JOptionPane.ERROR_MESSAGE
+    );
+}
+     @Override
+    public void showMessage(String message) {
+    javax.swing.JOptionPane.showMessageDialog(this, message);
+    }
+
+    @Override
+    public void showData(Contrato contrato) {
+    txtNumeroContrato.setText(String.valueOf(contrato.getNumeroContrato()));
+
+    txtCedula.setText(contrato.getCliente().getCedula());
+
+    txtEspacio.setText(String.valueOf(contrato.getEspacio().getId_Espacio()));
+
+    txtFechaDesde.setText(contrato.getFechaInicio().toString());
+
+    txtFechaHasta.setText(contrato.getFechaFinal().toString());
+
+    cmbEstado.setSelectedItem(contrato.getEstado().toString());
+    }
+
+    @Override
+    public void clear() {
+    }
+    
+    private void cargarTabla() {
+
+    DefaultTableModel modelo = (DefaultTableModel) tblContratos.getModel();
+    modelo.setRowCount(0);
+    
+    Iterator<Contrato> contratos = controlador.getContratos();
+
+    if (contratos == null) {
+        return;
+    }
+
+    while (contratos.hasNext()) {
+        Contrato contrato = contratos.next();
+
+        modelo.addRow(new Object[]{
+            contrato.getNumeroContrato(),
+            contrato.getCliente().getCedula(),
+            contrato.getEspacio().getId_Espacio(),
+            contrato.getFechaInicio(),
+            contrato.getFechaFinal(),
+            contrato.getEstado(),
+            contrato.getTotal()
+        });
+    }
+}
+    private void cargarEstados() {
+
+    cmbEstado.removeAllItems();
+    cmbEstado.addItem("Todos");
+
+    for (EstadoContrato estado : EstadoContrato.values()) {
+        cmbEstado.addItem(estado.toString());
+    }
+}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -38,9 +127,9 @@ public class VistaBuscarContrato extends javax.swing.JFrame {
         lblNumdeContrato = new javax.swing.JLabel();
         txtNumeroContrato = new javax.swing.JTextField();
         lblNumdeContrato1 = new javax.swing.JLabel();
-        txtCliente = new javax.swing.JTextField();
+        txtCedula = new javax.swing.JTextField();
         lblNumdeContrato2 = new javax.swing.JLabel();
-        txtCliente1 = new javax.swing.JTextField();
+        txtEspacio = new javax.swing.JTextField();
         lblNumdeContrato3 = new javax.swing.JLabel();
         txtFechaDesde = new javax.swing.JTextField();
         lblNumdeContrato4 = new javax.swing.JLabel();
@@ -109,27 +198,17 @@ public class VistaBuscarContrato extends javax.swing.JFrame {
         lblNumdeContrato.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
         lblNumdeContrato.setText("Número de contrato:");
 
-        txtNumeroContrato.setText("jTextField1");
-
         lblNumdeContrato1.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
         lblNumdeContrato1.setText("Cliente (cédula):");
-
-        txtCliente.setText("jTextField1");
 
         lblNumdeContrato2.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
         lblNumdeContrato2.setText("Espacio:");
 
-        txtCliente1.setText("jTextField1");
-
         lblNumdeContrato3.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
         lblNumdeContrato3.setText("Fecha desde:");
 
-        txtFechaDesde.setText("jTextField1");
-
         lblNumdeContrato4.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
         lblNumdeContrato4.setText("Fecha hasta:");
-
-        txtFechaHasta.setText("jTextField1");
 
         lblNumdeContrato5.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
         lblNumdeContrato5.setText("Estado:");
@@ -138,52 +217,52 @@ public class VistaBuscarContrato extends javax.swing.JFrame {
 
         btnBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Search.png"))); // NOI18N
         btnBuscar.setText("Buscar");
+        btnBuscar.addActionListener(this::btnBuscarActionPerformed);
 
         btnLimpiar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/New.png"))); // NOI18N
         btnLimpiar.setText("Limpiar");
+        btnLimpiar.addActionListener(this::btnLimpiarActionPerformed);
 
         javax.swing.GroupLayout pnlFlitrosDeBusquedaLayout = new javax.swing.GroupLayout(pnlFlitrosDeBusqueda);
         pnlFlitrosDeBusqueda.setLayout(pnlFlitrosDeBusquedaLayout);
         pnlFlitrosDeBusquedaLayout.setHorizontalGroup(
             pnlFlitrosDeBusquedaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlFlitrosDeBusquedaLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(pnlFlitrosDeBusquedaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblNumdeContrato)
+                    .addComponent(txtNumeroContrato))
+                .addGroup(pnlFlitrosDeBusquedaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlFlitrosDeBusquedaLayout.createSequentialGroup()
+                        .addGap(14, 14, 14)
+                        .addComponent(lblNumdeContrato1)
+                        .addGap(37, 37, 37)
+                        .addComponent(lblNumdeContrato2)
+                        .addGap(78, 78, 78)
+                        .addComponent(lblNumdeContrato3)
+                        .addGap(56, 56, 56)
+                        .addComponent(lblNumdeContrato4)
+                        .addGap(58, 58, 58)
+                        .addComponent(lblNumdeContrato5))
+                    .addGroup(pnlFlitrosDeBusquedaLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtCedula, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtEspacio, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtFechaDesde, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtFechaHasta, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(cmbEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(15, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlFlitrosDeBusquedaLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(47, 47, 47))
-            .addGroup(pnlFlitrosDeBusquedaLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(pnlFlitrosDeBusquedaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pnlFlitrosDeBusquedaLayout.createSequentialGroup()
-                        .addGroup(pnlFlitrosDeBusquedaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblNumdeContrato)
-                            .addComponent(txtNumeroContrato, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(pnlFlitrosDeBusquedaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(pnlFlitrosDeBusquedaLayout.createSequentialGroup()
-                                .addGap(14, 14, 14)
-                                .addComponent(lblNumdeContrato1)
-                                .addGap(37, 37, 37)
-                                .addComponent(lblNumdeContrato2)
-                                .addGap(78, 78, 78)
-                                .addComponent(lblNumdeContrato3)
-                                .addGap(56, 56, 56)
-                                .addComponent(lblNumdeContrato4)
-                                .addGap(58, 58, 58)
-                                .addComponent(lblNumdeContrato5))
-                            .addGroup(pnlFlitrosDeBusquedaLayout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txtCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txtCliente1, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txtFechaDesde, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txtFechaHasta, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(cmbEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addComponent(jLabel3))
-                .addContainerGap(15, Short.MAX_VALUE))
         );
         pnlFlitrosDeBusquedaLayout.setVerticalGroup(
             pnlFlitrosDeBusquedaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -201,8 +280,8 @@ public class VistaBuscarContrato extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(pnlFlitrosDeBusquedaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtNumeroContrato, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtCliente1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtCedula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtEspacio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtFechaDesde, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtFechaHasta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cmbEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -252,9 +331,11 @@ public class VistaBuscarContrato extends javax.swing.JFrame {
 
         btnAceptar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Edit.png"))); // NOI18N
         btnAceptar.setText("Aceptar");
+        btnAceptar.addActionListener(this::btnAceptarActionPerformed);
 
         btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Cancel.png"))); // NOI18N
         btnCancelar.setText("Cancelar");
+        btnCancelar.addActionListener(this::btnCancelarActionPerformed);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -298,6 +379,98 @@ public class VistaBuscarContrato extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+
+    String numero = txtNumeroContrato.getText().trim();
+    String cliente = txtCedula.getText().trim();
+    String espacio = txtEspacio.getText().trim();
+    String estado = cmbEstado.getSelectedItem().toString();
+    String fechaDesdeTexto = txtFechaDesde.getText().trim();
+    String fechaHastaTexto = txtFechaHasta.getText().trim();
+
+    LocalDate fechaDesde = controlador.convertirFecha(fechaDesdeTexto);
+    LocalDate fechaHasta = controlador.convertirFecha(fechaHastaTexto);
+
+    DefaultTableModel modelo =(DefaultTableModel) tblContratos.getModel();
+    modelo.setRowCount(0);
+
+    Iterator<Contrato> contratos =controlador.getContratos();
+
+    if (contratos == null) {
+        showError("No hay contratos registrados");
+        return;
+    }
+
+    while (contratos.hasNext()) {
+
+        Contrato contrato = contratos.next();
+
+        boolean coincideNumero = numero.isEmpty()|| String.valueOf(contrato.getNumeroContrato()).contains(numero);
+        boolean coincideCliente = cliente.isEmpty()|| contrato.getCliente().getCedula().contains(cliente);
+        boolean coincideEspacio = espacio.isEmpty() || String.valueOf(contrato.getEspacio().getId_Espacio()).contains(espacio);
+        boolean coincideEstado = estado.equals("Todos")|| contrato.getEstado().toString().equals(estado);
+        boolean coincideFechaDesde =fechaDesde == null|| !contrato.getFechaInicio().isBefore(fechaDesde);
+        boolean coincideFechaHasta =fechaHasta == null|| !contrato.getFechaFinal().isAfter(fechaHasta); 
+        
+
+        if (coincideNumero && coincideCliente && coincideEspacio && coincideFechaDesde && coincideFechaHasta && coincideEstado) {
+
+            modelo.addRow(new Object[]{
+                contrato.getNumeroContrato(),
+                contrato.getCliente().getCedula(),
+                contrato.getEspacio().getId_Espacio(),
+                contrato.getFechaInicio(),
+                contrato.getFechaFinal(),
+                contrato.getEstado(),
+                contrato.getTotal()
+            });
+        }
+    }
+
+    if (modelo.getRowCount() == 0) {
+        showError("Contrato no encontrado");
+    }
+    }//GEN-LAST:event_btnBuscarActionPerformed
+
+    private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
+       int fila = tblContratos.getSelectedRow();
+
+    if (fila == -1) {
+        showError("Debe seleccionar un contrato");
+        return;
+    }
+
+    int numeroContrato = Integer.parseInt(tblContratos.getValueAt(fila, 0).toString());
+
+    Contrato contrato =
+            controlador.findContrato(numeroContrato);
+
+    if (contrato != null) {
+        vistaContrato.showData(contrato);
+        controlador.setView(vistaContrato);
+        dispose();
+    }
+    }//GEN-LAST:event_btnAceptarActionPerformed
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        controlador.setView(vistaContrato);
+    dispose();
+    }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
+
+    txtNumeroContrato.setText("");
+    txtCedula.setText("");
+    txtEspacio.setText("");
+    txtFechaDesde.setText("");
+    txtFechaHasta.setText("");
+
+    cmbEstado.setSelectedIndex(0);
+
+    cargarTabla();
+
+    }//GEN-LAST:event_btnLimpiarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -347,8 +520,8 @@ public class VistaBuscarContrato extends javax.swing.JFrame {
     private javax.swing.JPanel pnlResultados;
     private javax.swing.JScrollPane scllResultados;
     private javax.swing.JTable tblContratos;
-    private javax.swing.JTextField txtCliente;
-    private javax.swing.JTextField txtCliente1;
+    private javax.swing.JTextField txtCedula;
+    private javax.swing.JTextField txtEspacio;
     private javax.swing.JTextField txtFechaDesde;
     private javax.swing.JTextField txtFechaHasta;
     private javax.swing.JTextField txtNumeroContrato;
