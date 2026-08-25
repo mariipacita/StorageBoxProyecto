@@ -74,11 +74,15 @@ public class cliente {
         }
         this.numTelefonico = numTelefonico;
     }
+
+   
+    
   
    public void ActualizarCliente(String newTelefono,String newCorreo, String newNombre){
        setCorreo(newCorreo);
        setNombre(newNombre);   
        setNumTelefonico(newTelefono);
+      
    } 
    
     
