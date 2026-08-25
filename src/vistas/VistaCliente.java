@@ -16,14 +16,14 @@ import storageBox.Views;
 public class VistaCliente extends javax.swing.JFrame implements Views {
     private StorageBoxController controlador;
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(VistaCliente.class.getName());
-
+    private VistaBuscarCliente clientview;
     /**
      * Creates new form VistaCliente
      */
     public VistaCliente() {
         initComponents();
        this.controlador = StorageBoxController.getInstance( this);
-        
+        this.clientview = VistaBuscarCliente();
     }
     @Override
     public void clear() {
@@ -361,7 +361,7 @@ public class VistaCliente extends javax.swing.JFrame implements Views {
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         // TODO add your handling code here:
         
-        VistaBuscarCliente buscar = new VistaBuscarCliente();
+        VistaBuscarCliente buscar = new VistaBuscarCliente( clientview);
         buscar.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_btnBuscarActionPerformed

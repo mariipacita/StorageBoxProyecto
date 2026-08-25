@@ -16,12 +16,14 @@ import storageBox.StorageBoxController;
  */
 public class VistaBuscarCliente extends javax.swing.JInternalFrame implements Views {
     private StorageBoxController controlador;
+    private VistaCliente clientview;
     /**
      * Creates new form VistaBuscarCliente
      */
-    public VistaBuscarCliente() {
+    public VistaBuscarCliente(VistaCliente clientview) {
         initComponents();
         this.controlador = StorageBoxController.getInstance(this);
+       this.clientview = clientview;
     }
     
     @Override
@@ -87,7 +89,7 @@ public class VistaBuscarCliente extends javax.swing.JInternalFrame implements Vi
         pnlResultados = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblClientes = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         btnAceptar = new javax.swing.JButton();
@@ -234,7 +236,7 @@ public class VistaBuscarCliente extends javax.swing.JInternalFrame implements Vi
         jLabel4.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
         jLabel4.setText("Resultados : ");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblClientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
                 {null, null, null, null, null},
@@ -259,7 +261,7 @@ public class VistaBuscarCliente extends javax.swing.JInternalFrame implements Vi
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tblClientes);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -392,7 +394,25 @@ public class VistaBuscarCliente extends javax.swing.JInternalFrame implements Vi
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
         // TODO add your handling code here:
-        
+        int fila = tblClientes.getSelectedRow();
+
+    if (fila == -1) {
+        showError("Debe seleccionar un empleado");
+        return;
+    }
+
+    String cedula =
+    tblClientes.getValueAt(fila, 0).toString();
+
+   cliente cliente =
+        controlador.findCliente(cedula);
+
+    if (cliente != null) {
+        clientview.showData(cliente);
+        controlador.setView(clientview);
+
+        dispose();
+    }
     }//GEN-LAST:event_btnAceptarActionPerformed
 
     private void btnRechazarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRechazarActionPerformed
@@ -467,10 +487,10 @@ public class VistaBuscarCliente extends javax.swing.JInternalFrame implements Vi
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JPanel panlTitulos;
     private javax.swing.JPanel pnlFiltros;
     private javax.swing.JPanel pnlResultados;
+    private javax.swing.JTable tblClientes;
     private javax.swing.JTextField txtCedula;
     private javax.swing.JTextField txtCorreo;
     private javax.swing.JTextField txtFecha;
