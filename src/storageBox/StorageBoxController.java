@@ -4,6 +4,8 @@
  */
 package storageBox;
 import Clientes.cliente;
+import Espacios.TipoEspacioEnum;
+import Espacios.espacio;
 import contratos.Contrato;
 import empleados.Empleado;
 import empleados.PuestoEmpleado;
@@ -221,8 +223,8 @@ public class StorageBoxController {
     return cliente; 
     }
     
-    public String findCliente(String cedula){
-        String cliente = storageBox.findCliente(cedula);
+    public cliente findCliente(String cedula){
+        cliente cliente = storageBox.findCliente(cedula);
          if (cliente == null) {
         view.showError("Empleado no encontrado");
     } else {
@@ -240,16 +242,60 @@ public class StorageBoxController {
         return storageBox.getCliente();
     }
     
+    public int calcularEdad(String cedula){
+        cliente cliente = storageBox.findCliente(cedula);
+        
+        if(cliente == null){
+            view.showError("Cliente no encontrado");
+        }
+        return cliente.getEdad();
+    }
     
+    //esapcios
     
+    public boolean addEspacio(espacio espacio,String id_espacio){
+        boolean espacios = storageBox.addEspacio( espacio,id_espacio);
+        if(espacios){
+            view.showMessage("Esapcio agregado correctamente");
+        }else{
+            view.showError("Espacio no agregado correctamente");
+        }
+        return espacios;
+    }
     
+    public boolean removeEspacio(String id_Espacio){
+        boolean espacio = storageBox.removeEspacio(id_Espacio);
+        if (espacio) {
+        view.showMessage("Espacio eliminado correctamente");
+    } else {
+        view.showError("esapcio no eliminado correctamente");
+    }
+    return espacio; 
+    }
     
+  public espacio findEspacio(int id_Espacio){
+      
+      espacio espacio = storageBox.FindEspacio(id_Espacio);
+         if (espacio == null) {
+        view.showError("Espacio inexistente");
+    } else {
+        view.showData(espacio);
+    }
+         return espacio;
+    }
     
+    public void actualizarEspacio(TipoEspacioEnum newTipoEspacio,int newPrecio, double newTamaño){
+        storageBox.updateEspacio(newTipoEspacio, newPrecio, newTamaño);
+    }
     
+    public Iterator<espacio> getEspacios(){
+        return storageBox.AllEspacios();
+    }
     
-    
-    
-    
+    public TipoEspacioEnum tipoEspacio(double tamaño){
+        
+        
+    }
     
     
     

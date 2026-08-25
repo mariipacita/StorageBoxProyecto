@@ -8,6 +8,7 @@ import Clientes.cliente;
 import Clientes.clientesList;
 import Espacios.TipoEspacioEnum;
 import Espacios.espacio;
+import Espacios.espacioList;
 import contratos.Contrato;
 import contratos.ListaContratos;
 import empleados.Empleado;
@@ -26,12 +27,16 @@ public class StorageBox {
      private Clientes.cliente cliente;
      private Espacios.espacio espacio;
      private Espacios.espacioList espacios;
-    public StorageBox(ListaContratos contratos, ListaEmpleados empleados, clientesList listaCliente, cliente cliente) {
+
+    public StorageBox(ListaContratos contratos, ListaEmpleados empleados, clientesList listaCliente, cliente cliente, espacio espacio, espacioList espacios) {
         this.contratos = contratos;
         this.empleados = empleados;
         this.listaCliente = listaCliente;
         this.cliente = cliente;
+        this.espacio = espacio;
+        this.espacios = espacios;
     }
+    
 
    
 
@@ -69,11 +74,11 @@ public class StorageBox {
     public Iterator<Empleado> getEmpleados() {
         return empleados.getAll();
     }
-    
+    //cliente
     public Iterator<cliente> getCliente(){
         return listaCliente.getAll();
     }
-    //cliente
+    
     public boolean AddClienteC(cliente cliente){
        return listaCliente.addCliente(cliente);
        
@@ -89,8 +94,8 @@ public class StorageBox {
     }
     
     
-    public String findCliente(String cedula){
-        return cliente.getCedula();
+    public cliente findCliente(String cedula){
+        return listaCliente.ObtenrKey(cedula);
     }
     
 //espacio
@@ -106,6 +111,34 @@ public class StorageBox {
         espacio.ActualizarEspacio(newTipoEspacio, newPrecio, newTamaño);
         
     }
+    
+    public espacio FindEspacio(int id_Espacio){
+        return espacios.ObtenrKey(id_Espacio);
+    }
+    
+    public Iterator<espacio> AllEspacios(){
+        return espacios.getAll();
+    }
+    
+    public TipoEspacioEnum espacioPorTamaño(double tamaño){
+        return espacio.espacioPorTamaño();
+        
+    }
+    public boolean tamañoAprox(double tamaño){
+        return espacio.tamañoAprox();
+    }
+ 
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     
     

@@ -82,7 +82,7 @@ public class espacio {
         if (tamaño >= 5 && tamaño <=10) {return Tipoespacio.MEDIANO;}
         if (tamaño >= 10 && tamaño <=20) {return Tipoespacio.GRANDE;}
         else{
-            throw new IllegalArgumentException("Espacio no apto ");
+            throw new IllegalArgumentException("Espacio no apto para el espacio ");
         } 
         
     }
