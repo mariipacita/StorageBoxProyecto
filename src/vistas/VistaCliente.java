@@ -105,7 +105,7 @@ public class VistaCliente extends javax.swing.JFrame implements Views {
 
         jLabel3.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setText("Sistema de Alquiler de Espacios");
+        jLabel3.setText("Sistema de alquiler de espacios");
 
         jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
 

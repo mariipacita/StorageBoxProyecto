@@ -21,7 +21,7 @@ public class espacio {
      TipoEspacioEnum Tipoespacio;
      private int PrecioMensual;
      private int id_Espacio;
-     private boolean disponibilidad;
+    
 
     public espacio( double tamaño, TipoEspacioEnum Tipoespacio, int PrecioMensual, int id_Espacio) {
         
