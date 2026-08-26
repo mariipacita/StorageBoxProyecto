@@ -92,9 +92,11 @@ public class VistaContrato extends javax.swing.JFrame implements Views<Contrato>
     txtImpuestos.setText("");
     txtTotal.setText("");
 
-    javax.swing.table.DefaultTableModel modelo =
-            (javax.swing.table.DefaultTableModel) tblServicios.getModel();
-    modelo.setRowCount(0);   
+    DefaultTableModel modelo = (DefaultTableModel) tblServicios.getModel();
+
+    modelo.setRowCount(0);
+
+    serviciosSeleccionados.clear();  
 }
     public void agregarServicioSeleccionado(Servicio servicio) {
 
