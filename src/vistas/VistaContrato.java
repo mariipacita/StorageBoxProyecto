@@ -4,6 +4,7 @@
  */
 package vistas;
 
+import Clientes.cliente;
 import contratos.Contrato;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
@@ -18,6 +19,7 @@ import storageBox.StorageBoxController;
 public class VistaContrato extends javax.swing.JFrame implements Views<Contrato> {
     private StorageBoxController controlador;
     private ArrayList<Servicio> serviciosSeleccionados;
+    private cliente clienteSeleccionado;
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(VistaContrato.class.getName());
 
@@ -104,6 +106,13 @@ public class VistaContrato extends javax.swing.JFrame implements Views<Contrato>
         servicio.getDescripcion(),
         servicio.getPrecio()
     });
+}
+    public void agregarClienteSeleccionado(cliente cliente) {
+
+    this.clienteSeleccionado = cliente;
+
+    txtCedula.setText(cliente.getCedula());
+    txtNombreCliente.setText(cliente.getNombre());
 }
     
 
@@ -201,6 +210,7 @@ public class VistaContrato extends javax.swing.JFrame implements Views<Contrato>
         btnBuscarCliente.setForeground(new java.awt.Color(255, 255, 255));
         btnBuscarCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Search.png"))); // NOI18N
         btnBuscarCliente.setText("Buscar");
+        btnBuscarCliente.addActionListener(this::btnBuscarClienteActionPerformed);
 
         lblNombreCliente.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
         lblNombreCliente.setText("Nombre:");
@@ -811,6 +821,13 @@ public class VistaContrato extends javax.swing.JFrame implements Views<Contrato>
 
     modelo.removeRow(fila);
     }//GEN-LAST:event_btnEliminarServicioActionPerformed
+
+    private void btnBuscarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarClienteActionPerformed
+        VistaBuscarCliente buscar = new VistaBuscarCliente(this);
+
+        buscar.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_btnBuscarClienteActionPerformed
 
     /**
      * @param args the command line arguments

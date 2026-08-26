@@ -16,15 +16,15 @@ import storageBox.Views;
 public class VistaCliente extends javax.swing.JFrame implements Views {
     private StorageBoxController controlador;
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(VistaCliente.class.getName());
-    private VistaBuscarCliente clientview;
+    
     /**
      * Creates new form VistaCliente
      */
     public VistaCliente() {
         initComponents();
        this.controlador = StorageBoxController.getInstance( this);
-        this.clientview = clientview;
     }
+    
     @Override
     public void clear() {
 
@@ -164,19 +164,13 @@ public class VistaCliente extends javax.swing.JFrame implements Views {
         jLabel6.setForeground(new java.awt.Color(42, 99, 153));
         jLabel6.setText("Identificacion : ");
 
-        txtIdentificacion.setText("jTextField1");
-
         jLabel7.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(42, 99, 153));
         jLabel7.setText("Nombre :");
 
-        txtNombre.setText("jTextField2");
-
         jLabel8.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(42, 99, 153));
         jLabel8.setText("Telefono : ");
-
-        txtTelefono.setText("jTextField3");
 
         jLabel9.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(42, 99, 153));
@@ -360,8 +354,7 @@ public class VistaCliente extends javax.swing.JFrame implements Views {
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         // TODO add your handling code here:
-        
-        VistaBuscarCliente buscar = new VistaBuscarCliente();
+        VistaBuscarCliente buscar = new VistaBuscarCliente(this);
         buscar.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_btnBuscarActionPerformed

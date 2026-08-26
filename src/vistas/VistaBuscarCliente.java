@@ -15,17 +15,34 @@ import storageBox.StorageBoxController;
  *
  * @author PC
  */
-public class VistaBuscarCliente extends javax.swing.JInternalFrame implements Views {
+public class VistaBuscarCliente extends javax.swing.JFrame implements Views { 
     private StorageBoxController controlador;
     private VistaCliente clientview;
+    private VistaContrato vistaContrato;
     /**
      * Creates new form VistaBuscarCliente
      */
     public VistaBuscarCliente() {
         initComponents();
         this.controlador = StorageBoxController.getInstance(this);
-       this.clientview = clientview;
+         cargarTabla();
     }
+    
+    public VistaBuscarCliente(VistaCliente clientview) {
+        initComponents();
+
+        this.clientview = clientview;
+        this.controlador = StorageBoxController.getInstance(this);
+        cargarTabla();
+}
+    
+    public VistaBuscarCliente(VistaContrato vistaContrato) {
+        initComponents();
+
+        this.vistaContrato = vistaContrato;
+        this.controlador = StorageBoxController.getInstance(this);
+        cargarTabla();
+}
     
     @Override
     public void clear() {
@@ -60,7 +77,30 @@ public class VistaBuscarCliente extends javax.swing.JInternalFrame implements Vi
     txtCorreo.setText(cliente.getCorreo());
     
   }
+  
+  private void cargarTabla() {
 
+    DefaultTableModel modelo = (DefaultTableModel) tblClientes.getModel();
+    modelo.setRowCount(0);
+
+    Iterator<cliente> iterator = controlador.getClientes();
+
+    if (iterator == null) {
+        return;
+    }
+
+    while (iterator.hasNext()) {
+        cliente cliente = iterator.next();
+
+        modelo.addRow(new Object[]{
+            cliente.getCedula(),
+            cliente.getNombre(),
+            cliente.getNumTelefonico(),
+            cliente.getCorreo(),
+            cliente.getEdad()
+        });
+    }
+}
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -380,20 +420,29 @@ public class VistaBuscarCliente extends javax.swing.JInternalFrame implements Vi
         int fila = tblClientes.getSelectedRow();
 
     if (fila == -1) {
-        showError("Debe seleccionar un empleado");
+        showError("Debe seleccionar un cliente");
         return;
     }
 
-    String cedula =
-    tblClientes.getValueAt(fila, 0).toString();
+    String cedula = tblClientes.getValueAt(fila, 0).toString();
+    cliente cliente = controlador.findCliente(cedula);
 
-   cliente cliente =
-        controlador.findCliente(cedula);
+    if (cliente == null) {
+        return;
+    }
 
-    if (cliente != null) {
+    if (clientview != null) {
+
         clientview.showData(cliente);
-        controlador.setView(clientview);
+        clientview.setVisible(true);
+        dispose();
+        return;
+    }
+    
+    if (vistaContrato != null) {
 
+        vistaContrato.agregarClienteSeleccionado(cliente);
+        vistaContrato.setVisible(true);
         dispose();
     }
     }//GEN-LAST:event_btnAceptarActionPerformed
