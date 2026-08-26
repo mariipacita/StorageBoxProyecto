@@ -573,7 +573,11 @@ public class VistaServicio extends javax.swing.JFrame implements Views<Servicio>
     }//GEN-LAST:event_btnLimpiar1ActionPerformed
 
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
-        
+    VistaMenuPrincipal menu = new VistaMenuPrincipal();
+    menu.setLocationRelativeTo(null);
+    menu.setVisible(true);
+    
+    this.dispose();
     }//GEN-LAST:event_btnRegresarActionPerformed
 
     private void btnEliminar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminar1ActionPerformed

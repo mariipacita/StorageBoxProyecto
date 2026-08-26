@@ -17,6 +17,7 @@ import storageBox.Views;
 public class VistaBuscarServicio extends javax.swing.JFrame implements Views<Servicio> {
     private StorageBoxController controlador;
     private VistaServicio vistaServicio;
+    private VistaContrato vistaContrato;
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(VistaBuscarServicio.class.getName());
 
@@ -29,17 +30,22 @@ public class VistaBuscarServicio extends javax.swing.JFrame implements Views<Ser
     this.vistaServicio = vistaServicio;
     controlador = StorageBoxController.getInstance(this);
     cargarTabla();
-
-    cargarTabla();
 }
 
     public VistaBuscarServicio(VistaServicio vistaServicio) {
     initComponents();
 
     this.vistaServicio = vistaServicio;
-
     controlador = StorageBoxController.getInstance(this);
     controlador.setView(this);
+}
+    public VistaBuscarServicio(VistaContrato vistaContrato) {
+    initComponents();
+
+    this.vistaContrato = vistaContrato;
+    controlador = StorageBoxController.getInstance(this);
+
+    cargarTabla();
 }
     
     public void showData(Servicio servicio) {
@@ -415,21 +421,40 @@ public class VistaBuscarServicio extends javax.swing.JFrame implements Views<Ser
         return;
     }
 
-    int codigo = Integer.parseInt(tblServicios.getValueAt(fila, 0).toString());
+    int codigo = Integer.parseInt(
+            tblServicios.getValueAt(fila, 0).toString()
+    );
+
     Servicio servicio = controlador.findServicio(codigo);
 
-    if (servicio != null) {
+    if (servicio == null) {
+        return;
+    }
 
+    if (vistaServicio != null) {
         vistaServicio.showData(servicio);
         vistaServicio.setVisible(true);
+        dispose();
+        return;
+    }
 
+    if (vistaContrato != null) {
+        vistaContrato.agregarServicioSeleccionado(servicio);
+        vistaContrato.setVisible(true);
         dispose();
     }
     }//GEN-LAST:event_btnAceptar1ActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-       vistaServicio.setVisible(true);
-       dispose();
+       if (vistaServicio != null) {
+        vistaServicio.setVisible(true);
+    }
+
+    if (vistaContrato != null) {
+        vistaContrato.setVisible(true);
+    }
+
+    dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed

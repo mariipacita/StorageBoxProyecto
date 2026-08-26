@@ -199,14 +199,9 @@ public class VistaBuscarEmpleado extends javax.swing.JFrame implements Views<Emp
         lblIdentificacion.setForeground(new java.awt.Color(42, 99, 153));
         lblIdentificacion.setText("Identificación:");
 
-        txtIdentificacion.setText("jTextField1");
-
         lblNombre.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
         lblNombre.setForeground(new java.awt.Color(42, 99, 153));
         lblNombre.setText("Nombre:");
-
-        txtNombre.setBackground(new java.awt.Color(255, 255, 255));
-        txtNombre.setText("jTextField1");
 
         lblPuesto.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
         lblPuesto.setForeground(new java.awt.Color(42, 99, 153));

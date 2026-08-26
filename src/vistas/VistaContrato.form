@@ -732,6 +732,9 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Agregar servicio"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAgregarServicioActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btnEliminarServicio">
               <Properties>
@@ -746,6 +749,9 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Eliminar servicio"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEliminarServicioActionPerformed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>

@@ -5,6 +5,9 @@
 package vistas;
 
 import contratos.Contrato;
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
+import servicios.Servicio;
 import storageBox.Views;
 import storageBox.StorageBoxController;
 
@@ -14,6 +17,7 @@ import storageBox.StorageBoxController;
  */
 public class VistaContrato extends javax.swing.JFrame implements Views<Contrato> {
     private StorageBoxController controlador;
+    private ArrayList<Servicio> serviciosSeleccionados;
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(VistaContrato.class.getName());
 
@@ -23,6 +27,12 @@ public class VistaContrato extends javax.swing.JFrame implements Views<Contrato>
     public VistaContrato() {
         initComponents();
         controlador = StorageBoxController.getInstance(this);
+
+        serviciosSeleccionados = new ArrayList<>();
+
+    DefaultTableModel modelo = (DefaultTableModel) tblServicios.getModel();
+    modelo.setRowCount(0);
+    
     }
     @Override
     public void showData(Contrato contrato) {
@@ -83,6 +93,17 @@ public class VistaContrato extends javax.swing.JFrame implements Views<Contrato>
     javax.swing.table.DefaultTableModel modelo =
             (javax.swing.table.DefaultTableModel) tblServicios.getModel();
     modelo.setRowCount(0);   
+}
+    public void agregarServicioSeleccionado(Servicio servicio) {
+
+    serviciosSeleccionados.add(servicio);
+    DefaultTableModel modelo = (DefaultTableModel) tblServicios.getModel();
+
+    modelo.addRow(new Object[]{
+        servicio.getNombre(),
+        servicio.getDescripcion(),
+        servicio.getPrecio()
+    });
 }
     
 
@@ -433,11 +454,13 @@ public class VistaContrato extends javax.swing.JFrame implements Views<Contrato>
         btnAgregarServicio.setForeground(new java.awt.Color(255, 255, 255));
         btnAgregarServicio.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Save.png"))); // NOI18N
         btnAgregarServicio.setText("Agregar servicio");
+        btnAgregarServicio.addActionListener(this::btnAgregarServicioActionPerformed);
 
         btnEliminarServicio.setBackground(new java.awt.Color(42, 99, 153));
         btnEliminarServicio.setForeground(new java.awt.Color(255, 255, 255));
         btnEliminarServicio.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Delete.png"))); // NOI18N
         btnEliminarServicio.setText("Eliminar servicio");
+        btnEliminarServicio.addActionListener(this::btnEliminarServicioActionPerformed);
 
         javax.swing.GroupLayout pnlServiciosLayout = new javax.swing.GroupLayout(pnlServicios);
         pnlServicios.setLayout(pnlServiciosLayout);
@@ -764,6 +787,30 @@ public class VistaContrato extends javax.swing.JFrame implements Views<Contrato>
 
     this.dispose();
     }//GEN-LAST:event_btnLimpiar1ActionPerformed
+
+    private void btnAgregarServicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarServicioActionPerformed
+       VistaBuscarServicio buscar = new VistaBuscarServicio(this);
+
+       buscar.setLocationRelativeTo(this);
+       buscar.setVisible(true);
+
+    this.setVisible(false);
+    }//GEN-LAST:event_btnAgregarServicioActionPerformed
+
+    private void btnEliminarServicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarServicioActionPerformed
+       int fila = tblServicios.getSelectedRow();
+
+    if (fila == -1) {
+        showError("Debe seleccionar un servicio");
+        return;
+    }
+
+    serviciosSeleccionados.remove(fila);
+
+    DefaultTableModel modelo = (DefaultTableModel) tblServicios.getModel();
+
+    modelo.removeRow(fila);
+    }//GEN-LAST:event_btnEliminarServicioActionPerformed
 
     /**
      * @param args the command line arguments
