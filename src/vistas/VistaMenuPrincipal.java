@@ -238,6 +238,7 @@ public class VistaMenuPrincipal extends javax.swing.JFrame {
         btnServicios.setBackground(new java.awt.Color(47, 102, 153));
         btnServicios.setForeground(new java.awt.Color(255, 255, 255));
         btnServicios.setText("Gestionar Servicios");
+        btnServicios.addActionListener(this::btnServiciosActionPerformed);
 
         javax.swing.GroupLayout pnlServiciosLayout = new javax.swing.GroupLayout(pnlServicios);
         pnlServicios.setLayout(pnlServiciosLayout);
@@ -440,9 +441,19 @@ public class VistaMenuPrincipal extends javax.swing.JFrame {
         System.exit(0);
     }//GEN-LAST:event_btnSalirActionPerformed
 
+
     private void btnClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClientesActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnClientesActionPerformed
+
+    private void btnServiciosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnServiciosActionPerformed
+        VistaServicio vistaServicio = new VistaServicio();
+        vistaServicio.setLocationRelativeTo(null);
+        vistaServicio.setVisible(true);
+
+    this.dispose();
+    }//GEN-LAST:event_btnServiciosActionPerformed
+
 
     /**
      * @param args the command line arguments
