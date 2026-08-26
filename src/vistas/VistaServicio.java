@@ -537,32 +537,67 @@ public class VistaServicio extends javax.swing.JFrame implements Views<Servicio>
     private void btnAgregar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregar1ActionPerformed
         String nombre = txtNombre.getText().trim();
     String descripcion = txtDescripcion.getText().trim();
+    String precioTexto = txtPrecio.getText().trim();
 
-    if (nombre.isEmpty() || descripcion.isEmpty() || txtPrecio.getText().trim().isEmpty()) {
-
+    if (nombre.isEmpty() || descripcion.isEmpty() || precioTexto.isEmpty()) {
         showError("Debe completar todos los datos");
         return;
     }
-    double precio = Double.parseDouble(txtPrecio.getText());
+
+    double precio;
+
+    try {
+        precio = Double.parseDouble(precioTexto);
+    } catch (NumberFormatException e) {
+        showError("El precio debe ser un número");
+        return;
+    }
+
+    if (precio <= 0) {
+        showError("El precio debe ser mayor que cero");
+        return;
+    }
 
     Servicio servicio = new Servicio(nombre, descripcion, precio);
 
     if (controlador.addServicio(servicio)) {
 
         txtCodigo.setText(String.valueOf(servicio.getCodigo()));
+
         cargarTabla();
     }
     }//GEN-LAST:event_btnAgregar1ActionPerformed
 
     private void btnActualizar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizar1ActionPerformed
+        
         if (txtCodigo.getText().isEmpty()) {
         showError("Primero debe seleccionar un servicio");
         return;
     }
+
     int codigo = Integer.parseInt(txtCodigo.getText());
+
     String descripcion = txtDescripcion.getText().trim();
-    double precio = Double.parseDouble(txtPrecio.getText());
- 
+    String precioTexto = txtPrecio.getText().trim();
+
+    if (descripcion.isEmpty() || precioTexto.isEmpty()) {
+        showError("Debe completar descripción y precio");
+        return;
+    }
+
+    double precio;
+
+    try {
+        precio = Double.parseDouble(precioTexto);
+    } catch (NumberFormatException e) {
+        showError("El precio debe ser un número");
+        return;
+    }
+
+    if (precio <= 0) {
+        showError("El precio debe ser mayor que cero");
+        return;
+    }
     if (controlador.actualizarServicio(codigo, descripcion, precio)) {
         cargarTabla();
     }

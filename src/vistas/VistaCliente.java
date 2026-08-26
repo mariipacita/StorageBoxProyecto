@@ -312,13 +312,24 @@ public class VistaCliente extends javax.swing.JFrame implements Views {
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
         // TODO add your handling code here:
      
-       String cedula= txtNombre.getText();
-        String nombre = txtIdentificacion.getText();
-        String telefono = txtTelefono.getText();
-       String correo= txtCorreo.getText();
-        Date fecha = DtChFecha.getDate();
+       String cedula = txtIdentificacion.getText().trim();
+       String nombre = txtNombre.getText().trim();
+       String telefono = txtTelefono.getText().trim();
+       String correo = txtCorreo.getText().trim();
+       Date fecha = DtChFecha.getDate();
+       
+       if (cedula.isEmpty() || nombre.isEmpty() || telefono.isEmpty() || correo.isEmpty() || fecha == null) {
+
+        showError("Debe completar todos los datos");
+        return;
+    }
         
         LocalDate fechaNacimiento = new java.sql.Date(fecha.getTime()).toLocalDate();
+        
+        if (fechaNacimiento.isAfter(LocalDate.now())) {
+        showError("La fecha de nacimiento no puede ser futura");
+        return;
+        }
         
         cliente cliente= new cliente( cedula,nombre,fechaNacimiento,correo,telefono);
         

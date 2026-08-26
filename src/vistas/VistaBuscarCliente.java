@@ -449,6 +449,14 @@ public class VistaBuscarCliente extends javax.swing.JFrame implements Views {
 
     private void btnRechazarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRechazarActionPerformed
         // TODO add your handling code here:
+        if (clientview != null) {
+        clientview.setVisible(true);
+      }
+
+        if (vistaContrato != null) {
+        vistaContrato.setVisible(true);
+    }
+    dispose();
     }//GEN-LAST:event_btnRechazarActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed

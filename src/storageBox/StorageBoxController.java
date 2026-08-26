@@ -7,8 +7,10 @@ import Clientes.cliente;
 import Espacios.TipoEspacioEnum;
 import Espacios.espacio;
 import contratos.Contrato;
+import contratos.EstadoContrato;
 import empleados.Empleado;
 import empleados.PuestoEmpleado;
+import excepciones.ClienteConContratoException;
 import excepciones.EstadoContratoException;
 import java.time.LocalDate;
 import java.util.Iterator;
@@ -200,6 +202,13 @@ public class StorageBoxController {
       
     //cliente
     public boolean addCliente(cliente client){
+        
+      cliente existente = storageBox.findCliente(client.getCedula());
+      if (existente != null) {
+        view.showError("Ya existe un cliente con esa identificación");
+        return false;
+    }
+        
         boolean cliente = storageBox.AddClienteC(client);
         if(cliente){
             view.showMessage("Cliente agregado correctamente");
@@ -209,14 +218,37 @@ public class StorageBoxController {
         return cliente;
     }
     
-    public boolean removeCliente(String cedula){
-        boolean cliente = storageBox.clientRemoveC(cedula);
-        if (cliente) {
-        view.showMessage("Cliente eliminado correctamente");
-    } else {
-        view.showError("Cliente no fue eliminado correctamente");
-    }
-    return cliente; 
+    public boolean removeCliente(String cedula) throws ClienteConContratoException{
+       try {
+        Iterator<Contrato> iterator = storageBox.getContratos();
+
+        if (iterator != null) {
+
+        while (iterator.hasNext()) {
+
+          Contrato contrato = iterator.next();
+
+        if (contrato.getCliente().getCedula().equals(cedula) && (contrato.getEstado() == EstadoContrato.PENDIENTE || contrato.getEstado() == EstadoContrato.ACTIVO)) {
+
+             throw new ClienteConContratoException(
+                            "No se puede eliminar el cliente porque tiene contratos pendientes o activos");
+                }
+            }
+        }
+
+        boolean status = storageBox.clientRemoveC(cedula);
+
+        if (status) {
+            view.showMessage("Cliente eliminado correctamente");
+        } else {
+            view.showError("Cliente no encontrado");
+        }
+        return status;
+
+    } catch (ClienteConContratoException e) {
+        view.showError(e.getMessage());
+        return false;
+    } 
     }
     
     public cliente findCliente(String cedula){
