@@ -4,6 +4,7 @@
  */
 package vistas;
 
+import Espacios.TipoEspacioEnum;
 import storageBox.Views;
 import storageBox.StorageBoxController;
 import javax.swing.JOptionPane;
@@ -30,8 +31,8 @@ public class VistaEspacio extends javax.swing.JFrame implements Views {
     
     
     
+    @Override
     public void clear() {
-
      txtNumEspacio.setText("");
     txtMetrosCuadrados.setText("");
     txtPrecioMensual.setText("");
@@ -238,13 +239,16 @@ public class VistaEspacio extends javax.swing.JFrame implements Views {
         btnAgregar.addActionListener(this::btnAgregarActionPerformed);
 
         btnActualizar.setText("jButton1");
+        btnActualizar.addActionListener(this::btnActualizarActionPerformed);
 
         btnLimpiar.setText("jButton1");
+        btnLimpiar.addActionListener(this::btnLimpiarActionPerformed);
 
         btnRegresar.setText("jButton1");
         btnRegresar.addActionListener(this::btnRegresarActionPerformed);
 
         btnBuscar.setText("jButton1");
+        btnBuscar.addActionListener(this::btnBuscarActionPerformed);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -313,8 +317,32 @@ public class VistaEspacio extends javax.swing.JFrame implements Views {
         // TODO add your handling code here:
         double tamaño = Double.parseDouble(txtMetrosCuadrados.getText());
         int id = Integer.parseInt(txtNumEspacio.getText());
-        
+        TipoEspacioEnum tipo = controlador.tipoEspacio(tamaño);
+        int precio= Integer.parseInt(txtPrecioMensual.getText());
+        espacio espacio = new espacio(tamaño,tipo,precio,id);
+        controlador.addEspacio(espacio, String.valueOf(id));
     }//GEN-LAST:event_btnAgregarActionPerformed
+
+    private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
+        // TODO add your handling code here:
+        double tamaño = Double.parseDouble(txtMetrosCuadrados.getText());
+        TipoEspacioEnum tipo = controlador.tipoEspacio(tamaño);
+        int precio= Integer.parseInt(txtPrecioMensual.getText());
+        controlador.actualizarEspacio(tipo, precio, tamaño);
+        
+    }//GEN-LAST:event_btnActualizarActionPerformed
+
+    private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
+        // TODO add your handling code here:
+        clear();
+    }//GEN-LAST:event_btnLimpiarActionPerformed
+
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        // TODO add your handling code here:
+        VistaBuscarEspacio buscar = new VistaBuscarEspacio(this);
+        buscar.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_btnBuscarActionPerformed
 
     /**
      * @param args the command line arguments

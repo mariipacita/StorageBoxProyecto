@@ -3,21 +3,66 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package vistas;
-
+import Espacios.espacio;
+import java.util.Iterator;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import storageBox.Views;
+import storageBox.StorageBoxController;
 /**
  *
  * @author PC
  */
-public class VistaBuscarEspacio extends javax.swing.JFrame {
+public class VistaBuscarEspacio extends javax.swing.JFrame implements Views {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(VistaBuscarEspacio.class.getName());
-
+private VistaContrato vistaContrato;
+  private StorageBoxController controlador;
+  private VistaEspacio vistaEspacio;
     /**
      * Creates new form VistaBuscarEspacio
+     * @param vistaEspacio
      */
-    public VistaBuscarEspacio() {
+    public VistaBuscarEspacio(VistaEspacio vistaEspacio) {
         initComponents();
+         this.controlador = StorageBoxController.getInstance(this);
+         
     }
+    
+    @Override
+     public void clear() {
+     txtNumEspacio.setText("");
+    txtPrecio.setText("");
+    txtTipoEspacio.setText("");
+    txtDisponibilidad.setText("");
+   
+}
+    @Override
+    public void showMessage(String message) {
+    JOptionPane.showMessageDialog(this, message);
+}
+    @Override
+  public void showError(String message) {
+    JOptionPane.showMessageDialog(
+        this,
+        message,
+        "Error",
+        JOptionPane.ERROR_MESSAGE
+    );
+}  
+  
+    @Override
+  public void showData(Object T) {
+    
+    espacio espacio= (espacio) T;
+    txtNumEspacio.setText(String.valueOf(espacio.getId_Espacio()));
+   
+    txtTipoEspacio.setText(String.valueOf(espacio.getTipoespacio()));
+    txtPrecio.setText(String.valueOf(espacio.getPrecioMensual()));
+    txtDisponibilidad.setText("Disponible");
+    
+  }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -42,11 +87,11 @@ public class VistaBuscarEspacio extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
-        jTextField4 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        txtNumEspacio = new javax.swing.JTextField();
+        txtTipoEspacio = new javax.swing.JTextField();
+        txtDisponibilidad = new javax.swing.JTextField();
+        txtPrecio = new javax.swing.JTextField();
+        btnBuscar = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblBuscarEspacio = new javax.swing.JTable();
@@ -55,6 +100,7 @@ public class VistaBuscarEspacio extends javax.swing.JFrame {
         btnCancelar = new javax.swing.JButton();
         btnRegresar = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
+        jSeparator3 = new javax.swing.JSeparator();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -130,16 +176,17 @@ public class VistaBuscarEspacio extends javax.swing.JFrame {
 
         jLabel8.setText("Rango de precio: ");
 
-        jTextField1.setText("jTextField1");
+        txtNumEspacio.setText("jTextField1");
 
-        jTextField2.setText("jTextField2");
+        txtTipoEspacio.setText("jTextField2");
 
-        jTextField3.setText("jTextField3");
+        txtDisponibilidad.setText("jTextField3");
 
-        jTextField4.setText("jTextField4");
+        txtPrecio.setText("jTextField4");
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Search.png"))); // NOI18N
-        jButton1.setText("Buscar");
+        btnBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Search.png"))); // NOI18N
+        btnBuscar.setText("Buscar");
+        btnBuscar.addActionListener(this::btnBuscarActionPerformed);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -152,13 +199,13 @@ public class VistaBuscarEspacio extends javax.swing.JFrame {
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel4)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtNumEspacio, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtTipoEspacio, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtDisponibilidad, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel5)
@@ -169,7 +216,7 @@ public class VistaBuscarEspacio extends javax.swing.JFrame {
                         .addGap(49, 49, 49)
                         .addComponent(jLabel8)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 181, Short.MAX_VALUE)
-                        .addComponent(jButton1)
+                        .addComponent(btnBuscar)
                         .addGap(50, 50, 50))))
         );
         jPanel2Layout.setVerticalGroup(
@@ -182,13 +229,13 @@ public class VistaBuscarEspacio extends javax.swing.JFrame {
                     .addComponent(jLabel6)
                     .addComponent(jLabel8)
                     .addComponent(jLabel7)
-                    .addComponent(jButton1))
+                    .addComponent(btnBuscar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtNumEspacio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtTipoEspacio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtDisponibilidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 11, Short.MAX_VALUE))
         );
 
@@ -237,17 +284,27 @@ public class VistaBuscarEspacio extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        btnAceptar.setText("jButton2");
+        btnAceptar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Save.png"))); // NOI18N
+        btnAceptar.setText("Aceptar");
+        btnAceptar.addActionListener(this::btnAceptarActionPerformed);
 
-        btnCancelar.setText("jButton2");
+        btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Cancel.png"))); // NOI18N
+        btnCancelar.setText("Cancelar");
+        btnCancelar.addActionListener(this::btnCancelarActionPerformed);
 
-        btnRegresar.setText("jButton2");
+        btnRegresar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/application-exit.png"))); // NOI18N
+        btnRegresar.setText("Regresar");
+        btnRegresar.addActionListener(this::btnRegresarActionPerformed);
 
-        btnEliminar.setText("jButton2");
+        btnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Delete.png"))); // NOI18N
+        btnEliminar.setText("Eliminar");
+        btnEliminar.addActionListener(this::btnEliminarActionPerformed);
+
+        jSeparator3.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -256,29 +313,31 @@ public class VistaBuscarEspacio extends javax.swing.JFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(16, 16, 16)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btnCancelar)
-                    .addComponent(btnAceptar))
-                .addGap(52, 52, 52)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btnRegresar)
-                    .addComponent(btnEliminar))
+                    .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btnRegresar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnEliminar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(15, 15, 15)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnAceptar)
-                    .addComponent(btnRegresar))
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(btnCancelar))
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addComponent(btnEliminar)))
-                .addContainerGap(55, Short.MAX_VALUE))
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnAceptar)
+                            .addComponent(btnRegresar, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnCancelar)
+                            .addComponent(btnEliminar))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -292,9 +351,11 @@ public class VistaBuscarEspacio extends javax.swing.JFrame {
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(6, 6, 6)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(20, 20, 20)
+                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -308,15 +369,157 @@ public class VistaBuscarEspacio extends javax.swing.JFrame {
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(66, Short.MAX_VALUE))
+                .addContainerGap(126, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
+        // TODO add your handling code here:
+        
+         VistaEspacio espacio = new VistaEspacio();
+        espacio.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnRegresarActionPerformed
+
+    private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
+        // TODO add your handling code here:
+        int fila = tblBuscarEspacio.getSelectedRow();
+         if (fila == -1) {
+        showError("Debe seleccionar al menos una fila");
+        return;
+    }
+         String id = tblBuscarEspacio.getValueAt(fila, 0).toString();
+         espacio espacio = controlador.findEspacio(fila);
+         
+         if (espacio == null) {
+        return;
+    }
+
+    if (vistaEspacio != null) {
+
+        vistaEspacio.showData(espacio);
+        vistaEspacio.setVisible(true);
+        dispose();
+        return;
+    }
+    
+   // if (vistaContrato != null) {
+
+       // vistaContrato.agregarClienteSeleccionado(cliente);
+      //  vistaContrato.setVisible(true);
+       // dispose();
+   // }
+         
+         
+         
+         
+         
+    }//GEN-LAST:event_btnAceptarActionPerformed
+
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        // TODO add your handling code here:
+        String numEspacio =txtNumEspacio.getText();
+    String precio = txtPrecio.getText();
+     String tipoEspacio = txtTipoEspacio.getText();
+    String disponibilidad = txtDisponibilidad.getText();
+    DefaultTableModel modelo =
+            (DefaultTableModel) tblBuscarEspacio.getModel();
+
+    modelo.setRowCount(0);
+     
+     Iterator<espacio> iterator = controlador.getEspacios();
+     if (iterator == null) {
+    showError("Espacio no se encuentra almacenado");
+    
+    }
+        while (iterator.hasNext()) {
+        espacio espacio = iterator.next();
+        boolean agregar = true;
+        boolean coincideNum= numEspacio.isBlank()||String.valueOf(espacio.getId_Espacio()).contains(numEspacio);
+        boolean coincidePrecio = precio.isBlank()|| String.valueOf(espacio.getPrecioMensual()).contains(precio);
+        boolean coincideTipo =tipoEspacio.isBlank()|| String.valueOf(espacio.getTipoespacio()).contains(tipoEspacio);
+        boolean coincideDispo= disponibilidad.isBlank()|| disponibilidad.equalsIgnoreCase("Disponible");
+
+      
+        if (coincideNum && coincidePrecio && coincideTipo && coincideDispo){
+            modelo.addRow(new Object[]{
+                espacio.getId_Espacio(),
+            espacio.getPrecioMensual(),
+            espacio.getTipoespacio(),
+            "Disponible"
+            });
+            
+        }
+    
+    
+    
+    
+        }  
+        
+    }//GEN-LAST:event_btnBuscarActionPerformed
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        // TODO add your handling code here:
+        
+         if (vistaEspacio != null) {
+        vistaEspacio.setVisible(true);
+      }
+
+        if (vistaContrato != null) {
+        vistaContrato.setVisible(true);
+    }
+    dispose();
+
+        controlador.setView(vistaEspacio);
+        dispose();
+         
+         
+         
+    }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        // TODO add your handling code here:
+         int fila = tblBuscarEspacio.getSelectedRow();
+         if (fila == -1) {
+        showError("Debe seleccionar al menos una fila");
+        return;
+    }
+         String id = tblBuscarEspacio.getValueAt(fila, 0).toString();
+         
+         
+         controlador.removeEspacio(id);
+          DefaultTableModel modelo = (DefaultTableModel) tblBuscarEspacio.getModel();
+        modelo.removeRow(fila);
+    }//GEN-LAST:event_btnEliminarActionPerformed
+
     /**
      * @param args the command line arguments
      */
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -341,10 +544,10 @@ public class VistaBuscarEspacio extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAceptar;
+    private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnRegresar;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -361,11 +564,12 @@ public class VistaBuscarEspacio extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JSeparator jSeparator3;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
     private javax.swing.JTable tblBuscarEspacio;
+    private javax.swing.JTextField txtDisponibilidad;
+    private javax.swing.JTextField txtNumEspacio;
+    private javax.swing.JTextField txtPrecio;
+    private javax.swing.JTextField txtTipoEspacio;
     // End of variables declaration//GEN-END:variables
 }

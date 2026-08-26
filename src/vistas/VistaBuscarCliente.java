@@ -5,6 +5,7 @@
 package vistas;
 
 import Clientes.cliente;
+import excepciones.ClienteConContratoException;
 import java.util.Iterator;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -26,6 +27,7 @@ public class VistaBuscarCliente extends javax.swing.JFrame implements Views {
         initComponents();
         this.controlador = StorageBoxController.getInstance(this);
          cargarTabla();
+         
     }
     
     public VistaBuscarCliente(VistaCliente clientview) {
@@ -475,7 +477,13 @@ public class VistaBuscarCliente extends javax.swing.JFrame implements Views {
     }
          String cedula =
     tblClientes.getValueAt(fila, 0).toString();
-       controlador.removeCliente(cedula);
+         
+         //try-catch que requeria, lo dejamos solo ahi o lo ponemos en todo el bloque?
+        try {
+            controlador.removeCliente(cedula);
+        } catch (ClienteConContratoException ex) {
+            System.getLogger(VistaBuscarCliente.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+        }
        
        DefaultTableModel modelo = (DefaultTableModel) tblClientes.getModel();
         modelo.removeRow(fila);
