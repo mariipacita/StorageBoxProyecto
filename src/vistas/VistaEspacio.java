@@ -4,12 +4,18 @@
  */
 package vistas;
 
+import storageBox.Views;
+import storageBox.StorageBoxController;
+import javax.swing.JOptionPane;
+import Espacios.espacio;
+
+
 /**
  *
  * @author PC
  */
-public class VistaEspacio extends javax.swing.JFrame {
-    
+public class VistaEspacio extends javax.swing.JFrame implements Views {
+    private StorageBoxController controlador;
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(VistaEspacio.class.getName());
 
     /**
@@ -17,7 +23,47 @@ public class VistaEspacio extends javax.swing.JFrame {
      */
     public VistaEspacio() {
         initComponents();
+        this.controlador = StorageBoxController.getInstance( this);
+        
+        
     }
+    
+    
+    
+    public void clear() {
+
+     txtNumEspacio.setText("");
+    txtMetrosCuadrados.setText("");
+    txtPrecioMensual.setText("");
+    CboxTipoEspacio.setSelectedIndex(0);
+    jlbDisponibilidad.setText("");
+   
+}
+    @Override
+    public void showMessage(String message) {
+    JOptionPane.showMessageDialog(this, message);
+}
+    @Override
+  public void showError(String message) {
+    JOptionPane.showMessageDialog(
+        this,
+        message,
+        "Error",
+        JOptionPane.ERROR_MESSAGE
+    );
+}  
+  
+    @Override
+  public void showData(Object T) {
+    
+    espacio espacio= (espacio) T;
+    txtNumEspacio.setText(String.valueOf(espacio.getId_Espacio()));
+    txtMetrosCuadrados.setText(String.valueOf(espacio.getTamaño()));
+    CboxTipoEspacio.setSelectedItem(espacio.getTipoespacio().toString());
+    txtPrecioMensual.setText(String.valueOf(espacio.getPrecioMensual()));
+    jlbDisponibilidad.setText("Disponible");
+    
+  }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -41,7 +87,7 @@ public class VistaEspacio extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         txtNumEspacio = new javax.swing.JTextField();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        CboxTipoEspacio = new javax.swing.JComboBox<>();
         txtMetrosCuadrados = new javax.swing.JTextField();
         txtPrecioMensual = new javax.swing.JTextField();
         jlbDisponibilidad = new javax.swing.JLabel();
@@ -126,7 +172,7 @@ public class VistaEspacio extends javax.swing.JFrame {
 
         txtNumEspacio.setText("jTextField1");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Grande", "Pequeño ", "Mediano", " " }));
+        CboxTipoEspacio.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Grande", "Pequeño ", "Mediano", " " }));
 
         txtMetrosCuadrados.setText("jTextField1");
 
@@ -149,7 +195,7 @@ public class VistaEspacio extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtNumEspacio, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(CboxTipoEspacio, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel7)
@@ -172,7 +218,7 @@ public class VistaEspacio extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(CboxTipoEspacio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel7)
@@ -189,6 +235,7 @@ public class VistaEspacio extends javax.swing.JFrame {
         );
 
         btnAgregar.setText("jButton1");
+        btnAgregar.addActionListener(this::btnAgregarActionPerformed);
 
         btnActualizar.setText("jButton1");
 
@@ -262,6 +309,13 @@ public class VistaEspacio extends javax.swing.JFrame {
     this.dispose();
     }//GEN-LAST:event_btnRegresarActionPerformed
 
+    private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
+        // TODO add your handling code here:
+        double tamaño = Double.parseDouble(txtMetrosCuadrados.getText());
+        int id = Integer.parseInt(txtNumEspacio.getText());
+        
+    }//GEN-LAST:event_btnAgregarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -288,12 +342,12 @@ public class VistaEspacio extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> CboxTipoEspacio;
     private javax.swing.JButton btnActualizar;
     private javax.swing.JButton btnAgregar;
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnLimpiar;
     private javax.swing.JButton btnRegresar;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
