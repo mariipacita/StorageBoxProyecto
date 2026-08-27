@@ -5,8 +5,13 @@
 package vistas;
 
 import Clientes.cliente;
+import Espacios.espacio;
 import contratos.Contrato;
+import excepciones.FechaContratoException;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
 import javax.swing.table.DefaultTableModel;
 import servicios.Servicio;
 import storageBox.Views;
@@ -20,6 +25,7 @@ public class VistaContrato extends javax.swing.JFrame implements Views<Contrato>
     private StorageBoxController controlador;
     private ArrayList<Servicio> serviciosSeleccionados;
     private cliente clienteSeleccionado;
+    private espacio espacioSeleccionado;
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(VistaContrato.class.getName());
 
@@ -46,17 +52,17 @@ public class VistaContrato extends javax.swing.JFrame implements Views<Contrato>
 
     txtEstado.setText(contrato.getEstado().toString());
 
-    txtSubtotal.setText(String.valueOf(contrato.getSubtotal()));
-
-    txtImpuestos.setText(String.valueOf(contrato.getImpuestos()));
-
-    txtTotal.setText(String.valueOf(contrato.getTotal()));
+    txtSubtotal.setText(String.format("%.2f", contrato.getSubtotal()));
+    
+    txtImpuestos.setText(String.format("%.2f", contrato.getImpuestos()));
+    
+    txtTotal.setText(String.format("%.2f", contrato.getTotal()));
     
     txtEspacioAsignado.setText(String.valueOf(contrato.getEspacio().getId_Espacio()));
 
-    txtFechaInicio.setText(contrato.getFechaInicio().toString());
+    dcInicio.setDate(java.sql.Date.valueOf(contrato.getFechaInicio()));
 
-    txtFechaFin.setText(contrato.getFechaFinal().toString());
+    dcFin.setDate(java.sql.Date.valueOf(contrato.getFechaFinal()));
      }
 
     @Override
@@ -96,7 +102,10 @@ public class VistaContrato extends javax.swing.JFrame implements Views<Contrato>
 
     modelo.setRowCount(0);
 
-    serviciosSeleccionados.clear();  
+    serviciosSeleccionados.clear();
+    espacioSeleccionado = null;
+    dcInicio.setDate(null);
+    dcFin.setDate(null);
 }
     public void agregarServicioSeleccionado(Servicio servicio) {
 
@@ -116,7 +125,37 @@ public class VistaContrato extends javax.swing.JFrame implements Views<Contrato>
     txtCedula.setText(cliente.getCedula());
     txtNombreCliente.setText(cliente.getNombre());
 }
-    
+
+    public void agregarEspacioSeleccionado(espacio espacio) {
+
+    this.espacioSeleccionado = espacio;
+
+    txtEspacioAsignado.setText(String.valueOf(espacio.getId_Espacio()));
+    txtTipoEspacio.setText(espacio.getTipoespacio().toString()+ " - "+ espacio.getTamaño()+ " m²");
+
+    cargarCantidadEspaciosDisponibles();
+}
+    private void cargarCantidadEspaciosDisponibles() {
+    int cantidad = 0;
+
+    Iterator<espacio> iterator = controlador.getEspacios();
+
+    if (iterator == null) {
+        txtEspaciosDisponibles.setText("0");
+        return;
+    }
+
+    while (iterator.hasNext()) {
+        espacio espacio = iterator.next();
+
+        if (espacio.isDisponible()) {
+            cantidad++;
+        }
+    }
+
+    txtEspaciosDisponibles.setText(String.valueOf(cantidad)
+    );
+}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -141,18 +180,18 @@ public class VistaContrato extends javax.swing.JFrame implements Views<Contrato>
         pnlEspacio = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         lblTipodeEspacio = new javax.swing.JLabel();
-        cmbTipoEspacio = new javax.swing.JComboBox<>();
         btnVerEspacios = new javax.swing.JButton();
         lblEspaciosDisponibles = new javax.swing.JLabel();
         txtEspaciosDisponibles = new javax.swing.JTextField();
         lblEspaciosDisponibles1 = new javax.swing.JLabel();
         txtEspacioAsignado = new javax.swing.JTextField();
+        txtTipoEspacio = new javax.swing.JTextField();
         pnlFechas = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        txtFechaInicio = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        txtFechaFin = new javax.swing.JTextField();
+        dcInicio = new com.toedter.calendar.JDateChooser();
+        dcFin = new com.toedter.calendar.JDateChooser();
         pnlEstado = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         lblEstadoActual = new javax.swing.JLabel();
@@ -269,12 +308,11 @@ public class VistaContrato extends javax.swing.JFrame implements Views<Contrato>
         lblTipodeEspacio.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
         lblTipodeEspacio.setText("Tipo de Espacio: ");
 
-        cmbTipoEspacio.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
         btnVerEspacios.setBackground(new java.awt.Color(42, 99, 153));
         btnVerEspacios.setForeground(new java.awt.Color(255, 255, 255));
         btnVerEspacios.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Search.png"))); // NOI18N
         btnVerEspacios.setText("Ver espacios disponibles");
+        btnVerEspacios.addActionListener(this::btnVerEspaciosActionPerformed);
 
         lblEspaciosDisponibles.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
         lblEspaciosDisponibles.setText("Espacios disponibles:");
@@ -285,6 +323,8 @@ public class VistaContrato extends javax.swing.JFrame implements Views<Contrato>
         lblEspaciosDisponibles1.setText("Espacio asignado:");
 
         txtEspacioAsignado.setEditable(false);
+
+        txtTipoEspacio.setEditable(false);
 
         javax.swing.GroupLayout pnlEspacioLayout = new javax.swing.GroupLayout(pnlEspacio);
         pnlEspacio.setLayout(pnlEspacioLayout);
@@ -302,9 +342,9 @@ public class VistaContrato extends javax.swing.JFrame implements Views<Contrato>
                                 .addGap(47, 47, 47)
                                 .addComponent(lblEspaciosDisponibles1, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(pnlEspacioLayout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(cmbTipoEspacio, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(txtTipoEspacio, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btnVerEspacios, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addComponent(jLabel2)
                     .addGroup(pnlEspacioLayout.createSequentialGroup()
@@ -321,16 +361,16 @@ public class VistaContrato extends javax.swing.JFrame implements Views<Contrato>
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(pnlEspacioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblTipodeEspacio)
-                    .addComponent(cmbTipoEspacio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnVerEspacios))
+                    .addComponent(btnVerEspacios)
+                    .addComponent(txtTipoEspacio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnlEspacioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblEspaciosDisponibles)
                     .addComponent(lblEspaciosDisponibles1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(pnlEspacioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(pnlEspacioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(txtEspaciosDisponibles, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtEspacioAsignado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtEspacioAsignado, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -344,16 +384,8 @@ public class VistaContrato extends javax.swing.JFrame implements Views<Contrato>
         jLabel4.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
         jLabel4.setText("Fecha de inicio:");
 
-        txtFechaInicio.setEditable(false);
-        txtFechaInicio.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtFechaInicio.setText("dd/mm/aaaa");
-
         jLabel5.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
         jLabel5.setText("Fecha de finalización :");
-
-        txtFechaFin.setEditable(false);
-        txtFechaFin.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtFechaFin.setText("dd/mm/aaaa");
 
         javax.swing.GroupLayout pnlFechasLayout = new javax.swing.GroupLayout(pnlFechas);
         pnlFechas.setLayout(pnlFechasLayout);
@@ -366,27 +398,27 @@ public class VistaContrato extends javax.swing.JFrame implements Views<Contrato>
                     .addGroup(pnlFechasLayout.createSequentialGroup()
                         .addGroup(pnlFechasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel4)
-                            .addComponent(txtFechaInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(39, 39, 39)
-                        .addGroup(pnlFechasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel5)
-                            .addComponent(txtFechaFin, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(dcInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(43, 43, 43)
+                        .addGroup(pnlFechasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(dcFin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addContainerGap(49, Short.MAX_VALUE))
         );
         pnlFechasLayout.setVerticalGroup(
             pnlFechasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlFechasLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(pnlFechasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel4))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(pnlFechasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel5))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(pnlFechasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtFechaInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtFechaFin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addGroup(pnlFechasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(dcInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(dcFin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pnlEstado.setBackground(new java.awt.Color(255, 255, 255));
@@ -422,7 +454,7 @@ public class VistaContrato extends javax.swing.JFrame implements Views<Contrato>
                         .addComponent(lblEstadoActual)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(txtEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(161, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlEstadoLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnLimpiar1)
@@ -437,7 +469,7 @@ public class VistaContrato extends javax.swing.JFrame implements Views<Contrato>
                 .addGroup(pnlEstadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblEstadoActual)
                     .addComponent(txtEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
                 .addComponent(btnLimpiar1)
                 .addContainerGap())
         );
@@ -630,15 +662,15 @@ public class VistaContrato extends javax.swing.JFrame implements Views<Contrato>
                     .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnCrearContrato, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnActivarContrato, javax.swing.GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE)
+                .addComponent(btnActivarContrato, javax.swing.GroupLayout.DEFAULT_SIZE, 143, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
-                .addComponent(btnFinalizarContrato, javax.swing.GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE)
+                .addComponent(btnFinalizarContrato, javax.swing.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnCancelarContrato, javax.swing.GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE)
+                .addComponent(btnCancelarContrato, javax.swing.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
-                .addComponent(btnBuscarContrato, javax.swing.GroupLayout.DEFAULT_SIZE, 141, Short.MAX_VALUE)
+                .addComponent(btnBuscarContrato, javax.swing.GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE)
                 .addGap(26, 26, 26)
-                .addComponent(btnLimpiar, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
+                .addComponent(btnLimpiar, javax.swing.GroupLayout.DEFAULT_SIZE, 102, Short.MAX_VALUE)
                 .addGap(24, 24, 24))
         );
         pnlAccionesLayout.setVerticalGroup(
@@ -712,7 +744,7 @@ public class VistaContrato extends javax.swing.JFrame implements Views<Contrato>
                 .addGroup(pnlContratoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(pnlEstado, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(pnlFechas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnlContratoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(pnlCostos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(pnlServicios, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -738,47 +770,109 @@ public class VistaContrato extends javax.swing.JFrame implements Views<Contrato>
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCrearContratoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearContratoActionPerformed
-        // TODO add your handling code here:
+      if (clienteSeleccionado == null) {
+        showError("Debe seleccionar un cliente");
+        return;
+    }
+    if (espacioSeleccionado == null) {
+        showError("Debe seleccionar un espacio");
+        return;
+    }
+
+    Date fechaInicioDate = dcInicio.getDate();
+    Date fechaFinalDate = dcFin.getDate();
+
+    if (fechaInicioDate == null || fechaFinalDate == null) {
+        showError("Debe seleccionar ambas fechas");
+        return;
+    }
+
+    LocalDate fechaInicio = new java.sql.Date(fechaInicioDate.getTime()).toLocalDate();
+
+    LocalDate fechaFinal = new java.sql.Date(fechaFinalDate.getTime()).toLocalDate();
+
+    try {
+        Contrato contrato = new Contrato(clienteSeleccionado, espacioSeleccionado, fechaInicio,fechaFinal);
+        contrato.validarFechas();
+
+        for (Servicio servicio : serviciosSeleccionados) {
+            contrato.agregarServicio(servicio);
+        }
+
+        contrato.calcularCosto();
+
+        if (controlador.addContrato(contrato)) {
+
+            txtNumeroContrato.setText(String.valueOf(contrato.getNumeroContrato()));
+            txtEstado.setText(contrato.getEstado().toString());
+            txtSubtotal.setText(String.format("%.2f", contrato.getSubtotal()));
+            txtImpuestos.setText(String.format("%.2f", contrato.getImpuestos()));
+            txtTotal.setText(String.format("%.2f", contrato.getTotal()));
+        }
+
+    } catch (FechaContratoException e) {
+        showError(e.getMessage());
+    }
     }//GEN-LAST:event_btnCrearContratoActionPerformed
 
     private void btnActivarContratoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActivarContratoActionPerformed
-        if (txtNumeroContrato.getText().isEmpty()) {
+         if (txtNumeroContrato.getText().trim().isEmpty()) {
         showError("Primero debe seleccionar un contrato");
         return;
     }
-    int numeroContrato = Integer.parseInt(txtNumeroContrato.getText());
 
-    if (controlador.activarContrato(numeroContrato)) {
-        txtEstado.setText("ACTIVO");
+    int numero = Integer.parseInt(txtNumeroContrato.getText());
+
+    if (controlador.activarContrato(numero)) {
+        Contrato contrato = controlador.findContrato(numero);
+
+        if (contrato != null) {
+            txtEstado.setText(contrato.getEstado().toString());
+        }
     }
     }//GEN-LAST:event_btnActivarContratoActionPerformed
 
     private void btnFinalizarContratoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFinalizarContratoActionPerformed
       
-    if (txtNumeroContrato.getText().isEmpty()) {
+    if (txtNumeroContrato.getText().trim().isEmpty()) {
         showError("Primero debe seleccionar un contrato");
         return;
     }
 
-    int numeroContrato = Integer.parseInt(txtNumeroContrato.getText());
+    int numero = Integer.parseInt(
+            txtNumeroContrato.getText()
+    );
 
-    if (controlador.finalizarContrato(numeroContrato)) {
-        txtEstado.setText("FINALIZADO");
+    if (controlador.finalizarContrato(numero)) {
+
+        Contrato contrato =
+                controlador.findContrato(numero);
+
+        if (contrato != null) {
+            txtEstado.setText(
+                    contrato.getEstado().toString()
+            );
+        }
     }
 
     }//GEN-LAST:event_btnFinalizarContratoActionPerformed
 
     private void btnCancelarContratoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarContratoActionPerformed
-         if (txtNumeroContrato.getText().isEmpty()) {
+         if (txtNumeroContrato.getText().trim().isEmpty()) {
         showError("Primero debe seleccionar un contrato");
         return;
     }
 
-    int numeroContrato =
-            Integer.parseInt(txtNumeroContrato.getText());
+    int numero = Integer.parseInt(txtNumeroContrato.getText());
 
-    if (controlador.cancelarContrato(numeroContrato)) {
-        txtEstado.setText("CANCELADO");
+    if (controlador.cancelarContrato(numero)) {
+        Contrato contrato =controlador.findContrato(numero);
+
+        if (contrato != null) {
+            txtEstado.setText(
+                    contrato.getEstado().toString()
+            );
+        }
     }
     }//GEN-LAST:event_btnCancelarContratoActionPerformed
 
@@ -831,6 +925,15 @@ public class VistaContrato extends javax.swing.JFrame implements Views<Contrato>
         this.setVisible(false);
     }//GEN-LAST:event_btnBuscarClienteActionPerformed
 
+    private void btnVerEspaciosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerEspaciosActionPerformed
+        VistaBuscarEspacio buscar = new VistaBuscarEspacio(this);
+
+    buscar.setLocationRelativeTo(this);
+    buscar.setVisible(true);
+
+    this.setVisible(false);
+    }//GEN-LAST:event_btnVerEspaciosActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -868,7 +971,8 @@ public class VistaContrato extends javax.swing.JFrame implements Views<Contrato>
     private javax.swing.JButton btnLimpiar;
     private javax.swing.JButton btnLimpiar1;
     private javax.swing.JButton btnVerEspacios;
-    private javax.swing.JComboBox<String> cmbTipoEspacio;
+    private com.toedter.calendar.JDateChooser dcFin;
+    private com.toedter.calendar.JDateChooser dcInicio;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -904,12 +1008,11 @@ public class VistaContrato extends javax.swing.JFrame implements Views<Contrato>
     private javax.swing.JTextField txtEspacioAsignado;
     private javax.swing.JTextField txtEspaciosDisponibles;
     private javax.swing.JTextField txtEstado;
-    private javax.swing.JTextField txtFechaFin;
-    private javax.swing.JTextField txtFechaInicio;
     private javax.swing.JTextField txtImpuestos;
     private javax.swing.JTextField txtNombreCliente;
     private javax.swing.JTextField txtNumeroContrato;
     private javax.swing.JTextField txtSubtotal;
+    private javax.swing.JTextField txtTipoEspacio;
     private javax.swing.JTextField txtTotal;
     // End of variables declaration//GEN-END:variables
 }
