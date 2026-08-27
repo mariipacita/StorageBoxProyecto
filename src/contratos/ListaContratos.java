@@ -32,11 +32,13 @@ public class ListaContratos implements KeyDynamicsList<Contrato, Integer> {
     }
 
     public boolean add(Contrato item) {
-        if (contratos.containsKey(item.getNumeroContrato())) {
-            return false;
-        }
-
-        return contratos.put(item.getNumeroContrato(), item) == null;
+       if (contratos.containsKey(item.getNumeroContrato())) {
+        return false;
+    }
+    if (existeConflicto(item)) {
+        return false;
+    }
+    return contratos.put(item.getNumeroContrato(),item) == null;
     }
 
     public Iterator getAll() {
@@ -54,5 +56,26 @@ public class ListaContratos implements KeyDynamicsList<Contrato, Integer> {
     public boolean isEmpty() {
         return contratos.isEmpty();
     }
+    
+    public boolean existeConflicto(Contrato nuevoContrato) {
+
+    Iterator<Contrato> iterator = contratos.values().iterator();
+
+    while (iterator.hasNext()) {
+
+        Contrato contrato = iterator.next();
+
+        boolean mismoEspacio = contrato.getEspacio().getId_Espacio() == nuevoContrato.getEspacio().getId_Espacio();
+
+        boolean estadoValido = contrato.getEstado() == EstadoContrato.PENDIENTE || contrato.getEstado() == EstadoContrato.ACTIVO;
+
+        boolean fechasCruzan = !nuevoContrato.getFechaFinal().isBefore(contrato.getFechaInicio()) && !nuevoContrato.getFechaInicio().isAfter(contrato.getFechaFinal());
+
+        if (mismoEspacio && estadoValido && fechasCruzan) {
+            return true;
+        }
+    }
+    return false;
+}
 
 }

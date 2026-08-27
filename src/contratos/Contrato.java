@@ -126,32 +126,47 @@ public class Contrato {
     }
 }
   
-  public int calcularPeriodos(int dias) {
+  public int calcularDias() throws FechaContratoException {
 
-   int periodos = dias / 30;
+    validarFechas();
+
+    int dias = 0;
+    LocalDate fecha = fechaInicio;
+
+    while (fecha.isBefore(fechaFinal)) {
+        dias++;
+        fecha = fecha.plusDays(1);
+    }
+
+    return dias;
+}
+  
+  public int calcularPeriodos(int dias) {
+     int periodos = dias / 30;
 
     if (dias % 30 != 0) {
         periodos++;
     }
 
     return periodos;
-}
-  
-  public void calcularCosto(int cantidadDias) {
+  }
 
-    int periodos = calcularPeriodos(cantidadDias);
+  
+  public void calcularCosto() throws FechaContratoException {
+    int dias = calcularDias();
+
+    int periodos = calcularPeriodos(dias);
 
     double costoEspacio = espacio.getPrecioMensual() * periodos;
+
     double costoServicios = 0;
 
     for (Servicio servicio : servicios) {
-        costoServicios = costoServicios + servicio.getPrecio();
+        costoServicios += servicio.getPrecio();
     }
 
     total = costoEspacio + costoServicios;
-
     subtotal = total / 1.13;
-
     impuestos = total - subtotal;
 }
   public void activarContrato() throws EstadoContratoException {
