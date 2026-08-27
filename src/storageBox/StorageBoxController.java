@@ -11,6 +11,7 @@ import contratos.EstadoContrato;
 import empleados.Empleado;
 import empleados.PuestoEmpleado;
 import excepciones.ClienteConContratoException;
+import excepciones.EspacioOcupadoException;
 import excepciones.EstadoContratoException;
 import java.time.LocalDate;
 import java.util.Iterator;
@@ -97,41 +98,40 @@ public class StorageBoxController {
         return false;
     }
 }
-    public boolean finalizarContrato(int numeroContrato) throws EstadoContratoException {
-        Contrato contrato = storageBox.findContrato(numeroContrato);
+    public boolean finalizarContrato(int numeroContrato) {
+    Contrato contrato = storageBox.findContrato(numeroContrato);
 
-        if (contrato == null) {
-            view.showError("Contrato no encontrado");
-            return false;
-        }
-        try {
-            contrato.finalizarContrato();
-            view.showMessage("Contrato finalizado correctamente");
-            return true;
-
-        } catch (IllegalStateException e) {
-            view.showError(e.getMessage());
-            return false;
-        }
+    if (contrato == null) {
+        view.showError("Contrato no encontrado");
+        return false;
     }
-    public boolean cancelarContrato(int numeroContrato) throws EstadoContratoException {
-        
-        Contrato contrato = storageBox.findContrato(numeroContrato);
+    try {
+        contrato.finalizarContrato();
+        view.showMessage("Contrato finalizado correctamente");
+        return true;
 
-        if (contrato == null) {
-            view.showError("Contrato no encontrado");
-            return false;
-        }
-        try {
-            contrato.cancelarContrato();
-            view.showMessage("Contrato cancelado correctamente");
-            return true;
-            
-        } catch (IllegalStateException e) {
-            view.showError(e.getMessage());
-            return false;
-        }
+    } catch (EstadoContratoException e) {
+        view.showError(e.getMessage());
+        return false;
     }
+}
+    public boolean cancelarContrato(int numeroContrato) {
+    Contrato contrato = storageBox.findContrato(numeroContrato);
+
+    if (contrato == null) {
+        view.showError("Contrato no encontrado");
+        return false;
+    }
+    try {
+        contrato.cancelarContrato();
+        view.showMessage("Contrato cancelado correctamente");
+        return true;
+
+    } catch (EstadoContratoException e) {
+        view.showError(e.getMessage());
+        return false;
+    }
+}
     
     public LocalDate convertirFecha(String fechaTexto) {
 
@@ -166,8 +166,6 @@ public class StorageBoxController {
 
     if (empleado == null) {
         view.showError("Empleado no encontrado");
-    } else {
-        view.showData(empleado);
     }
 
     return empleado;
@@ -253,12 +251,12 @@ public class StorageBoxController {
     
     public cliente findCliente(String cedula){
         cliente cliente = storageBox.findCliente(cedula);
-         if (cliente == null) {
+
+    if (cliente == null) {
         view.showError("Cliente no encontrado");
-    } else {
-        view.showData(cliente);
     }
-         return cliente;
+
+    return cliente;
     }
     
     public void actulizarCliente(String Telefono,String Correo, String Nombre){
@@ -281,58 +279,68 @@ public class StorageBoxController {
     
     //esapcios
     
-    public boolean addEspacio(espacio espacio,String id_espacio){
-        boolean espacios = storageBox.addEspacio( espacio,id_espacio);
-        if(espacios){
-            view.showMessage("Esapcio agregado correctamente");
+    public boolean addEspacio(espacio espacio){
+        boolean status = storageBox.addEspacio(espacio);
+        if(status){
+            view.showMessage("Espacio agregado correctamente");
         }else{
             view.showError("Espacio no agregado correctamente");
         }
-        return espacios;
+        return status;
     }
     
-    public boolean removeEspacio(String id_Espacio){
-        boolean espacio = storageBox.removeEspacio(id_Espacio);
-        if (espacio) {
-        view.showMessage("Espacio eliminado correctamente");
-    } else {
-        view.showError("esapcio no eliminado correctamente");
-    }
-    return espacio; 
+    public boolean removeEspacio(int id_Espacio){
+        try {
+
+        boolean status = storageBox.removeEspacio(id_Espacio);
+
+        if (status) {
+            view.showMessage(
+                    "Espacio eliminado correctamente"
+            );
+        } else {
+            view.showError(
+                    "Espacio no encontrado"
+            );
+        }
+        return status;
+
+    } catch (EspacioOcupadoException e) {
+        view.showError(e.getMessage());
+        return false;
+    } 
     }
     
   public espacio findEspacio(int id_Espacio){
       
-      espacio espacio = storageBox.FindEspacio(id_Espacio);
-         if (espacio == null) {
+       espacio espacio = storageBox.FindEspacio(id_Espacio);
+
+    if (espacio == null) {
         view.showError("Espacio inexistente");
-    } else {
-        view.showData(espacio);
     }
-         return espacio;
+
+    return espacio;
     }
     
-    public void actualizarEspacio(TipoEspacioEnum newTipoEspacio,int newPrecio, double newTamaño){
-        storageBox.updateEspacio(newTipoEspacio, newPrecio, newTamaño);
+    public boolean actualizarEspacio(int id_Espacio,TipoEspacioEnum newTipoEspacio,int newPrecio, double newTamaño){
+        boolean status = storageBox.updateEspacio(id_Espacio, newTipoEspacio, newPrecio,newTamaño);
+
+    if (status) {
+        view.showMessage(
+                "Espacio actualizado correctamente"
+        );
+    } else {
+        view.showError(
+                "Espacio no encontrado"
+        );
+    }
+    return status;
     }
     
     public Iterator<espacio> getEspacios(){
         return storageBox.AllEspacios();
     }
-    
-    public TipoEspacioEnum tipoEspacio(double tamaño){
-        return storageBox.espacioPorTamaño(tamaño);
-        
-    }
-    
-   public boolean tamañoAprox(double tamaño){
-        return storageBox.tamañoAprox(tamaño);
-    }  
-    
-    public int cobroMensual(int days, int extraDays){
-        return storageBox.cobroMensual(days, extraDays);
-        
-    }
+
 //    Servicios
     public boolean addServicio(Servicio servicio) {
     boolean status = storageBox.addServicio(servicio);

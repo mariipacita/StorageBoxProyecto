@@ -14,6 +14,7 @@ import contratos.ListaContratos;
 import empleados.Empleado;
 import empleados.ListaEmpleados;
 import empleados.PuestoEmpleado;
+import excepciones.EspacioOcupadoException;
 import java.util.HashMap;
 import java.util.Iterator;
 import servicios.Servicio;
@@ -108,16 +109,25 @@ public class StorageBox {
     }
     
 //espacio
-    public boolean addEspacio(espacio newEspacio, String id_espacio){
-        return espacios.addEspacio(newEspacio, id_espacio);
+    public boolean addEspacio(espacio newEspacio){
+        return espacios.addEspacio(newEspacio);
     }
     
-    public boolean removeEspacio(String id_Espacio){
+    public boolean removeEspacio(int id_Espacio) throws EspacioOcupadoException{
         return espacios.removeEspacio(id_Espacio);
     }
     
-    public void updateEspacio(TipoEspacioEnum newTipoEspacio,int newPrecio, double newTamaño){
-        espacio.ActualizarEspacio(newTipoEspacio, newPrecio, newTamaño);
+    public boolean updateEspacio(int id_Espacio, TipoEspacioEnum newTipoEspacio,int newPrecio, double newTamaño){
+        espacio espacioEncontrado =
+            espacios.ObtenrKey(id_Espacio);
+
+    if (espacioEncontrado == null) {
+        return false;
+    }
+
+    espacioEncontrado.ActualizarEspacio(newTipoEspacio, newPrecio, newTamaño);
+
+    return true;
         
     }
     
@@ -129,16 +139,6 @@ public class StorageBox {
         return espacios.getAll();
     }
     
-    public TipoEspacioEnum espacioPorTamaño(double tamaño){
-        return espacio.espacioPorTamaño();
-        
-    }
-    public boolean tamañoAprox(double tamaño){
-        return espacio.tamañoAprox();
-    }
-    public int cobroMensual(int days, int extraDays){
-      return espacio.cobroMensual(days, extraDays);
-  }
   
 //  Servicio
     public boolean addServicio(Servicio servicio) {
