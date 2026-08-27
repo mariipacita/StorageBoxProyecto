@@ -28,6 +28,11 @@ private VistaContrato vistaContrato;
          this.controlador = StorageBoxController.getInstance(this);
          
     }
+
+    private VistaBuscarEspacio() {
+    initComponents();
+    this.controlador = StorageBoxController.getInstance(this);
+    }
     
     @Override
      public void clear() {
