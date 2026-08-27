@@ -173,6 +173,7 @@ public class Contrato {
 
     if (estado == EstadoContrato.PENDIENTE) {
         estado = EstadoContrato.ACTIVO;
+        espacio.ocupar();
     } else {
         throw new EstadoContratoException(
                 "El contrato no se puede activar"
@@ -184,6 +185,7 @@ public class Contrato {
 
     if (estado == EstadoContrato.ACTIVO) {
         estado = EstadoContrato.FINALIZADO;
+        espacio.liberar();
     } else {
         throw new EstadoContratoException(
                 "El contrato no se puede finalizar"
@@ -194,6 +196,7 @@ public class Contrato {
 
     if (estado == EstadoContrato.PENDIENTE) {
         estado = EstadoContrato.CANCELADO;
+        espacio.liberar();
     } else {
         throw new EstadoContratoException(
                 "El contrato no se puede cancelar"
