@@ -431,14 +431,15 @@ public class VistaBuscarEmpleado extends javax.swing.JFrame implements Views<Emp
     }
 
     String identificacion =
-    tblEmpleados.getValueAt(fila, 0).toString();
+            tblEmpleados.getValueAt(fila, 0).toString();
 
     Empleado empleado =
-        controlador.findEmpleado(identificacion);
+            controlador.findEmpleado(identificacion);
 
     if (empleado != null) {
+
         vistaEmpleado.showData(empleado);
-        controlador.setView(vistaEmpleado);
+        vistaEmpleado.setVisible(true);
 
         dispose();
     }

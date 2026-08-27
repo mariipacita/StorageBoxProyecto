@@ -154,6 +154,7 @@ public class VistaMenuPrincipal extends javax.swing.JFrame {
         btnEspacios.setBackground(new java.awt.Color(47, 102, 153));
         btnEspacios.setForeground(new java.awt.Color(255, 255, 255));
         btnEspacios.setText("Gestionar Espacios");
+        btnEspacios.addActionListener(this::btnEspaciosActionPerformed);
 
         javax.swing.GroupLayout pnlEspaciosLayout = new javax.swing.GroupLayout(pnlEspacios);
         pnlEspacios.setLayout(pnlEspaciosLayout);
@@ -457,6 +458,14 @@ public class VistaMenuPrincipal extends javax.swing.JFrame {
 
     this.dispose();
     }//GEN-LAST:event_btnServiciosActionPerformed
+
+    private void btnEspaciosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEspaciosActionPerformed
+        VistaEspacio vistaEspacios = new VistaEspacio();
+        vistaEspacios.setLocationRelativeTo(null);
+        vistaEspacios.setVisible(true);
+
+    this.dispose();
+    }//GEN-LAST:event_btnEspaciosActionPerformed
 
 
     /**

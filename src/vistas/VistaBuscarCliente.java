@@ -181,8 +181,6 @@ public class VistaBuscarCliente extends javax.swing.JFrame implements Views {
         jLabel5.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
         jLabel5.setText("Cedula :");
 
-        txtCedula.setText("jTextField1");
-
         jLabel6.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
         jLabel6.setText("Nombre: ");
 
@@ -191,12 +189,6 @@ public class VistaBuscarCliente extends javax.swing.JFrame implements Views {
 
         jLabel9.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
         jLabel9.setText("Correo:");
-
-        txtNombre.setText("jTextField2");
-
-        txtTelefono.setText("jTextField3");
-
-        txtCorreo.setText("jTextField4");
 
         jLabel10.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
         jLabel10.setText("Filtros de busqueda : ");
@@ -355,13 +347,13 @@ public class VistaBuscarCliente extends javax.swing.JFrame implements Views {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btnRechazar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnAceptar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 61, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 254, Short.MAX_VALUE)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btnRegresar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnEliminar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(98, Short.MAX_VALUE))
+                .addContainerGap(297, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -387,10 +379,6 @@ public class VistaBuscarCliente extends javax.swing.JFrame implements Views {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(391, 391, 391))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(pnlResultados, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
@@ -399,6 +387,10 @@ public class VistaBuscarCliente extends javax.swing.JFrame implements Views {
                             .addComponent(panlTitulos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(pnlFiltros, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addContainerGap())))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -411,7 +403,7 @@ public class VistaBuscarCliente extends javax.swing.JFrame implements Views {
                 .addComponent(pnlResultados, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(389, 389, 389))
+                .addContainerGap())
         );
 
         pack();
@@ -427,24 +419,26 @@ public class VistaBuscarCliente extends javax.swing.JFrame implements Views {
     }
 
     String cedula = tblClientes.getValueAt(fila, 0).toString();
-    cliente cliente = controlador.findCliente(cedula);
 
-    if (cliente == null) {
+    cliente clienteSeleccionado = controlador.findCliente(cedula);
+
+    if (clienteSeleccionado == null) {
         return;
     }
 
     if (clientview != null) {
-
-        clientview.showData(cliente);
+        clientview.showData(clienteSeleccionado);
         clientview.setVisible(true);
+
         dispose();
         return;
     }
-    
+
     if (vistaContrato != null) {
 
-        vistaContrato.agregarClienteSeleccionado(cliente);
+        vistaContrato.agregarClienteSeleccionado(clienteSeleccionado);
         vistaContrato.setVisible(true);
+
         dispose();
     }
     }//GEN-LAST:event_btnAceptarActionPerformed
@@ -528,9 +522,10 @@ public class VistaBuscarCliente extends javax.swing.JFrame implements Views {
         if(coincideCedula && coincideNombre &&  coincideTelefono && coincidecorreo){
             modelo.addRow(new Object[]{
                 cliente.getCedula(),
-                cliente.getCorreo(),
                 cliente.getNombre(),
-                cliente.getNumTelefonico()
+                cliente.getNumTelefonico(),
+                cliente.getCorreo(),
+                cliente.getEdad()
             });
         }
        
