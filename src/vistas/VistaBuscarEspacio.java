@@ -15,8 +15,8 @@ import storageBox.StorageBoxController;
  */
 public class VistaBuscarEspacio extends javax.swing.JFrame implements Views {
     
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(VistaBuscarEspacio.class.getName());
-private VistaContrato vistaContrato;
+  private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(VistaBuscarEspacio.class.getName());
+  private VistaContrato vistaContrato;
   private StorageBoxController controlador;
   private VistaEspacio vistaEspacio;
     /**
@@ -25,12 +25,19 @@ private VistaContrato vistaContrato;
      */
     public VistaBuscarEspacio(VistaEspacio vistaEspacio) {
         initComponents();
-         this.controlador = StorageBoxController.getInstance(this);
-         
+        this.vistaEspacio = vistaEspacio;
+        this.controlador = StorageBoxController.getInstance(this);
     }
 
     private VistaBuscarEspacio() {
     initComponents();
+    this.controlador = StorageBoxController.getInstance(this);
+    }
+    
+    public VistaBuscarEspacio(VistaContrato vistaContrato) {
+    initComponents();
+
+    this.vistaContrato = vistaContrato;
     this.controlador = StorageBoxController.getInstance(this);
     }
     
@@ -64,7 +71,11 @@ private VistaContrato vistaContrato;
    
     txtTipoEspacio.setText(String.valueOf(espacio.getTipoespacio()));
     txtPrecio.setText(String.valueOf(espacio.getPrecioMensual()));
+    if (espacio.isDisponible()) {
     txtDisponibilidad.setText("Disponible");
+    } else {
+    txtDisponibilidad.setText("Ocupado");
+   }
     
   }
     
@@ -86,6 +97,7 @@ private VistaContrato vistaContrato;
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jSeparator2 = new javax.swing.JSeparator();
+        lblSistema = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
@@ -121,6 +133,7 @@ private VistaContrato vistaContrato;
         jScrollPane1.setViewportView(jTable1);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(255, 255, 255));
 
         jPanel1.setBackground(new java.awt.Color(42, 99, 153));
 
@@ -136,6 +149,10 @@ private VistaContrato vistaContrato;
 
         jSeparator2.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
+        lblSistema.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
+        lblSistema.setForeground(new java.awt.Color(255, 255, 255));
+        lblSistema.setText("Sistema de Alquiler de Espacios");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -143,51 +160,54 @@ private VistaContrato vistaContrato;
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(45, 45, 45)
                 .addComponent(jLabel1)
-                .addGap(50, 50, 50)
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(31, 31, 31)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblSistema)
+                    .addComponent(jLabel2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(47, 47, 47)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel3)
-                .addGap(24, 24, 24))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(30, 30, 30)
-                .addComponent(jLabel3)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jSeparator2, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jSeparator2)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(0, 13, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(8, 8, 8)
-                                .addComponent(jLabel2)))))
-                .addGap(18, 18, 18))
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lblSistema)))))
+                .addGap(14, 14, 14))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel3)
+                .addGap(31, 31, 31))
         );
 
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+
+        jLabel4.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
         jLabel4.setText("Filtros de busqueda :");
 
+        jLabel5.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
         jLabel5.setText("Numero :");
 
+        jLabel6.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
         jLabel6.setText("Tipo :");
 
+        jLabel7.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
         jLabel7.setText("Disponibilidad:");
 
+        jLabel8.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
         jLabel8.setText("Rango de precio: ");
-
-        txtNumEspacio.setText("jTextField1");
-
-        txtTipoEspacio.setText("jTextField2");
-
-        txtDisponibilidad.setText("jTextField3");
-
-        txtPrecio.setText("jTextField4");
 
         btnBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Search.png"))); // NOI18N
         btnBuscar.setText("Buscar");
@@ -220,13 +240,14 @@ private VistaContrato vistaContrato;
                         .addComponent(jLabel7)
                         .addGap(49, 49, 49)
                         .addComponent(jLabel8)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 181, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 160, Short.MAX_VALUE)
                         .addComponent(btnBuscar)
                         .addGap(50, 50, 50))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -374,7 +395,7 @@ private VistaContrato vistaContrato;
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(126, Short.MAX_VALUE))
+                .addContainerGap(11, Short.MAX_VALUE))
         );
 
         pack();
@@ -382,86 +403,88 @@ private VistaContrato vistaContrato;
 
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
         // TODO add your handling code here:
-        
-         VistaEspacio espacio = new VistaEspacio();
-        espacio.setVisible(true);
-        this.dispose();
+         if (vistaEspacio != null) {
+
+        vistaEspacio.setVisible(true);
+        controlador.setView(vistaEspacio);
+    }
+
+    dispose();
     }//GEN-LAST:event_btnRegresarActionPerformed
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
         // TODO add your handling code here:
         int fila = tblBuscarEspacio.getSelectedRow();
-         if (fila == -1) {
-        showError("Debe seleccionar al menos una fila");
+
+    if (fila == -1) {
+        showError("Debe seleccionar un espacio");
         return;
     }
-         String id = tblBuscarEspacio.getValueAt(fila, 0).toString();
-         espacio espacio = controlador.findEspacio(fila);
-         
-         if (espacio == null) {
+
+    int id = Integer.parseInt(tblBuscarEspacio.getValueAt(fila, 0).toString()
+    );
+
+    espacio espacioSeleccionado = controlador.findEspacio(id);
+
+    if (espacioSeleccionado == null) {
         return;
     }
 
     if (vistaEspacio != null) {
-
-        vistaEspacio.showData(espacio);
+        vistaEspacio.showData(espacioSeleccionado);
         vistaEspacio.setVisible(true);
         dispose();
         return;
     }
-    
-   // if (vistaContrato != null) {
 
-       // vistaContrato.agregarClienteSeleccionado(cliente);
-      //  vistaContrato.setVisible(true);
-       // dispose();
-   // }
-         
-         
-         
-         
-         
+    if (vistaContrato != null) {
+        vistaContrato.agregarEspacioSeleccionado(espacioSeleccionado);
+        vistaContrato.setVisible(true);
+        dispose();
+    }
+
     }//GEN-LAST:event_btnAceptarActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         // TODO add your handling code here:
-        String numEspacio =txtNumEspacio.getText();
-    String precio = txtPrecio.getText();
-     String tipoEspacio = txtTipoEspacio.getText();
-    String disponibilidad = txtDisponibilidad.getText();
-    DefaultTableModel modelo =
-            (DefaultTableModel) tblBuscarEspacio.getModel();
+        String numero = txtNumEspacio.getText().trim();
+
+    DefaultTableModel modelo = (DefaultTableModel) tblBuscarEspacio.getModel();
 
     modelo.setRowCount(0);
-     
-     Iterator<espacio> iterator = controlador.getEspacios();
-     if (iterator == null) {
-    showError("Espacio no se encuentra almacenado");
-    
-    }
-        while (iterator.hasNext()) {
-        espacio espacio = iterator.next();
-        boolean agregar = true;
-        boolean coincideNum= numEspacio.isBlank()||String.valueOf(espacio.getId_Espacio()).contains(numEspacio);
-        boolean coincidePrecio = precio.isBlank()|| String.valueOf(espacio.getPrecioMensual()).contains(precio);
-        boolean coincideTipo =tipoEspacio.isBlank()|| String.valueOf(espacio.getTipoespacio()).contains(tipoEspacio);
-        boolean coincideDispo= disponibilidad.isBlank()|| disponibilidad.equalsIgnoreCase("Disponible");
+    Iterator<espacio> iterator = controlador.getEspacios();
 
-      
-        if (coincideNum && coincidePrecio && coincideTipo && coincideDispo){
-            modelo.addRow(new Object[]{
-                espacio.getId_Espacio(),
-            espacio.getPrecioMensual(),
-            espacio.getTipoespacio(),
-            "Disponible"
-            });
-            
+    if (iterator == null) {
+        showError("No hay espacios registrados");
+        return;
+    }
+
+    while (iterator.hasNext()) {
+        espacio espacio = iterator.next();
+
+        if (!numero.isEmpty()) {
+
+            if (espacio.getId_Espacio()
+                    != Integer.parseInt(numero)) {
+                continue;
+            }
         }
-    
-    
-    
-    
-        }  
+
+        String disponibilidad;
+
+        if (espacio.isDisponible()) {
+            disponibilidad = "Disponible";
+        } else {
+            disponibilidad = "Ocupado";
+        }
+
+        modelo.addRow(new Object[]{
+            espacio.getId_Espacio(),
+            espacio.getTipoespacio(),
+            disponibilidad,
+            espacio.getPrecioMensual()
+        });
+    }
         
     }//GEN-LAST:event_btnBuscarActionPerformed
 
@@ -469,19 +492,12 @@ private VistaContrato vistaContrato;
         // TODO add your handling code here:
         
          if (vistaEspacio != null) {
+
         vistaEspacio.setVisible(true);
+        controlador.setView(vistaEspacio);
       }
 
-        if (vistaContrato != null) {
-        vistaContrato.setVisible(true);
-    }
     dispose();
-
-        controlador.setView(vistaEspacio);
-        dispose();
-         
-         
-         
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
@@ -491,12 +507,14 @@ private VistaContrato vistaContrato;
         showError("Debe seleccionar al menos una fila");
         return;
     }
-         String id = tblBuscarEspacio.getValueAt(fila, 0).toString();
-         
-         
-         controlador.removeEspacio(id);
-          DefaultTableModel modelo = (DefaultTableModel) tblBuscarEspacio.getModel();
+         int id = Integer.parseInt(tblBuscarEspacio.getValueAt(fila, 0).toString()
+    );
+
+    if (controlador.removeEspacio(id)) {
+        DefaultTableModel modelo = (DefaultTableModel) tblBuscarEspacio.getModel();
+
         modelo.removeRow(fila);
+    }
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     /**
@@ -571,6 +589,7 @@ private VistaContrato vistaContrato;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JTable jTable1;
+    private javax.swing.JLabel lblSistema;
     private javax.swing.JTable tblBuscarEspacio;
     private javax.swing.JTextField txtDisponibilidad;
     private javax.swing.JTextField txtNumEspacio;

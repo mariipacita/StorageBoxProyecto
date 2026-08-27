@@ -18,9 +18,10 @@ public class espacio {
     
    
     private double tamaño;
-     TipoEspacioEnum Tipoespacio;
+    private TipoEspacioEnum Tipoespacio;
      private int PrecioMensual;
      private int id_Espacio;
+     private boolean disponible;
     
 
     public espacio( double tamaño, TipoEspacioEnum Tipoespacio, int PrecioMensual, int id_Espacio) {
@@ -29,11 +30,10 @@ public class espacio {
         this.Tipoespacio = Tipoespacio;
         this.id_Espacio = id_Espacio;
         this.PrecioMensual = PrecioMensual;
+        this.disponible = true;
         
     }
 
-    
-  
 
     public double getTamaño() {
         
@@ -63,7 +63,9 @@ public class espacio {
             return id_Espacio;
         }
     
-    
+    public boolean isDisponible() {
+        return disponible;
+    }
      
      
     
@@ -87,20 +89,33 @@ public class espacio {
         
     }
    
-    public int cobroMensual(int days, int extraDays){
-        if(days <=30)PrecioMensual = 2500; 
-        if(days<=60) PrecioMensual= 45000;
-        if(days<=90)PrecioMensual= 70000;
-        else{
-            extraDays= days - 90;
-            PrecioMensual=70000* 1500;
-        }
-        
-        return PrecioMensual;
-        
-        
-        
+    public void asignarDatosPorTipo() {
+
+    if (Tipoespacio == TipoEspacioEnum.PEQUENO) {
+        tamaño = 5;
+        PrecioMensual = 25000;
     }
+
+    if (Tipoespacio == TipoEspacioEnum.MEDIANO) {
+        tamaño = 10;
+        PrecioMensual = 45000;
+    }
+
+    if (Tipoespacio == TipoEspacioEnum.GRANDE) {
+        tamaño = 20;
+        PrecioMensual = 70000;
+    }
+    }
+        
+    public void ocupar() {
+        disponible = false;
+    }
+
+    public void liberar() {
+        disponible = true;
+    }
+        
+        
    
     public void ActualizarEspacio(TipoEspacioEnum newTipoEspacio,int newPrecio, double newTamaño ){
         this.Tipoespacio = newTipoEspacio;

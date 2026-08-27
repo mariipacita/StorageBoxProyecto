@@ -25,7 +25,11 @@ public class VistaEspacio extends javax.swing.JFrame implements Views {
     public VistaEspacio() {
         initComponents();
         this.controlador = StorageBoxController.getInstance( this);
-        
+        txtMetrosCuadrados.setEditable(false);
+        jlbDisponibilidad.setText("Disponible");
+        CboxTipoEspacio.setSelectedItem("Pequeño");
+        txtMetrosCuadrados.setText("5");
+        txtPrecioMensual.setText("25000");
         
     }
     
@@ -62,7 +66,11 @@ public class VistaEspacio extends javax.swing.JFrame implements Views {
     txtMetrosCuadrados.setText(String.valueOf(espacio.getTamaño()));
     CboxTipoEspacio.setSelectedItem(espacio.getTipoespacio().toString());
     txtPrecioMensual.setText(String.valueOf(espacio.getPrecioMensual()));
+    if (espacio.isDisponible()) {
     jlbDisponibilidad.setText("Disponible");
+   } else {
+    jlbDisponibilidad.setText("Ocupado");
+   }
     
   }
 
@@ -98,8 +106,10 @@ public class VistaEspacio extends javax.swing.JFrame implements Views {
         btnLimpiar = new javax.swing.JButton();
         btnRegresar = new javax.swing.JButton();
         btnBuscar = new javax.swing.JButton();
+        btnEliminar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(255, 255, 255));
 
         jPanel1.setBackground(new java.awt.Color(42, 99, 153));
 
@@ -116,7 +126,7 @@ public class VistaEspacio extends javax.swing.JFrame implements Views {
         jLabel3.setBackground(new java.awt.Color(255, 255, 255));
         jLabel3.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setText("Sistema de alquiler de esacio");
+        jLabel3.setText("Sistema de alquiler de espacio");
 
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/archive-48.png"))); // NOI18N
 
@@ -127,57 +137,56 @@ public class VistaEspacio extends javax.swing.JFrame implements Views {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(41, 41, 41)
+                .addGap(21, 21, 21)
                 .addComponent(jLabel4)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(54, 54, 54)
-                        .addComponent(jLabel3))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(63, 63, 63)
-                        .addComponent(jLabel1)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(31, 31, 31)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2)
-                .addGap(178, 178, 178))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jLabel4)
-                        .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap(24, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addGap(21, 21, 21))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel1)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(jLabel3))))
-                .addGap(0, 27, Short.MAX_VALUE))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(33, 33, 33)
-                .addComponent(jLabel2)
-                .addGap(27, 27, 27))
+                            .addComponent(jLabel4))
+                        .addGap(9, 9, 9))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addGap(28, 28, 28))))
         );
 
-        jLabel5.setText("Numero de espacio");
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel6.setText("Tipo de espacio");
+        jLabel5.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
+        jLabel5.setText("Numero de espacio:");
 
-        jLabel7.setText("Metros cuadrados");
+        jLabel6.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
+        jLabel6.setText("Tipo de espacio:");
 
+        jLabel7.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
+        jLabel7.setText("Metros cuadrados:");
+
+        jLabel8.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
         jLabel8.setText("Precio:");
 
+        jLabel9.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
         jLabel9.setText("Disponibilidad:");
 
-        txtNumEspacio.setText("jTextField1");
-
         CboxTipoEspacio.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Grande", "Pequeño ", "Mediano", " " }));
-
-        txtMetrosCuadrados.setText("jTextField1");
-
-        txtPrecioMensual.setText("jTextField1");
+        CboxTipoEspacio.addActionListener(this::CboxTipoEspacioActionPerformed);
 
         jlbDisponibilidad.setBackground(new java.awt.Color(255, 255, 255));
         jlbDisponibilidad.setText("jLabel10");
@@ -206,7 +215,7 @@ public class VistaEspacio extends javax.swing.JFrame implements Views {
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(txtMetrosCuadrados, javax.swing.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE)
                             .addComponent(txtPrecioMensual)
-                            .addComponent(jlbDisponibilidad))))
+                            .addComponent(jlbDisponibilidad, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -221,10 +230,10 @@ public class VistaEspacio extends javax.swing.JFrame implements Views {
                     .addComponent(jLabel6)
                     .addComponent(CboxTipoEspacio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
                     .addComponent(txtMetrosCuadrados, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(9, 9, 9)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel8)
                     .addComponent(txtPrecioMensual, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -235,20 +244,31 @@ public class VistaEspacio extends javax.swing.JFrame implements Views {
                 .addContainerGap(15, Short.MAX_VALUE))
         );
 
-        btnAgregar.setText("jButton1");
+        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
+
+        btnAgregar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Save.png"))); // NOI18N
+        btnAgregar.setText("Agregar");
         btnAgregar.addActionListener(this::btnAgregarActionPerformed);
 
-        btnActualizar.setText("jButton1");
+        btnActualizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Edit.png"))); // NOI18N
+        btnActualizar.setText("Actualizar");
         btnActualizar.addActionListener(this::btnActualizarActionPerformed);
 
-        btnLimpiar.setText("jButton1");
+        btnLimpiar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/New.png"))); // NOI18N
+        btnLimpiar.setText("Limpiar");
         btnLimpiar.addActionListener(this::btnLimpiarActionPerformed);
 
-        btnRegresar.setText("jButton1");
+        btnRegresar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Delete.png"))); // NOI18N
+        btnRegresar.setText("Regresar");
         btnRegresar.addActionListener(this::btnRegresarActionPerformed);
 
-        btnBuscar.setText("jButton1");
+        btnBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Search.png"))); // NOI18N
+        btnBuscar.setText("Buscar");
         btnBuscar.addActionListener(this::btnBuscarActionPerformed);
+
+        btnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Cancel.png"))); // NOI18N
+        btnEliminar.setText("Eliminar");
+        btnEliminar.addActionListener(this::btnEliminarActionPerformed);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -261,11 +281,13 @@ public class VistaEspacio extends javax.swing.JFrame implements Views {
                 .addComponent(btnActualizar)
                 .addGap(26, 26, 26)
                 .addComponent(btnLimpiar)
-                .addGap(18, 18, 18)
-                .addComponent(btnRegresar)
                 .addGap(39, 39, 39)
+                .addComponent(btnRegresar)
+                .addGap(28, 28, 28)
                 .addComponent(btnBuscar)
-                .addContainerGap(261, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(btnEliminar)
+                .addContainerGap(23, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -276,7 +298,8 @@ public class VistaEspacio extends javax.swing.JFrame implements Views {
                     .addComponent(btnActualizar)
                     .addComponent(btnLimpiar)
                     .addComponent(btnRegresar)
-                    .addComponent(btnBuscar))
+                    .addComponent(btnBuscar)
+                    .addComponent(btnEliminar))
                 .addGap(37, 37, 37))
         );
 
@@ -284,13 +307,9 @@ public class VistaEspacio extends javax.swing.JFrame implements Views {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 728, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -300,7 +319,7 @@ public class VistaEspacio extends javax.swing.JFrame implements Views {
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 59, Short.MAX_VALUE))
+                .addGap(0, 48, Short.MAX_VALUE))
         );
 
         pack();
@@ -315,20 +334,75 @@ public class VistaEspacio extends javax.swing.JFrame implements Views {
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
         // TODO add your handling code here:
-        double tamaño = Double.parseDouble(txtMetrosCuadrados.getText());
-        int id = Integer.parseInt(txtNumEspacio.getText());
-        TipoEspacioEnum tipo = controlador.tipoEspacio(tamaño);
-        int precio= Integer.parseInt(txtPrecioMensual.getText());
-        espacio espacio = new espacio(tamaño,tipo,precio,id);
-        controlador.addEspacio(espacio, String.valueOf(id));
+        if (txtNumEspacio.getText().trim().isEmpty()|| txtMetrosCuadrados.getText().trim().isEmpty()|| txtPrecioMensual.getText().trim().isEmpty()) {
+        showError("Debe completar todos los datos");
+        return;
+    }
+
+    try {
+        int id = Integer.parseInt(txtNumEspacio.getText().trim());
+
+        double tamaño = Double.parseDouble(txtMetrosCuadrados.getText().trim());
+
+        int precio = Integer.parseInt(txtPrecioMensual.getText().trim());
+
+        TipoEspacioEnum tipo;
+
+        String seleccionado = CboxTipoEspacio.getSelectedItem().toString().trim();
+
+        if (seleccionado.equals("Pequeño")) {
+            tipo = TipoEspacioEnum.PEQUENO;
+        } else if (seleccionado.equals("Mediano")) {
+            tipo = TipoEspacioEnum.MEDIANO;
+        } else {
+            tipo = TipoEspacioEnum.GRANDE;
+        }
+
+        espacio nuevoEspacio = new espacio(tamaño, tipo, precio, id);
+
+        if (controlador.addEspacio(nuevoEspacio)) {
+            jlbDisponibilidad.setText("Disponible");
+        }
+
+    } catch (NumberFormatException e) {
+
+        showError(
+                "Número de espacio y precio deben ser valores numéricos"
+        );
+    }
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
         // TODO add your handling code here:
-        double tamaño = Double.parseDouble(txtMetrosCuadrados.getText());
-        TipoEspacioEnum tipo = controlador.tipoEspacio(tamaño);
-        int precio= Integer.parseInt(txtPrecioMensual.getText());
-        controlador.actualizarEspacio(tipo, precio, tamaño);
+         if (txtNumEspacio.getText().trim().isEmpty()) {
+        showError("Primero debe seleccionar un espacio");
+        return;
+    }
+
+    try {
+        int id = Integer.parseInt(txtNumEspacio.getText().trim());
+
+        double tamaño = Double.parseDouble(txtMetrosCuadrados.getText().trim());
+
+        int precio = Integer.parseInt( txtPrecioMensual.getText().trim());
+
+        TipoEspacioEnum tipo;
+
+        String seleccionado = CboxTipoEspacio.getSelectedItem().toString().trim();
+
+        if (seleccionado.equals("Pequeño")) {
+            tipo = TipoEspacioEnum.PEQUENO;
+        } else if (seleccionado.equals("Mediano")) {
+            tipo = TipoEspacioEnum.MEDIANO;
+        } else {
+            tipo = TipoEspacioEnum.GRANDE;
+        }
+
+        controlador.actualizarEspacio(id, tipo, precio, tamaño);
+
+    } catch (NumberFormatException e) {
+        showError("Los valores numéricos no son válidos");
+    }
         
     }//GEN-LAST:event_btnActualizarActionPerformed
 
@@ -343,6 +417,43 @@ public class VistaEspacio extends javax.swing.JFrame implements Views {
         buscar.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_btnBuscarActionPerformed
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        if (txtNumEspacio.getText().trim().isEmpty()) {
+        showError("Primero debe seleccionar un espacio");
+        return;
+    }
+    try {
+
+        int id = Integer.parseInt(txtNumEspacio.getText().trim());
+
+        if (controlador.removeEspacio(id)) {
+            clear();
+        }
+
+    } catch (NumberFormatException e) {
+        showError("El número de espacio debe ser numérico");
+    }
+    }//GEN-LAST:event_btnEliminarActionPerformed
+
+    private void CboxTipoEspacioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CboxTipoEspacioActionPerformed
+      String tipo = CboxTipoEspacio.getSelectedItem().toString();
+
+    if (tipo.equals("Pequeño")) {
+        txtMetrosCuadrados.setText("5");
+        txtPrecioMensual.setText("25000");
+    }
+
+    if (tipo.equals("Mediano")) {
+        txtMetrosCuadrados.setText("10");
+        txtPrecioMensual.setText("45000");
+    }
+
+    if (tipo.equals("Grande")) {
+        txtMetrosCuadrados.setText("20");
+        txtPrecioMensual.setText("70000");
+    }
+    }//GEN-LAST:event_CboxTipoEspacioActionPerformed
 
     /**
      * @param args the command line arguments
@@ -374,6 +485,7 @@ public class VistaEspacio extends javax.swing.JFrame implements Views {
     private javax.swing.JButton btnActualizar;
     private javax.swing.JButton btnAgregar;
     private javax.swing.JButton btnBuscar;
+    private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnLimpiar;
     private javax.swing.JButton btnRegresar;
     private javax.swing.JLabel jLabel1;

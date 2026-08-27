@@ -5,6 +5,7 @@
 package Espacios;
 
 
+import excepciones.EspacioOcupadoException;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -25,7 +26,7 @@ public class espacioList {
     
     
     
-     public boolean addEspacio(espacio newEspacio, String id_espacio){
+     public boolean addEspacio(espacio newEspacio){
        
         if (espacios.containsKey(newEspacio.getId_Espacio())) return false;
    return espacios.put(newEspacio.getId_Espacio(), newEspacio)==null;
@@ -41,7 +42,18 @@ public class espacioList {
     
    
     
-    public boolean removeEspacio(String id_Espacio){
+    public boolean removeEspacio(int id_Espacio) throws EspacioOcupadoException{
+        espacio espacio = ObtenrKey(id_Espacio);
+        
+        if (espacio == null) {
+            return false;
+        }
+        
+        if (!espacio.isDisponible()) {
+            throw new EspacioOcupadoException(
+                    "No se puede eliminar un espacio ocupado"
+            );
+        }
         return espacios.remove(id_Espacio) != null;
     }    
     
